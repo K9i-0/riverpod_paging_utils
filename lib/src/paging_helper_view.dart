@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_paging_utils/src/async_notifier_x.dart';
 import 'package:riverpod_paging_utils/src/paging_data.dart';
 import 'package:riverpod_paging_utils/src/paging_notifier_mixin.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-/// ページングのための汎用Widget
+/// A generic widget for pagination.
 ///
-/// 主な機能
-/// 1. データがある場合は、[contentBuilder]で作ったWidgetを表示する
-/// 2. 1ページの読み込み中は、CircularProgressIndicatorを表示する
-/// 3. 1ページ目のエラー時は、エラーWidgetを表示する
-/// 4. エラー時にスナックバーでエラーを表示する
-/// 5. 最後のアイテムが表示されたら、次のページを読み込む
-/// 6. Pull to Refreshに対応する
+/// Main features:
+/// 1. Displays the widget created by [contentBuilder] when data is available.
+/// 2. Shows a CircularProgressIndicator while loading the first page.
+/// 3. Displays an error widget when there is an error on the first page.
+/// 4. Shows error messages using a SnackBar.
+/// 5. Loads the next page when the last item is displayed.
+/// 6. Supports pull-to-refresh functionality.
 class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
     D extends PagingData<I>, I> extends ConsumerWidget {
   const PagingHelperView({
@@ -22,23 +21,25 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
     super.key,
   });
 
-  /// [AutoDisposeAsyncNotifier]を実装したクラスのProviderを指定する
+  /// Specifies the provider of a class that implements [AutoDisposeAsyncNotifier].
   final AutoDisposeAsyncNotifierProvider<N, D> provider;
 
-  /// データがある場合に表示するWidgetを返す関数を指定する
-  /// [endItem]は最後に表示されたアイテムが表示されたことを検知するためのWidgetで、non nullの時にリストの最後に表示する
+  /// Specifies a function that returns a widget to display when data is available.
+  /// [endItem] is a widget to detect when the last displayed item is visible.
+  /// If [endItem] is non-null, it is displayed at the end of the list.
   final Widget Function(D data, Widget? endItemView) contentBuilder;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // genericsでMixinの制約ができなそうだったので
+    // Assertion since generics cannot constrain mixins
     assert(
       ref.read(provider.notifier) is PagePagingNotifierMixin ||
           ref.read(provider.notifier) is OffsetPagingNotifierMixin ||
           ref.read(provider.notifier) is CursorPagingNotifierMixin,
+      'The notifier must implement PagePagingNotifierMixin, OffsetPagingNotifierMixin, or CursorPagingNotifierMixin',
     );
 
-    // スナックバーによるエラー表示
+    // Display errors using SnackBar
     ref.listen(provider, (_, state) {
       if (!state.isLoading && state.hasError) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -57,7 +58,8 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
               onRefresh: () => ref.refresh(provider.future),
               child: contentBuilder(
                 data,
-                // 次のページがあり、かつエラーがない場合に、最後の要素に達したことを検知するためのWidgetを表示する
+                // Display a widget to detect when the last element is reached
+                // if there are more pages and no errors
                 data.hasMore && !hasError
                     ? _EndItemView(
                         onScrollEnd: () {
@@ -77,12 +79,11 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
               ),
             );
           },
-          // TODO(K9i-0): loading、errorはTheme Extensionで設定できると良さそう
-          // １ページ目のロード中
+          // Loading state for the first page
           loading: () => const Center(
             child: CircularProgressIndicator(),
           ),
-          // １ページ目のエラー
+          // Error state for the first page
           error: (e, st) => Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -104,7 +105,7 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
               ],
             ),
           ),
-          // 2ページ目以降のエラーでデータを優先する
+          // Prioritize data for errors on the second page and beyond
           skipErrorOnHasValue: true,
         );
   }
@@ -131,6 +132,39 @@ class _EndItemView extends StatelessWidget {
           child: CircularProgressIndicator(),
         ),
       ),
+    );
+  }
+}
+
+extension _AsyncValueX<T> on AsyncValue<T> {
+  /// Extends the [when] method to handle async data states more effectively,
+  /// especially when maintaining data integrity despite errors.
+  ///
+  /// Use `skipErrorOnHasValue` to retain and display existing data
+  /// even if subsequent fetch attempts result in errors,
+  /// ideal for maintaining a seamless user experience.
+  R whenIgnorableError<R>({
+    required R Function(T data, {required bool hasError}) data,
+    required R Function(Object error, StackTrace stackTrace) error,
+    required R Function() loading,
+    bool skipLoadingOnReload = false,
+    bool skipLoadingOnRefresh = true,
+    bool skipError = false,
+    bool skipErrorOnHasValue = false,
+  }) {
+    if (skipErrorOnHasValue) {
+      if (hasValue && hasError) {
+        return data(requireValue, hasError: true);
+      }
+    }
+
+    return when(
+      skipLoadingOnReload: skipLoadingOnReload,
+      skipLoadingOnRefresh: skipLoadingOnRefresh,
+      skipError: skipError,
+      data: (d) => data(d, hasError: hasError),
+      error: error,
+      loading: loading,
     );
   }
 }

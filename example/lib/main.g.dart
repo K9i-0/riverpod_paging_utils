@@ -8,7 +8,10 @@ part of 'main.dart';
 
 String _$sampleNotifierHash() => r'63492d385bdcc1657fa333642a4fd56f43c14c17';
 
-/// See also [SampleNotifier].
+/// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
+/// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
+///
+/// Copied from [SampleNotifier].
 @ProviderFor(SampleNotifier)
 final sampleNotifierProvider = AutoDisposeAsyncNotifierProvider<SampleNotifier,
     CursorPagingData<SampleItem>>.internal(

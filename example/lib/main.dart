@@ -26,11 +26,17 @@ class MainApp extends StatelessWidget {
   }
 }
 
+/// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
+/// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
 @riverpod
 class SampleNotifier extends _$SampleNotifier with CursorPagingNotifierMixin {
+  /// Builds the initial state of the provider by fetching data with a null cursor.
   @override
   Future<CursorPagingData<SampleItem>> build() => fetch(cursor: null);
 
+  /// Fetches paginated data from the [SampleRepository] based on the provided [cursor].
+  /// Returns a [CursorPagingData] object containing the fetched items, a flag indicating whether more data is available,
+  /// and the next cursor for fetching the next page.
   @override
   Future<CursorPagingData<SampleItem>> fetch({
     required String? cursor,
@@ -47,6 +53,7 @@ class SampleNotifier extends _$SampleNotifier with CursorPagingNotifierMixin {
   }
 }
 
+/// A sample page that demonstrates the usage of [PagingHelperView] with the [SampleNotifier] provider.
 class SamplePage extends StatelessWidget {
   const SamplePage({super.key});
 
@@ -61,10 +68,13 @@ class SamplePage extends StatelessWidget {
         contentBuilder: (data, endItemView) => ListView.builder(
           itemCount: data.items.length + (endItemView != null ? 1 : 0),
           itemBuilder: (context, index) {
+            // If the end item view is provided and the index is the last item,
+            // return the end item view.
             if (endItemView != null && index == data.items.length) {
               return endItemView;
             }
 
+            // Otherwise, build a list tile for each sample item.
             return ListTile(
               title: Text(data.items[index].name),
               subtitle: Text(data.items[index].id),
