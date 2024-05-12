@@ -14,9 +14,9 @@ import 'package:visibility_detector/visibility_detector.dart';
 /// 4. エラー時にスナックバーでエラーを表示する
 /// 5. 最後のアイテムが表示されたら、次のページを読み込む
 /// 6. Pull to Refreshに対応する
-class CommonPagingView<N extends AutoDisposeAsyncNotifier<D>,
+class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
     D extends PagingData<I>, I> extends ConsumerWidget {
-  const CommonPagingView({
+  const PagingHelperView({
     required this.provider,
     required this.contentBuilder,
     super.key,
@@ -33,9 +33,9 @@ class CommonPagingView<N extends AutoDisposeAsyncNotifier<D>,
   Widget build(BuildContext context, WidgetRef ref) {
     // genericsでMixinの制約ができなそうだったので
     assert(
-      ref.read(provider.notifier) is PageBasedPagingNotifierMixin ||
-          ref.read(provider.notifier) is OffsetBasedPagingNotifierMixin ||
-          ref.read(provider.notifier) is CursorBasedPagingNotifierMixin,
+      ref.read(provider.notifier) is PagePagingNotifierMixin ||
+          ref.read(provider.notifier) is OffsetPagingNotifierMixin ||
+          ref.read(provider.notifier) is CursorPagingNotifierMixin,
     );
 
     // スナックバーによるエラー表示
@@ -62,13 +62,12 @@ class CommonPagingView<N extends AutoDisposeAsyncNotifier<D>,
                     ? _EndItemView(
                         onScrollEnd: () {
                           switch (ref.read(provider.notifier)) {
-                            case (final PageBasedPagingNotifierMixin
-                                  pageNotifier):
+                            case (final PagePagingNotifierMixin pageNotifier):
                               pageNotifier.loadNext();
-                            case (final OffsetBasedPagingNotifierMixin
+                            case (final OffsetPagingNotifierMixin
                                   offsetNotifier):
                               offsetNotifier.loadNext();
-                            case (final CursorBasedPagingNotifierMixin
+                            case (final CursorPagingNotifierMixin
                                   cursorNotifier):
                               cursorNotifier.loadNext();
                           }
@@ -91,13 +90,11 @@ class CommonPagingView<N extends AutoDisposeAsyncNotifier<D>,
                 IconButton(
                   onPressed: () {
                     switch (ref.read(provider.notifier)) {
-                      case (final PageBasedPagingNotifierMixin pageNotifier):
+                      case (final PagePagingNotifierMixin pageNotifier):
                         pageNotifier.forceRefresh();
-                      case (final OffsetBasedPagingNotifierMixin
-                            offsetNotifier):
+                      case (final OffsetPagingNotifierMixin offsetNotifier):
                         offsetNotifier.forceRefresh();
-                      case (final CursorBasedPagingNotifierMixin
-                            cursorNotifier):
+                      case (final CursorPagingNotifierMixin cursorNotifier):
                         cursorNotifier.forceRefresh();
                     }
                   },

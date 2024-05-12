@@ -27,20 +27,19 @@ class MainApp extends StatelessWidget {
 }
 
 @riverpod
-class SampleNotifier extends _$SampleNotifier
-    with CursorBasedPagingNotifierMixin<SampleItem> {
+class SampleNotifier extends _$SampleNotifier with CursorPagingNotifierMixin {
   @override
-  Future<CursorBasedPagingData<SampleItem>> build() => fetch(cursor: null);
+  Future<CursorPagingData<SampleItem>> build() => fetch(cursor: null);
 
   @override
-  Future<CursorBasedPagingData<SampleItem>> fetch({
+  Future<CursorPagingData<SampleItem>> fetch({
     required String? cursor,
   }) async {
     final repository = ref.read(sampleRepositoryProvider);
     final (items, nextCursor) = await repository.getByCursor(cursor);
     final hasMore = nextCursor != null && nextCursor.isNotEmpty;
 
-    return CursorBasedPagingData(
+    return CursorPagingData(
       items: items,
       hasMore: hasMore,
       nextCursor: nextCursor,
@@ -57,7 +56,7 @@ class SamplePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Sample Page'),
       ),
-      body: CommonPagingView(
+      body: PagingHelperView(
         provider: sampleNotifierProvider,
         contentBuilder: (data, endItemView) => ListView.builder(
           itemCount: data.items.length + (endItemView != null ? 1 : 0),

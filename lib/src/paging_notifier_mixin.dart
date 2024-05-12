@@ -2,9 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_paging_utils/src/async_notifier_x.dart';
 import 'package:riverpod_paging_utils/src/paging_data.dart';
 
-mixin PageBasedPagingNotifierMixin<T>
-    on AutoDisposeAsyncNotifier<PageBasedPagingData<T>> {
-  Future<PageBasedPagingData<T>> fetch({required int page});
+mixin PagePagingNotifierMixin<T>
+    on AutoDisposeAsyncNotifier<PagePagingData<T>> {
+  Future<PagePagingData<T>> fetch({required int page});
 
   Future<void> loadNext() async {
     final value = state.valueOrNull;
@@ -13,7 +13,7 @@ mixin PageBasedPagingNotifierMixin<T>
     }
 
     if (value.hasMore) {
-      state = AsyncLoading<PageBasedPagingData<T>>().copyWithPrevious(state);
+      state = AsyncLoading<PagePagingData<T>>().copyWithPrevious(state);
 
       state = await state.guardPreservingPreviousOnError(
         () async {
@@ -31,14 +31,14 @@ mixin PageBasedPagingNotifierMixin<T>
 
   /// 状態を破棄して再読み込みする
   void forceRefresh() {
-    state = AsyncLoading<PageBasedPagingData<T>>();
+    state = AsyncLoading<PagePagingData<T>>();
     ref.invalidateSelf();
   }
 }
 
-mixin OffsetBasedPagingNotifierMixin<T>
-    on AutoDisposeAsyncNotifier<OffsetBasedPagingData<T>> {
-  Future<OffsetBasedPagingData<T>> fetch({required int offset});
+mixin OffsetPagingNotifierMixin<T>
+    on AutoDisposeAsyncNotifier<OffsetPagingData<T>> {
+  Future<OffsetPagingData<T>> fetch({required int offset});
 
   Future<void> loadNext() async {
     final value = state.valueOrNull;
@@ -47,7 +47,7 @@ mixin OffsetBasedPagingNotifierMixin<T>
     }
 
     if (value.hasMore) {
-      state = AsyncLoading<OffsetBasedPagingData<T>>().copyWithPrevious(state);
+      state = AsyncLoading<OffsetPagingData<T>>().copyWithPrevious(state);
 
       state = await state.guardPreservingPreviousOnError(
         () async {
@@ -65,14 +65,14 @@ mixin OffsetBasedPagingNotifierMixin<T>
 
   /// 状態を破棄して再読み込みする
   void forceRefresh() {
-    state = AsyncLoading<OffsetBasedPagingData<T>>();
+    state = AsyncLoading<OffsetPagingData<T>>();
     ref.invalidateSelf();
   }
 }
 
-mixin CursorBasedPagingNotifierMixin<T>
-    on AutoDisposeAsyncNotifier<CursorBasedPagingData<T>> {
-  Future<CursorBasedPagingData<T>> fetch({required String? cursor});
+mixin CursorPagingNotifierMixin<T>
+    on AutoDisposeAsyncNotifier<CursorPagingData<T>> {
+  Future<CursorPagingData<T>> fetch({required String? cursor});
 
   Future<void> loadNext() async {
     final value = state.valueOrNull;
@@ -81,7 +81,7 @@ mixin CursorBasedPagingNotifierMixin<T>
     }
 
     if (value.hasMore) {
-      state = AsyncLoading<CursorBasedPagingData<T>>().copyWithPrevious(state);
+      state = AsyncLoading<CursorPagingData<T>>().copyWithPrevious(state);
 
       state = await state.guardPreservingPreviousOnError(
         () async {
@@ -99,7 +99,7 @@ mixin CursorBasedPagingNotifierMixin<T>
 
   /// 状態を破棄して再読み込みする
   void forceRefresh() {
-    state = AsyncLoading<CursorBasedPagingData<T>>();
+    state = AsyncLoading<CursorPagingData<T>>();
     ref.invalidateSelf();
   }
 }

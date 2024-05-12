@@ -8,34 +8,28 @@ abstract class PagingData<T> {
 }
 
 @freezed
-class PageBasedPagingData<T>
-    with _$PageBasedPagingData<T>
-    implements PagingData<T> {
-  const factory PageBasedPagingData({
+class PagePagingData<T> with _$PagePagingData<T> implements PagingData<T> {
+  const factory PagePagingData({
     required List<T> items,
     required bool hasMore,
     required int page,
-  }) = _PageBasedPagingData;
+  }) = _PagePagingData;
 }
 
 @freezed
-class OffsetBasedPagingData<T>
-    with _$OffsetBasedPagingData<T>
-    implements PagingData<T> {
-  const factory OffsetBasedPagingData({
+class OffsetPagingData<T> with _$OffsetPagingData<T> implements PagingData<T> {
+  const factory OffsetPagingData({
     required List<T> items,
     required bool hasMore,
     required int offset,
-  }) = _OffsetBasedPagingData;
+  }) = _OffsetPagingData;
 }
 
 @freezed
-class CursorBasedPagingData<T>
-    with _$CursorBasedPagingData<T>
-    implements PagingData<T> {
-  const factory CursorBasedPagingData({
+class CursorPagingData<T> with _$CursorPagingData<T> implements PagingData<T> {
+  const factory CursorPagingData({
     required List<T> items,
     required bool hasMore,
     required String? nextCursor,
-  }) = _CursorBasedPagingData;
+  }) = _CursorPagingData;
 }
