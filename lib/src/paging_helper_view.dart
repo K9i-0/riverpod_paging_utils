@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_paging_utils/src/paging_data.dart';
+import 'package:riverpod_paging_utils/src/paging_helper_view_theme.dart';
 import 'package:riverpod_paging_utils/src/paging_notifier_mixin.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -13,6 +14,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 /// 4. Shows error messages using a SnackBar.
 /// 5. Loads the next page when the last item is displayed.
 /// 6. Supports pull-to-refresh functionality.
+///
+/// You can customize the appearance of the loading view, error view, and endItemView using [PagingHelperViewTheme].
 class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
     D extends PagingData<I>, I> extends ConsumerWidget {
   const PagingHelperView({
@@ -52,6 +55,25 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
       }
     });
 
+    final theme = Theme.of(context).extension<PagingHelperViewTheme>();
+    final loadingBuilder = theme?.loadingViewBuilder ??
+        (context) => const Center(
+              child: CircularProgressIndicator(),
+            );
+    final errorBuilder = theme?.errorViewBuilder ??
+        (context, e, st, onPressed) => Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: onPressed,
+                    icon: const Icon(Icons.refresh),
+                  ),
+                  Text(e.toString()),
+                ],
+              ),
+            );
+
     return ref.watch(provider).whenIgnorableError(
           data: (data, {required hasError}) {
             return RefreshIndicator(
@@ -80,30 +102,22 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
             );
           },
           // Loading state for the first page
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
+          loading: () => loadingBuilder(context),
           // Error state for the first page
-          error: (e, st) => Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    switch (ref.read(provider.notifier)) {
-                      case (final PagePagingNotifierMixin pageNotifier):
-                        pageNotifier.forceRefresh();
-                      case (final OffsetPagingNotifierMixin offsetNotifier):
-                        offsetNotifier.forceRefresh();
-                      case (final CursorPagingNotifierMixin cursorNotifier):
-                        cursorNotifier.forceRefresh();
-                    }
-                  },
-                  icon: const Icon(Icons.refresh),
-                ),
-                Text(e.toString()),
-              ],
-            ),
+          error: (e, st) => errorBuilder(
+            context,
+            e,
+            st,
+            () {
+              switch (ref.read(provider.notifier)) {
+                case (final PagePagingNotifierMixin pageNotifier):
+                  pageNotifier.forceRefresh();
+                case (final OffsetPagingNotifierMixin offsetNotifier):
+                  offsetNotifier.forceRefresh();
+                case (final CursorPagingNotifierMixin cursorNotifier):
+                  cursorNotifier.forceRefresh();
+              }
+            },
           ),
           // Prioritize data for errors on the second page and beyond
           skipErrorOnHasValue: true,
@@ -119,6 +133,15 @@ class _EndItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).extension<PagingHelperViewTheme>();
+    final childBuilder = theme?.endItemViewChildViewBuilder ??
+        (context) => const Center(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: CircularProgressIndicator(),
+              ),
+            );
+
     return VisibilityDetector(
       key: key ?? const Key('EndItem'),
       onVisibilityChanged: (info) {
@@ -126,12 +149,7 @@ class _EndItemView extends StatelessWidget {
           onScrollEnd();
         }
       },
-      child: const Center(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: CircularProgressIndicator(),
-        ),
-      ),
+      child: childBuilder(context),
     );
   }
 }
