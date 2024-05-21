@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
+import 'package:riverpod_paging_utils/theme_extension.dart';
 
 part 'main.g.dart';
 
@@ -20,8 +21,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SamplePage(),
+    return MaterialApp(
+      theme: ThemeData(
+        extensions: [
+          PagingHelperViewTheme(
+              // loadingViewBuilder: (context) => const Center(
+              //   child: CircularProgressIndicator(
+              //     color: Colors.red,
+              //   ),
+              // ),
+              ),
+        ],
+      ),
+      home: const SamplePage(),
     );
   }
 }
