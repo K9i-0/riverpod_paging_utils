@@ -57,10 +57,14 @@ class SecondPageErrorScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('2nd Page Error Screen'),
         actions: [
-          Switch(
-            value: ref.watch(showSecondPageErrorNotifierProvider),
-            onChanged: (_) =>
-                ref.read(showSecondPageErrorNotifierProvider.notifier).toggle(),
+          Tooltip(
+            message: 'Toggle showSecondPageError',
+            child: Switch(
+              value: ref.watch(showSecondPageErrorNotifierProvider),
+              onChanged: (_) => ref
+                  .read(showSecondPageErrorNotifierProvider.notifier)
+                  .toggle(),
+            ),
           ),
         ],
       ),
