@@ -24,5 +24,22 @@ final secondPageErrorNotifierProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$SecondPageErrorNotifier
     = AutoDisposeAsyncNotifier<CursorPagingData<SampleItem>>;
+String _$showSecondPageErrorNotifierHash() =>
+    r'c627f562d49c93f1604d142c6526cd822074f7f2';
+
+/// See also [ShowSecondPageErrorNotifier].
+@ProviderFor(ShowSecondPageErrorNotifier)
+final showSecondPageErrorNotifierProvider =
+    AutoDisposeNotifierProvider<ShowSecondPageErrorNotifier, bool>.internal(
+  ShowSecondPageErrorNotifier.new,
+  name: r'showSecondPageErrorNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$showSecondPageErrorNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ShowSecondPageErrorNotifier = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

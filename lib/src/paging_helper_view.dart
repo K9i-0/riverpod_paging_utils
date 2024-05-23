@@ -21,6 +21,7 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
   const PagingHelperView({
     required this.provider,
     required this.contentBuilder,
+    this.showSecondPageError = true,
     super.key,
   });
 
@@ -31,6 +32,8 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
   /// [endItem] is a widget to detect when the last displayed item is visible.
   /// If [endItem] is non-null, it is displayed at the end of the list.
   final Widget Function(D data, Widget? endItemView) contentBuilder;
+
+  final bool showSecondPageError;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -98,7 +101,8 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
                           }
                         },
                       ),
-                    (true, true, false) => _EndErrorItemView(
+                    (true, true, false) when showSecondPageError =>
+                      _EndErrorItemView(
                         error: error,
                         onRetryButtonPressed: () {
                           switch (ref.read(provider.notifier)) {

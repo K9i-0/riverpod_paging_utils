@@ -1,6 +1,7 @@
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 
@@ -33,7 +34,15 @@ class SecondPageErrorNotifier extends _$SecondPageErrorNotifier
   }
 }
 
-class SecondPageErrorScreen extends StatelessWidget {
+@riverpod
+class ShowSecondPageErrorNotifier extends _$ShowSecondPageErrorNotifier {
+  @override
+  bool build() => true;
+
+  void toggle() => state = !state;
+}
+
+class SecondPageErrorScreen extends ConsumerWidget {
   const SecondPageErrorScreen._();
 
   static Route<void> route() {
@@ -43,10 +52,17 @@ class SecondPageErrorScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('2nd Page Error Screen'),
+        actions: [
+          Switch(
+            value: ref.watch(showSecondPageErrorNotifierProvider),
+            onChanged: (_) =>
+                ref.read(showSecondPageErrorNotifierProvider.notifier).toggle(),
+          ),
+        ],
       ),
       body: PagingHelperView(
         provider: secondPageErrorNotifierProvider,
@@ -66,6 +82,7 @@ class SecondPageErrorScreen extends StatelessWidget {
             );
           },
         ),
+        showSecondPageError: ref.watch(showSecondPageErrorNotifierProvider),
       ),
     );
   }
