@@ -1,3 +1,13 @@
+## 0.3.0
+
+### Features
+- Added a screen for when an error occurs while fetching the second page and beyond.
+- You can disable the new error screen by setting `showSecondPageError` to `false`.
+
+### Miscellaneous
+
+- Added an example to `example` that demonstrates the behavior when an error occurs.
+
 ## 0.2.0
 
 ### Features

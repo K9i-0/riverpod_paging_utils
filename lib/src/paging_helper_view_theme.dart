@@ -19,6 +19,7 @@ typedef EndErrorWidgetBuilder = Widget Function(
 /// [loadingViewBuilder] is used to build the loading view.
 /// [errorViewBuilder] is used to build the error view.
 /// [endLoadingViewBuilder] is used to build the ui of endItemView.
+/// [endErrorViewBuilder] is used to build the ui of endItemView when an error occurs.
 class PagingHelperViewTheme extends ThemeExtension<PagingHelperViewTheme> {
   PagingHelperViewTheme({
     this.loadingViewBuilder,
