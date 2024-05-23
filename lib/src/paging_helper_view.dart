@@ -75,15 +75,16 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
             );
 
     return ref.watch(provider).whenIgnorableError(
-          data: (data, {required hasError}) {
+          data: (data,
+              {required hasError, required isLoading, required error}) {
             return RefreshIndicator(
               onRefresh: () => ref.refresh(provider.future),
               child: contentBuilder(
-                data,
-                // Display a widget to detect when the last element is reached
-                // if there are more pages and no errors
-                data.hasMore && !hasError
-                    ? _EndItemView(
+                  data,
+                  switch ((data.hasMore, hasError, isLoading)) {
+                    // Display a widget to detect when the last element is reached
+                    // if there are more pages and no errors
+                    (true, false, _) => _EndVisibilityDetectorLoadingItemView(
                         onScrollEnd: () {
                           switch (ref.read(provider.notifier)) {
                             case (final PagePagingNotifierMixin pageNotifier):
@@ -96,9 +97,25 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
                               cursorNotifier.loadNext();
                           }
                         },
-                      )
-                    : null,
-              ),
+                      ),
+                    (true, true, false) => _EndErrorItemView(
+                        error: error,
+                        onRetryButtonPressed: () {
+                          switch (ref.read(provider.notifier)) {
+                            case (final PagePagingNotifierMixin pageNotifier):
+                              pageNotifier.loadNext();
+                            case (final OffsetPagingNotifierMixin
+                                  offsetNotifier):
+                              offsetNotifier.loadNext();
+                            case (final CursorPagingNotifierMixin
+                                  cursorNotifier):
+                              cursorNotifier.loadNext();
+                          }
+                        },
+                      ),
+                    (true, true, true) => const _EndLoadingItemView(),
+                    _ => null,
+                  }),
             );
           },
           // Loading state for the first page
@@ -125,8 +142,8 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
   }
 }
 
-class _EndItemView extends StatelessWidget {
-  const _EndItemView({
+class _EndVisibilityDetectorLoadingItemView extends StatelessWidget {
+  const _EndVisibilityDetectorLoadingItemView({
     required this.onScrollEnd,
   });
   final VoidCallback onScrollEnd;
@@ -134,7 +151,7 @@ class _EndItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).extension<PagingHelperViewTheme>();
-    final childBuilder = theme?.endItemViewChildViewBuilder ??
+    final childBuilder = theme?.endLoadingViewBuilder ??
         (context) => const Center(
               child: Padding(
                 padding: EdgeInsets.all(16),
@@ -154,6 +171,57 @@ class _EndItemView extends StatelessWidget {
   }
 }
 
+class _EndLoadingItemView extends StatelessWidget {
+  const _EndLoadingItemView();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context).extension<PagingHelperViewTheme>();
+    final childBuilder = theme?.endLoadingViewBuilder ??
+        (context) => const Center(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: CircularProgressIndicator(),
+              ),
+            );
+
+    return childBuilder(context);
+  }
+}
+
+class _EndErrorItemView extends StatelessWidget {
+  const _EndErrorItemView({
+    required this.error,
+    required this.onRetryButtonPressed,
+  });
+  final Object? error;
+  final VoidCallback onRetryButtonPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context).extension<PagingHelperViewTheme>();
+    final childBuilder = theme?.endErrorViewBuilder ??
+        (context, e, onPressed) => Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    IconButton(
+                      onPressed: onPressed,
+                      icon: const Icon(Icons.refresh),
+                    ),
+                    Text(
+                      error.toString(),
+                    ),
+                  ],
+                ),
+              ),
+            );
+
+    return childBuilder(context, error, onRetryButtonPressed);
+  }
+}
+
 extension _AsyncValueX<T> on AsyncValue<T> {
   /// Extends the [when] method to handle async data states more effectively,
   /// especially when maintaining data integrity despite errors.
@@ -162,7 +230,11 @@ extension _AsyncValueX<T> on AsyncValue<T> {
   /// even if subsequent fetch attempts result in errors,
   /// ideal for maintaining a seamless user experience.
   R whenIgnorableError<R>({
-    required R Function(T data, {required bool hasError}) data,
+    required R Function(T data,
+            {required bool hasError,
+            required bool isLoading,
+            required Object? error})
+        data,
     required R Function(Object error, StackTrace stackTrace) error,
     required R Function() loading,
     bool skipLoadingOnReload = false,
@@ -172,7 +244,8 @@ extension _AsyncValueX<T> on AsyncValue<T> {
   }) {
     if (skipErrorOnHasValue) {
       if (hasValue && hasError) {
-        return data(requireValue, hasError: true);
+        return data(requireValue,
+            hasError: true, isLoading: isLoading, error: this.error);
       }
     }
 
@@ -180,7 +253,8 @@ extension _AsyncValueX<T> on AsyncValue<T> {
       skipLoadingOnReload: skipLoadingOnReload,
       skipLoadingOnRefresh: skipLoadingOnRefresh,
       skipError: skipError,
-      data: (d) => data(d, hasError: hasError),
+      data: (d) =>
+          data(d, hasError: hasError, isLoading: isLoading, error: this.error),
       error: error,
       loading: loading,
     );

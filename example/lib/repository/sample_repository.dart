@@ -13,19 +13,19 @@ class SampleRepository {
   Future<(List<SampleItem> items, String? nextCursor)> getByCursor(
     String? cursor,
   ) async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     final items = _db
         .sublist(
           int.parse(cursor ?? '0'),
-          int.parse(cursor ?? '0') + 50,
+          int.parse(cursor ?? '0') + 30,
         )
         .mapRecord(
           (id, name) => SampleItem(id: id.toString(), name: name),
         )
         .toList();
 
-    final nextCursor = (int.parse(cursor ?? '0') + 50).toString();
+    final nextCursor = (int.parse(cursor ?? '0') + 30).toString();
     final exist = _db.length > int.parse(nextCursor);
 
     return (

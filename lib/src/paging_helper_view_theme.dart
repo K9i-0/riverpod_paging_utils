@@ -7,33 +7,43 @@ typedef ErrorWidgetBuilder = Widget Function(
   VoidCallback onRefreshButtonPressed,
 );
 
+typedef EndErrorWidgetBuilder = Widget Function(
+  BuildContext context,
+  Object? error,
+  VoidCallback onRetryButtonPressed,
+);
+
 /// A theme for [PagingHelperView].
 /// This is used to configure the default appearance of [PagingHelperView].
 ///
 /// [loadingViewBuilder] is used to build the loading view.
 /// [errorViewBuilder] is used to build the error view.
-/// [endItemViewChildViewBuilder] is used to build the ui of endItemView.
+/// [endLoadingViewBuilder] is used to build the ui of endItemView.
 class PagingHelperViewTheme extends ThemeExtension<PagingHelperViewTheme> {
   PagingHelperViewTheme({
     this.loadingViewBuilder,
     this.errorViewBuilder,
-    this.endItemViewChildViewBuilder,
+    this.endLoadingViewBuilder,
+    this.endErrorViewBuilder,
   });
   final WidgetBuilder? loadingViewBuilder;
   final ErrorWidgetBuilder? errorViewBuilder;
-  final WidgetBuilder? endItemViewChildViewBuilder;
+  final WidgetBuilder? endLoadingViewBuilder;
+  final EndErrorWidgetBuilder? endErrorViewBuilder;
 
   @override
   ThemeExtension<PagingHelperViewTheme> copyWith({
     WidgetBuilder? loadingViewBuilder,
     ErrorWidgetBuilder? errorViewBuilder,
-    WidgetBuilder? endItemViewChildViewBuilder,
+    WidgetBuilder? endLoadingViewBuilder,
+    EndErrorWidgetBuilder? endErrorViewBuilder,
   }) {
     return PagingHelperViewTheme(
       loadingViewBuilder: loadingViewBuilder ?? loadingViewBuilder,
       errorViewBuilder: errorViewBuilder ?? this.errorViewBuilder,
-      endItemViewChildViewBuilder:
-          endItemViewChildViewBuilder ?? this.endItemViewChildViewBuilder,
+      endLoadingViewBuilder:
+          endLoadingViewBuilder ?? this.endLoadingViewBuilder,
+      endErrorViewBuilder: endErrorViewBuilder ?? this.endErrorViewBuilder,
     );
   }
 

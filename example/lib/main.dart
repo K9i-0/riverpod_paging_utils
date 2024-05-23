@@ -1,5 +1,7 @@
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
+import 'package:example/ui/first_page_error_screen.dart';
+import 'package:example/ui/second_page_error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -33,7 +35,7 @@ class MainApp extends StatelessWidget {
               ),
         ],
       ),
-      home: const SamplePage(),
+      home: const SampleScreen(),
     );
   }
 }
@@ -66,14 +68,33 @@ class SampleNotifier extends _$SampleNotifier with CursorPagingNotifierMixin {
 }
 
 /// A sample page that demonstrates the usage of [PagingHelperView] with the [SampleNotifier] provider.
-class SamplePage extends StatelessWidget {
-  const SamplePage({super.key});
+class SampleScreen extends StatelessWidget {
+  const SampleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sample Page'),
+        title: const Text('Sample Screen'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(child: Text('Menu')),
+            ListTile(
+              title: const Text('1st page error'),
+              onTap: () => Navigator.of(context).push(
+                FirstPageErrorScreen.route(),
+              ),
+            ),
+            ListTile(
+              title: const Text('2nd page error'),
+              onTap: () => Navigator.of(context).push(
+                SecondPageErrorScreen.route(),
+              ),
+            ),
+          ],
+        ),
       ),
       body: PagingHelperView(
         provider: sampleNotifierProvider,

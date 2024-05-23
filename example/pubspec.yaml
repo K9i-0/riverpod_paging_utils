@@ -27,6 +27,8 @@ dev_dependencies:
   freezed: ^2.5.2
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
+  grinder: ^0.9.5
+  k9i_cli: ^1.1.1
 
 flutter:
   uses-material-design: true

@@ -10,7 +10,7 @@ mixin PagePagingNotifierMixin<T>
   /// Loads the next page of data.
   Future<void> loadNext() async {
     final value = state.valueOrNull;
-    if (value == null || state.hasError) {
+    if (value == null) {
       return;
     }
 
@@ -47,7 +47,7 @@ mixin OffsetPagingNotifierMixin<T>
   /// Loads the next set of data based on the offset.
   Future<void> loadNext() async {
     final value = state.valueOrNull;
-    if (value == null || state.hasError) {
+    if (value == null) {
       return;
     }
 
@@ -84,7 +84,7 @@ mixin CursorPagingNotifierMixin<T>
   /// Loads the next set of data based on the cursor.
   Future<void> loadNext() async {
     final value = state.valueOrNull;
-    if (value == null || state.hasError) {
+    if (value == null) {
       return;
     }
 
