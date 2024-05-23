@@ -2,6 +2,11 @@
 
 A Flutter package that provides utilities for implementing pagination with Riverpod. It includes a generic `PagingHelperView` widget and mixins for page-based, offset-based, and cursor-based pagination.
 
+## Demo
+
+| <img src="https://raw.githubusercontent.com/K9i-0/riverpod_paging_utils/main/gifs/rpu_sample.gif" alt="riverpod_paging_utils_sample"> | <img src="https://raw.githubusercontent.com/K9i-0/riverpod_paging_utils/main/gifs/rpu_first_error.gif" alt="riverpod_paging_utils_first_error"> | <img src="https://raw.githubusercontent.com/K9i-0/riverpod_paging_utils/main/gifs/rpu_second_error.gif" alt="riverpod_paging_utils_second_error"> |
+|:---:|:---:|:---:|
+
 ## Features
 
 - `PagingHelperView`: A generic widget that simplifies the implementation of pagination in Flutter apps.
