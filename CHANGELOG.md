@@ -1,3 +1,9 @@
+## 0.3.1
+
+### Miscellaneous
+
+- Added GIFs to README
+
 ## 0.3.0
 
 ### Features
