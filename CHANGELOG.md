@@ -1,3 +1,9 @@
+
+## 0.4.0
+
+### Features
+- Added support for using Riverpod providers with family and keepAlive: true.
+
 ## 0.3.1
 
 ### Miscellaneous
