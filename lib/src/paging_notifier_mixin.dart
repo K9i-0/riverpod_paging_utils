@@ -1,13 +1,28 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 import 'package:riverpod_paging_utils/src/paging_data.dart';
 
+@internal
+abstract interface class PagingNotifierMixin<D extends PagingData<T>, T> {
+  AsyncValue<D> get state;
+  set state(AsyncValue<D> newState);
+  AsyncNotifierProviderRef<D> get ref;
+
+  Future<void> loadNext();
+  void forceRefresh();
+}
+
 /// A mixin for page-based pagination using [PagePagingData].
-mixin PagePagingNotifierMixin<T>
-    on AutoDisposeAsyncNotifier<PagePagingData<T>> {
+///
+/// Use this mixin when using @riverpod
+abstract mixin class PagePagingNotifierMixin<T>
+    implements PagingNotifierMixin<PagePagingData<T>, T> {
   /// Fetches the paginated data for the specified [page].
   Future<PagePagingData<T>> fetch({required int page});
 
   /// Loads the next page of data.
+  @override
   Future<void> loadNext() async {
     final value = state.valueOrNull;
     if (value == null) {
@@ -32,6 +47,7 @@ mixin PagePagingNotifierMixin<T>
   }
 
   /// Discards the current state and force refreshes the data.
+  @override
   void forceRefresh() {
     state = AsyncLoading<PagePagingData<T>>();
     ref.invalidateSelf();
@@ -39,12 +55,15 @@ mixin PagePagingNotifierMixin<T>
 }
 
 /// A mixin for offset-based pagination using [OffsetPagingData].
-mixin OffsetPagingNotifierMixin<T>
-    on AutoDisposeAsyncNotifier<OffsetPagingData<T>> {
+///
+/// Use this mixin when using @riverpod
+abstract mixin class OffsetPagingNotifierMixin<T>
+    implements PagingNotifierMixin<OffsetPagingData<T>, T> {
   /// Fetches the paginated data for the specified [offset].
   Future<OffsetPagingData<T>> fetch({required int offset});
 
   /// Loads the next set of data based on the offset.
+  @override
   Future<void> loadNext() async {
     final value = state.valueOrNull;
     if (value == null) {
@@ -69,6 +88,7 @@ mixin OffsetPagingNotifierMixin<T>
   }
 
   /// Discards the current state and force refreshes the data.
+  @override
   void forceRefresh() {
     state = AsyncLoading<OffsetPagingData<T>>();
     ref.invalidateSelf();
@@ -76,12 +96,15 @@ mixin OffsetPagingNotifierMixin<T>
 }
 
 /// A mixin for cursor-based pagination using [CursorPagingData].
-mixin CursorPagingNotifierMixin<T>
-    on AutoDisposeAsyncNotifier<CursorPagingData<T>> {
+///
+/// Use this mixin when using @riverpod
+abstract mixin class CursorPagingNotifierMixin<T>
+    implements PagingNotifierMixin<CursorPagingData<T>, T> {
   /// Fetches the paginated data for the specified [cursor].
   Future<CursorPagingData<T>> fetch({required String? cursor});
 
   /// Loads the next set of data based on the cursor.
+  @override
   Future<void> loadNext() async {
     final value = state.valueOrNull;
     if (value == null) {
@@ -106,6 +129,7 @@ mixin CursorPagingNotifierMixin<T>
   }
 
   /// Discards the current state and force refreshes the data.
+  @override
   void forceRefresh() {
     state = AsyncLoading<CursorPagingData<T>>();
     ref.invalidateSelf();

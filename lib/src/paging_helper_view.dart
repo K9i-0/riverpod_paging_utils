@@ -16,17 +16,19 @@ import 'package:visibility_detector/visibility_detector.dart';
 /// 6. Supports pull-to-refresh functionality.
 ///
 /// You can customize the appearance of the loading view, error view, and endItemView using [PagingHelperViewTheme].
-class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
-    D extends PagingData<I>, I> extends ConsumerWidget {
+class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
   const PagingHelperView({
     required this.provider,
+    required this.futureRefreshable,
+    required this.notifierRefreshable,
     required this.contentBuilder,
     this.showSecondPageError = true,
     super.key,
   });
 
-  /// Specifies the provider of a class that implements [AutoDisposeAsyncNotifier].
-  final AutoDisposeAsyncNotifierProvider<N, D> provider;
+  final ProviderListenable<AsyncValue<D>> provider;
+  final Refreshable<Future<D>> futureRefreshable;
+  final Refreshable<PagingNotifierMixin<D, I>> notifierRefreshable;
 
   /// Specifies a function that returns a widget to display when data is available.
   /// [endItem] is a widget to detect when the last displayed item is visible.
@@ -37,14 +39,6 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Assertion since generics cannot constrain mixins
-    assert(
-      ref.read(provider.notifier) is PagePagingNotifierMixin ||
-          ref.read(provider.notifier) is OffsetPagingNotifierMixin ||
-          ref.read(provider.notifier) is CursorPagingNotifierMixin,
-      'The notifier must implement PagePagingNotifierMixin, OffsetPagingNotifierMixin, or CursorPagingNotifierMixin',
-    );
-
     // Display errors using SnackBar
     ref.listen(provider, (_, state) {
       if (!state.isLoading && state.hasError) {
@@ -81,41 +75,21 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
           data: (data,
               {required hasError, required isLoading, required error}) {
             return RefreshIndicator(
-              onRefresh: () => ref.refresh(provider.future),
+              onRefresh: () => ref.refresh(futureRefreshable),
               child: contentBuilder(
                   data,
                   switch ((data.hasMore, hasError, isLoading)) {
                     // Display a widget to detect when the last element is reached
                     // if there are more pages and no errors
                     (true, false, _) => _EndVisibilityDetectorLoadingItemView(
-                        onScrollEnd: () {
-                          switch (ref.read(provider.notifier)) {
-                            case (final PagePagingNotifierMixin pageNotifier):
-                              pageNotifier.loadNext();
-                            case (final OffsetPagingNotifierMixin
-                                  offsetNotifier):
-                              offsetNotifier.loadNext();
-                            case (final CursorPagingNotifierMixin
-                                  cursorNotifier):
-                              cursorNotifier.loadNext();
-                          }
-                        },
+                        onScrollEnd: () =>
+                            ref.read(notifierRefreshable).loadNext(),
                       ),
                     (true, true, false) when showSecondPageError =>
                       _EndErrorItemView(
                         error: error,
-                        onRetryButtonPressed: () {
-                          switch (ref.read(provider.notifier)) {
-                            case (final PagePagingNotifierMixin pageNotifier):
-                              pageNotifier.loadNext();
-                            case (final OffsetPagingNotifierMixin
-                                  offsetNotifier):
-                              offsetNotifier.loadNext();
-                            case (final CursorPagingNotifierMixin
-                                  cursorNotifier):
-                              cursorNotifier.loadNext();
-                          }
-                        },
+                        onRetryButtonPressed: () =>
+                            ref.read(notifierRefreshable).loadNext(),
                       ),
                     (true, true, true) => const _EndLoadingItemView(),
                     _ => null,
@@ -129,16 +103,7 @@ class PagingHelperView<N extends AutoDisposeAsyncNotifier<D>,
             context,
             e,
             st,
-            () {
-              switch (ref.read(provider.notifier)) {
-                case (final PagePagingNotifierMixin pageNotifier):
-                  pageNotifier.forceRefresh();
-                case (final OffsetPagingNotifierMixin offsetNotifier):
-                  offsetNotifier.forceRefresh();
-                case (final CursorPagingNotifierMixin cursorNotifier):
-                  cursorNotifier.forceRefresh();
-              }
-            },
+            () => ref.read(notifierRefreshable).forceRefresh(),
           ),
           // Prioritize data for errors on the second page and beyond
           skipErrorOnHasValue: true,

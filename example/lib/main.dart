@@ -43,7 +43,8 @@ class MainApp extends StatelessWidget {
 /// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
 /// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
 @riverpod
-class SampleNotifier extends _$SampleNotifier with CursorPagingNotifierMixin {
+class SampleNotifier extends _$SampleNotifier
+    with CursorPagingNotifierMixin<SampleItem> {
   /// Builds the initial state of the provider by fetching data with a null cursor.
   @override
   Future<CursorPagingData<SampleItem>> build() => fetch(cursor: null);
@@ -98,6 +99,8 @@ class SampleScreen extends StatelessWidget {
       ),
       body: PagingHelperView(
         provider: sampleNotifierProvider,
+        futureRefreshable: sampleNotifierProvider.future,
+        notifierRefreshable: sampleNotifierProvider.notifier,
         contentBuilder: (data, endItemView) => ListView.builder(
           itemCount: data.items.length + (endItemView != null ? 1 : 0),
           itemBuilder: (context, index) {

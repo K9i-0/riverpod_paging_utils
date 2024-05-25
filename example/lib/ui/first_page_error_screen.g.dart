@@ -7,7 +7,7 @@ part of 'first_page_error_screen.dart';
 // **************************************************************************
 
 String _$firstPageErrorNotifierHash() =>
-    r'5776f31ba158a96e3a205175e29375cddf740845';
+    r'8ffc25c6d2f137ddfdaad383499e15a12ab9f795';
 
 /// See also [FirstPageErrorNotifier].
 @ProviderFor(FirstPageErrorNotifier)

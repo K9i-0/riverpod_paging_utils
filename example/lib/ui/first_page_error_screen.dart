@@ -8,7 +8,7 @@ part 'first_page_error_screen.g.dart';
 
 @riverpod
 class FirstPageErrorNotifier extends _$FirstPageErrorNotifier
-    with CursorPagingNotifierMixin {
+    with CursorPagingNotifierMixin<SampleItem> {
   @override
   Future<CursorPagingData<SampleItem>> build() async {
     await Future.delayed(const Duration(milliseconds: 500));
@@ -50,6 +50,8 @@ class FirstPageErrorScreen extends StatelessWidget {
       ),
       body: PagingHelperView(
         provider: firstPageErrorNotifierProvider,
+        futureRefreshable: firstPageErrorNotifierProvider.future,
+        notifierRefreshable: firstPageErrorNotifierProvider.notifier,
         contentBuilder: (data, endItemView) => ListView.builder(
           itemCount: data.items.length + (endItemView != null ? 1 : 0),
           itemBuilder: (context, index) {

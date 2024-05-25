@@ -9,7 +9,7 @@ part 'second_page_error_screen.g.dart';
 
 @riverpod
 class SecondPageErrorNotifier extends _$SecondPageErrorNotifier
-    with CursorPagingNotifierMixin {
+    with CursorPagingNotifierMixin<SampleItem> {
   @override
   Future<CursorPagingData<SampleItem>> build() => fetch(cursor: null);
 
@@ -70,6 +70,8 @@ class SecondPageErrorScreen extends ConsumerWidget {
       ),
       body: PagingHelperView(
         provider: secondPageErrorNotifierProvider,
+        futureRefreshable: secondPageErrorNotifierProvider.future,
+        notifierRefreshable: secondPageErrorNotifierProvider.notifier,
         contentBuilder: (data, endItemView) => ListView.builder(
           itemCount: data.items.length + (endItemView != null ? 1 : 0),
           itemBuilder: (context, index) {

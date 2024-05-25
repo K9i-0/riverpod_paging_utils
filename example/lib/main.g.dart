@@ -6,7 +6,7 @@ part of 'main.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sampleNotifierHash() => r'63492d385bdcc1657fa333642a4fd56f43c14c17';
+String _$sampleNotifierHash() => r'9b79e30e0e85e61102691f95a9d23525de90cb98';
 
 /// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
 /// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.

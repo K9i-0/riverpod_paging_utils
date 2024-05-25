@@ -7,7 +7,7 @@ part of 'second_page_error_screen.dart';
 // **************************************************************************
 
 String _$secondPageErrorNotifierHash() =>
-    r'17c029d0b28dff0f6573cbb1042724c2a5f69428';
+    r'2d1b42f79de72f136eb14230dd113ab2d8aab885';
 
 /// See also [SecondPageErrorNotifier].
 @ProviderFor(SecondPageErrorNotifier)
