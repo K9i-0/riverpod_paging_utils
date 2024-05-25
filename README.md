@@ -22,7 +22,7 @@ Add the following dependency to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  riverpod_paging_utils: ^0.1.0
+  riverpod_paging_utils: ^{latest}
 ```
 
 Then, run `flutter pub get` to install the package.

@@ -1,4 +1,9 @@
 
+## 0.4.1
+
+### Miscellaneous
+- Update Readme.
+
 ## 0.4.0
 
 ### Features
