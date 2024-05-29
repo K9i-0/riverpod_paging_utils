@@ -1,6 +1,7 @@
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
 import 'package:example/ui/first_page_error_screen.dart';
+import 'package:example/ui/id_screen.dart';
 import 'package:example/ui/second_page_error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -92,6 +93,12 @@ class SampleScreen extends StatelessWidget {
               title: const Text('2nd page error'),
               onTap: () => Navigator.of(context).push(
                 SecondPageErrorScreen.route(),
+              ),
+            ),
+            ListTile(
+              title: const Text('Id screen'),
+              onTap: () => Navigator.of(context).push(
+                IdScreen.route(),
               ),
             ),
           ],

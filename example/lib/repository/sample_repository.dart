@@ -33,6 +33,31 @@ class SampleRepository {
       exist ? nextCursor : null,
     );
   }
+
+  Future<(List<SampleItem> items, String? nextCursor)> getByCursorAndId(
+    String id,
+    String? cursor,
+  ) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final items = _db
+        .sublist(
+          int.parse(cursor ?? '0'),
+          int.parse(cursor ?? '0') + 30,
+        )
+        .mapRecord(
+          (id, name) => SampleItem(id: id.toString(), name: name),
+        )
+        .toList();
+
+    final nextCursor = (int.parse(cursor ?? '0') + 30).toString();
+    final exist = _db.length > int.parse(nextCursor);
+
+    return (
+      items,
+      exist ? nextCursor : null,
+    );
+  }
 }
 
 final _randomNames = RandomNames(Zone.us);

@@ -1,3 +1,7 @@
+## 0.4.2
+
+### Miscellaneous
+- Add Family Provider sample.
 
 ## 0.4.1
 
