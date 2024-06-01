@@ -6,12 +6,13 @@ on:
     branches: ["main"]
 
 jobs:
-  tagpr-and-publish:
+  tagpr:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write # Required for authentication using OIDC
       contents: write
       pull-requests: write
+    outputs:
+      tag: ${{ steps.tagpr.outputs.tag }}
 
     steps:
     - name: Checkout
@@ -23,29 +24,36 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Skip remaining steps if new tag is created
-      if: steps.tagpr.outputs.tag != ''
-      continue-on-error: true
-      run: echo "New tag created. Skipping remaining steps."
+  publish:
+    needs: tagpr
+    if: ${{ needs.tagpr.outputs.tag != '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for authentication using OIDC
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
 
     - name: Update pubspec.yaml
       run: |
-        yq eval '.version = "${{ steps.tagpr.outputs.tag }}"' pubspec.yaml -i
+        yq eval '.version = "${{ needs.tagpr.outputs.tag }}"' pubspec.yaml -i
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add pubspec.yaml
-        git commit -m "Update pubspec.yaml version to ${{ steps.tagpr.outputs.tag }}"
+        git commit -m "Update pubspec.yaml version to ${{ needs.tagpr.outputs.tag }}"
         git push
 
     # Publish to pub.dev
     # https://github.com/dart-lang/setup-dart/blob/v1/.github/workflows/publish.yml
     - name: Fetch flutter config
       uses: kuhnroyal/flutter-fvm-config-action@v2
+      id: fvm-config-action
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-        channel: ${{ env.FLUTTER_CHANNEL }}
+        flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+        channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
         cache: true
     # https://github.com/actions/cache
     - name: Cache dependencies
