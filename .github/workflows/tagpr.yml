@@ -6,11 +6,16 @@ on:
 jobs:
   tagpr:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
+    - name: Generate token
+      id: generate_token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.APP_ID_OF_K9I_TAG_PUSHER }}
+        private-key: ${{ secrets.APP_PRIVATE_KEY_OF_K9I_TAG_PUSHER }}
     - uses: actions/checkout@v4
+      with:
+        token: ${{ steps.generate_token.outputs.token }}
     - uses: Songmu/tagpr@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
