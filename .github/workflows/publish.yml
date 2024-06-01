@@ -28,7 +28,7 @@ jobs:
           git config user.email github-actions@github.com
           git add pubspec.yaml
           git commit -m "Update pubspec.yaml version to ${{ steps.vars.outputs.tag }}"
-          git push
+          git push origin main
 
   publish:
     needs: increment_version
