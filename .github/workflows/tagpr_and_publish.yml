@@ -1,0 +1,46 @@
+# .github/workflows/tagpr.yml
+name: tagpr and publish
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  tagpr-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for authentication using OIDC
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: tagpr
+      uses: Songmu/tagpr@v1
+      id: tagpr
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Update pubspec.yaml
+      if: steps.tagpr.outputs.tag != ''
+      run: |
+        yq eval '.version = "${{ steps.tagpr.outputs.tag }}"' pubspec.yaml -i
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add pubspec.yaml
+        git commit -m "Update pubspec.yaml version to ${{ steps.tagpr.outputs.tag }}"
+        git push
+
+    # Publish to pub.dev
+    # https://github.com/dart-lang/setup-dart/blob/v1/.github/workflows/publish.yml
+    # Setup Dart SDK with JWT token
+    - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
+    # Minimal package setup and dry run checks.
+    - name: Install dependencies
+      run: dart pub get
+    - name: Publish - dry run
+      run: dart pub publish --dry-run
+    # Publishing...
+    - name: Publish to pub.dev
+      run: dart pub publish -f
+        

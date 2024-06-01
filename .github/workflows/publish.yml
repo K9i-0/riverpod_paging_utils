@@ -2,9 +2,14 @@
 name: Publish to pub.dev
 
 on:
-  push:
-    tags:
-    - '[0-9]+.[0-9]+.[0-9]+*' # for tags like: '1.2.3'
+  workflow_dispatch:
+    inputs:
+      hoge:
+        description: 'Tag created by tagpr'
+        required: true
+  # push:
+  #   tags:
+  #   - '[0-9]+.[0-9]+.[0-9]+*' # for tags like: '1.2.3'
 
 jobs:
   publish:
