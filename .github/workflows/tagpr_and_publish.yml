@@ -11,6 +11,7 @@ jobs:
     permissions:
       id-token: write # Required for authentication using OIDC
       contents: write
+      pull-requests: write
 
     steps:
     - name: Checkout
