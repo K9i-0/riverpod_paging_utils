@@ -9,7 +9,6 @@ jobs:
   tagpr:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
       pull-requests: write
     outputs:
       tag: ${{ steps.tagpr.outputs.tag }}
@@ -29,6 +28,7 @@ jobs:
     if: ${{ needs.tagpr.outputs.tag != '' }}
     runs-on: ubuntu-latest
     permissions:
+      contents: write
       id-token: write # Required for authentication using OIDC
 
     steps:
