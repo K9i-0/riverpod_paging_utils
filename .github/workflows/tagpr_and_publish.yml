@@ -23,8 +23,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Update pubspec.yaml
+    - name: Skip remaining steps if new tag is created
       if: steps.tagpr.outputs.tag != ''
+      continue-on-error: true
+      run: echo "New tag created. Skipping remaining steps."
+
+    - name: Update pubspec.yaml
       run: |
         yq eval '.version = "${{ steps.tagpr.outputs.tag }}"' pubspec.yaml -i
         git config user.name github-actions
@@ -35,11 +39,31 @@ jobs:
 
     # Publish to pub.dev
     # https://github.com/dart-lang/setup-dart/blob/v1/.github/workflows/publish.yml
-    # Setup Dart SDK with JWT token
-    - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
-    # Minimal package setup and dry run checks.
+    - name: Fetch flutter config
+      uses: kuhnroyal/flutter-fvm-config-action@v2
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: ${{ env.FLUTTER_CHANNEL }}
+        cache: true
+    # https://github.com/actions/cache
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ env.PUB_CACHE }}
+          ${{ github.workspace }}/.packages
+          ${{ github.workspace }}/.flutter-plugins
+          ${{ github.workspace }}/.flutter-plugin-dependencies
+          ${{ github.workspace }}/.dart_tool/package_config.json
+        key: build-pubspec-${{ hashFiles(format('{0}{1}', github.workspace, '/pubspec.lock')) }}
+        restore-keys: |
+          build-pubspec-
     - name: Install dependencies
-      run: dart pub get
+      run: |
+        flutter pub get
+
     - name: Publish - dry run
       run: dart pub publish --dry-run
     # Publishing...
