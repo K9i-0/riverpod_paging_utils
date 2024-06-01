@@ -40,4 +40,3 @@
 	releaseBranch = main
 	versionFile = -
 	vPrefix = false
-	command = "make prerelease_for_tagpr"
