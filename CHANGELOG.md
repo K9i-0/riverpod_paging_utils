@@ -1,3 +1,5 @@
+## [0.5.0](https://github.com/K9i-0/riverpod_paging_utils/compare/0.4.2...0.5.0) - 2024-06-01
+
 ## [0.4.2](https://github.com/K9i-0/riverpod_paging_utils/compare/0.4.1...0.4.2) - 2024-06-01
 
 ## 0.4.1
