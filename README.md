@@ -95,3 +95,47 @@ class SampleScreen extends StatelessWidget {
   }
 }
 ```
+
+## UI Customization
+
+You can easily customize the appearance of loading and error states using `ThemeExtension`.
+
+<img src="https://raw.githubusercontent.com/K9i-0/riverpod_paging_utils/main/gifs/ui_customization.gif" alt="riverpod_paging_utils_sample" style="width: 33.33%;" >
+
+For example, if you're using the [loading_animation_widget](https://pub.dev/packages/loading_animation_widget) package, you can set up your code like this:
+
+```dart
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        extensions: [
+          PagingHelperViewTheme(
+            loadingViewBuilder: (context) => Padding(
+              padding: const EdgeInsets.all(16),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: LoadingAnimationWidget.horizontalRotatingDots(
+                  color: Colors.red,
+                  size: 100,
+                ),
+              ),
+            ),
+            endLoadingViewBuilder: (context) =>
+                LoadingAnimationWidget.threeArchedCircle(
+              color: Colors.red,
+              size: 50,
+            ),
+          ),
+        ],
+      ),
+      home: const SampleScreen(),
+    );
+  }
+}
+```
+
+A complete sample implementation can be found in the [example/lib/main2.dart](https://github.com/K9i-0/riverpod_paging_utils/blob/main/example/lib/main2.dart) file.
