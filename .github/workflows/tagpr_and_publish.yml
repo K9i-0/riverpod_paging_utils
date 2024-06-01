@@ -9,6 +9,7 @@ jobs:
   tagpr:
     runs-on: ubuntu-latest
     permissions:
+      contents: write
       pull-requests: write
     outputs:
       tag: ${{ steps.tagpr.outputs.tag }}
