@@ -100,7 +100,7 @@ class SampleScreen extends StatelessWidget {
 
 You can easily customize the appearance of loading and error states using `ThemeExtension`.
 
-<img src="https://raw.githubusercontent.com/K9i-0/riverpod_paging_utils/main/gifs/ui_customization.gif" alt="riverpod_paging_utils_sample" style="width: 33.33%;" >
+<img src="https://raw.githubusercontent.com/K9i-0/riverpod_paging_utils/main/gifs/ui_customization.gif" alt="riverpod_paging_utils_sample" width="33%">
 
 For example, if you're using the [loading_animation_widget](https://pub.dev/packages/loading_animation_widget) package, you can set up your code like this:
 
