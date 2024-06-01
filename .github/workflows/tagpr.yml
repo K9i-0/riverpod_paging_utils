@@ -22,19 +22,3 @@ jobs:
       uses: Songmu/tagpr@v1
       env:
         GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-
-    - name: Get current version from pubspec.yaml
-      id: get_current_version
-      run: |
-        current_version=$(yq eval '.version' pubspec.yaml)
-        echo "current_version=$current_version" >> $GITHUB_OUTPUT
-
-    - name: Update pubspec.yaml
-      if: steps.tagpr.outputs.tag != '' && steps.tagpr.outputs.tag != steps.get_current_version.outputs.current_version
-      run: |
-        yq eval '.version = "${{ steps.tagpr.outputs.tag }}"' pubspec.yaml -i
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git add pubspec.yaml
-        git commit -m "Update pubspec.yaml version to ${{ steps.tagpr.outputs.tag }}"
-        git push

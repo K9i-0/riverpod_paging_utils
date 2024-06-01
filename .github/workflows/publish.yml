@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       # setup OIDC token
       - uses: dart-lang/setup-dart@v1
-    # https://github.com/dart-lang/setup-dart/blob/v1/.github/workflows/publish.yml
+      # https://github.com/dart-lang/setup-dart/blob/v1/.github/workflows/publish.yml
       - name: Fetch flutter config
         uses: kuhnroyal/flutter-fvm-config-action@v2
         id: fvm-config-action
