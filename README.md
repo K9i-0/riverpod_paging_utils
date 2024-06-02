@@ -98,6 +98,8 @@ class SampleScreen extends StatelessWidget {
 
 ## UI Customization
 
+### Basic Customization
+
 You can easily customize the appearance of loading and error states using `ThemeExtension`.
 
 <img src="https://raw.githubusercontent.com/K9i-0/riverpod_paging_utils/main/gifs/ui_customization.gif" alt="riverpod_paging_utils_sample" width="33%">
@@ -139,3 +141,83 @@ class MainApp extends StatelessWidget {
 ```
 
 A complete sample implementation can be found in the [example/lib/main2.dart](https://github.com/K9i-0/riverpod_paging_utils/blob/main/example/lib/main2.dart) file.
+
+### Advanced Customization
+
+Customizing the appearance of error SnackBars or RefreshIndicators requires a bit more setup.
+
+#### 1. Theme Configuration
+
+First, adjust your `PagingHelperViewTheme` like this:
+
+```dart
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        extensions: [
+          PagingHelperViewTheme(
+            // disable error snackbar
+            enableErrorSnackBar: false,
+            // disable pull-to-refresh
+            enableRefreshIndicator: false,
+          ),
+        ],
+      ),
+      home: const SampleScreen(),
+    );
+  }
+}
+```
+
+#### 2. Integrating Custom Refresh (e.g., with easy_refresh)
+
+If you're using a package like [easy_refresh](https://pub.dev/packages/easy_refresh) to provide a RefreshIndicator, modify your screen code as follows:
+
+```dart
+class SampleScreen extends ConsumerWidget {
+  const SampleScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Advanced UI Customization'),
+      ),
+      body: PagingHelperView(
+        provider: sampleNotifierProvider,
+        futureRefreshable: sampleNotifierProvider.future,
+        notifierRefreshable: sampleNotifierProvider.notifier,
+        contentBuilder: (data, endItemView) {
+          // Use EasyRefresh alternative to RefreshIndicator
+          return EasyRefresh(
+            onRefresh: () {
+              ref.invalidate(sampleNotifierProvider);
+              return ref.read(sampleNotifierProvider.future);
+            },
+            child: ListView.builder(
+              itemCount: data.items.length + (endItemView != null ? 1 : 0),
+              itemBuilder: (context, index) {
+                // If the end item view is provided and the index is the last item,
+                // return the end item view.
+                if (endItemView != null && index == data.items.length) {
+                  return endItemView;
+                }
+
+                // Otherwise, build a list tile for each sample item.
+                return ListTile(
+                  title: Text(data.items[index].name),
+                  subtitle: Text(data.items[index].id),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+```
