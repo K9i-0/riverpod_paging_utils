@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 
 typedef ErrorWidgetBuilder = Widget Function(
   BuildContext context,
@@ -50,7 +51,9 @@ class PagingHelperViewTheme extends ThemeExtension<PagingHelperViewTheme> {
 
   @override
   ThemeExtension<PagingHelperViewTheme> lerp(
-      covariant ThemeExtension<PagingHelperViewTheme>? other, double t) {
+    covariant ThemeExtension<PagingHelperViewTheme>? other,
+    double t,
+  ) {
     return this;
   }
 }

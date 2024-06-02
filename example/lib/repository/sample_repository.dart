@@ -13,7 +13,7 @@ class SampleRepository {
   Future<(List<SampleItem> items, String? nextCursor)> getByCursor(
     String? cursor,
   ) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future<void>.delayed(const Duration(milliseconds: 500));
 
     final items = _db
         .sublist(
@@ -38,7 +38,7 @@ class SampleRepository {
     String id,
     String? cursor,
   ) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future<void>.delayed(const Duration(milliseconds: 500));
 
     final items = _db
         .sublist(
