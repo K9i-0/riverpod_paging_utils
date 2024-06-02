@@ -221,3 +221,5 @@ class SampleScreen extends ConsumerWidget {
   }
 }
 ```
+
+A complete sample implementation can be found in the [example/lib/main3.dart](https://github.com/K9i-0/riverpod_paging_utils/blob/main/example/lib/main3.dart) file.
