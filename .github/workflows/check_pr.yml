@@ -4,8 +4,27 @@ on:
   pull_request:
 
 jobs:
-  check_pr:
+  pre-check:
     runs-on: ubuntu-latest
+    outputs:
+      src: ${{ steps.filter.outputs.src }}
+
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            src:
+              - "**.dart"
+              - "**.yaml"
+              - "**/pubspec.lock"
+              - "scripts/**"
+
+  check:
+    needs: pre-check
+    if: ${{ needs.pre-check.outputs.src == 'true' }}
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
