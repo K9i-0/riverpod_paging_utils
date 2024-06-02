@@ -66,7 +66,7 @@ class SampleNotifier extends _$SampleNotifier
     required String? cursor,
   }) async {
     // Simulate a delay of 2 seconds to demonstrate the loading view.
-    await Future.delayed(const Duration(seconds: 2));
+    await Future<void>.delayed(const Duration(seconds: 2));
     final repository = ref.read(sampleRepositoryProvider);
     final (items, nextCursor) = await repository.getByCursor(cursor);
     final hasMore = nextCursor != null && nextCursor.isNotEmpty;

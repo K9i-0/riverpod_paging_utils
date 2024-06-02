@@ -31,8 +31,8 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
   final Refreshable<PagingNotifierMixin<D, I>> notifierRefreshable;
 
   /// Specifies a function that returns a widget to display when data is available.
-  /// [endItem] is a widget to detect when the last displayed item is visible.
-  /// If [endItem] is non-null, it is displayed at the end of the list.
+  /// endItemView is a widget to detect when the last displayed item is visible.
+  /// If endItemView is non-null, it is displayed at the end of the list.
   final Widget Function(D data, Widget? endItemView) contentBuilder;
 
   final bool showSecondPageError;
@@ -72,28 +72,33 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
             );
 
     return ref.watch(provider).whenIgnorableError(
-          data: (data,
-              {required hasError, required isLoading, required error}) {
+          data: (
+            data, {
+            required hasError,
+            required isLoading,
+            required error,
+          }) {
             return RefreshIndicator(
               onRefresh: () => ref.refresh(futureRefreshable),
               child: contentBuilder(
-                  data,
-                  switch ((data.hasMore, hasError, isLoading)) {
-                    // Display a widget to detect when the last element is reached
-                    // if there are more pages and no errors
-                    (true, false, _) => _EndVisibilityDetectorLoadingItemView(
-                        onScrollEnd: () =>
-                            ref.read(notifierRefreshable).loadNext(),
-                      ),
-                    (true, true, false) when showSecondPageError =>
-                      _EndErrorItemView(
-                        error: error,
-                        onRetryButtonPressed: () =>
-                            ref.read(notifierRefreshable).loadNext(),
-                      ),
-                    (true, true, true) => const _EndLoadingItemView(),
-                    _ => null,
-                  }),
+                data,
+                switch ((data.hasMore, hasError, isLoading)) {
+                  // Display a widget to detect when the last element is reached
+                  // if there are more pages and no errors
+                  (true, false, _) => _EndVisibilityDetectorLoadingItemView(
+                      onScrollEnd: () =>
+                          ref.read(notifierRefreshable).loadNext(),
+                    ),
+                  (true, true, false) when showSecondPageError =>
+                    _EndErrorItemView(
+                      error: error,
+                      onRetryButtonPressed: () =>
+                          ref.read(notifierRefreshable).loadNext(),
+                    ),
+                  (true, true, true) => const _EndLoadingItemView(),
+                  _ => null,
+                },
+              ),
             );
           },
           // Loading state for the first page
@@ -199,11 +204,12 @@ extension _AsyncValueX<T> on AsyncValue<T> {
   /// even if subsequent fetch attempts result in errors,
   /// ideal for maintaining a seamless user experience.
   R whenIgnorableError<R>({
-    required R Function(T data,
-            {required bool hasError,
-            required bool isLoading,
-            required Object? error})
-        data,
+    required R Function(
+      T data, {
+      required bool hasError,
+      required bool isLoading,
+      required Object? error,
+    }) data,
     required R Function(Object error, StackTrace stackTrace) error,
     required R Function() loading,
     bool skipLoadingOnReload = false,
@@ -213,8 +219,12 @@ extension _AsyncValueX<T> on AsyncValue<T> {
   }) {
     if (skipErrorOnHasValue) {
       if (hasValue && hasError) {
-        return data(requireValue,
-            hasError: true, isLoading: isLoading, error: this.error);
+        return data(
+          requireValue,
+          hasError: true,
+          isLoading: isLoading,
+          error: this.error,
+        );
       }
     }
 

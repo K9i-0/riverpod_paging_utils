@@ -18,7 +18,7 @@ class SecondPageErrorNotifier extends _$SecondPageErrorNotifier
     required String? cursor,
   }) async {
     if (cursor != null) {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future<void>.delayed(const Duration(milliseconds: 500));
       throw Exception('Error fetching data');
     }
 

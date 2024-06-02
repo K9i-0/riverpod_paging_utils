@@ -1,5 +1,11 @@
-include: package:flutter_lints/flutter.yaml
+# https://pub.dev/packages/yumemi_lints
+include: package:yumemi_lints/flutter/3.0/recommended.yaml
+
+linter:
+  rules:
+    lines_longer_than_80_chars: false
+    diagnostic_describe_all_properties: false
 
 analyzer:
   plugins:
-    - custom_lint
+    - custom_lint    
