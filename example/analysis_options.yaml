@@ -4,6 +4,7 @@ include: package:yumemi_lints/flutter/3.0/recommended.yaml
 linter:
   rules:
     lines_longer_than_80_chars: false
+    diagnostic_describe_all_properties: false
 
 analyzer:
   plugins:
