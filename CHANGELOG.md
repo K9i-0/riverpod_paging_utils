@@ -1,3 +1,9 @@
+## [0.5.0](https://github.com/K9i-0/riverpod_paging_utils/compare/0.4.3...0.5.0) - 2024-06-02
+- UI Customization Sample by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/16
+- change lint package by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/18
+- skip unnecessary ci check by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/19
+- add: enableRefreshIndicator and enableErrorSnackBar to PagingHelperVi… by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/20
+
 ## [0.4.3](https://github.com/K9i-0/riverpod_paging_utils/compare/0.4.2...0.4.3) - 2024-06-01
 
 ## [0.4.2](https://github.com/K9i-0/riverpod_paging_utils/compare/0.4.1...0.4.2) - 2024-06-01
