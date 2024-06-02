@@ -42,27 +42,18 @@
             "flutterMode": "release"
         },
         {
-            "name": "ui custom example",
+            "name": "basic ui custom example",
             "cwd": "example",
             "program": "lib/main2.dart",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "ui custom example (profile mode)",
+            "name": "advanced ui custom example",
             "cwd": "example",
-            "program": "lib/main2.dart",
+            "program": "lib/main3.dart",
             "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
+            "type": "dart"
         },
-        {
-            "name": "ui custom example (release mode)",
-            "cwd": "example",
-            "program": "lib/main2.dart",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        }
     ]
 }

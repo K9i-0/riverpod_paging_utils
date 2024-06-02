@@ -21,17 +21,23 @@ typedef EndErrorWidgetBuilder = Widget Function(
 /// [errorViewBuilder] is used to build the error view.
 /// [endLoadingViewBuilder] is used to build the ui of endItemView.
 /// [endErrorViewBuilder] is used to build the ui of endItemView when an error occurs.
+/// [enableRefreshIndicator] is used to enable or disable the pull-to-refresh functionality.
+/// [enableErrorSnackBar] is used to enable or disable the error message using SnackBar.
 class PagingHelperViewTheme extends ThemeExtension<PagingHelperViewTheme> {
   PagingHelperViewTheme({
     this.loadingViewBuilder,
     this.errorViewBuilder,
     this.endLoadingViewBuilder,
     this.endErrorViewBuilder,
+    this.enableRefreshIndicator,
+    this.enableErrorSnackBar,
   });
   final WidgetBuilder? loadingViewBuilder;
   final ErrorWidgetBuilder? errorViewBuilder;
   final WidgetBuilder? endLoadingViewBuilder;
   final EndErrorWidgetBuilder? endErrorViewBuilder;
+  final bool? enableRefreshIndicator;
+  final bool? enableErrorSnackBar;
 
   @override
   ThemeExtension<PagingHelperViewTheme> copyWith({
@@ -39,6 +45,8 @@ class PagingHelperViewTheme extends ThemeExtension<PagingHelperViewTheme> {
     ErrorWidgetBuilder? errorViewBuilder,
     WidgetBuilder? endLoadingViewBuilder,
     EndErrorWidgetBuilder? endErrorViewBuilder,
+    bool? enableRefreshIndicator,
+    bool? enableErrorSnackBar,
   }) {
     return PagingHelperViewTheme(
       loadingViewBuilder: loadingViewBuilder ?? loadingViewBuilder,
@@ -46,6 +54,9 @@ class PagingHelperViewTheme extends ThemeExtension<PagingHelperViewTheme> {
       endLoadingViewBuilder:
           endLoadingViewBuilder ?? this.endLoadingViewBuilder,
       endErrorViewBuilder: endErrorViewBuilder ?? this.endErrorViewBuilder,
+      enableRefreshIndicator:
+          enableRefreshIndicator ?? this.enableRefreshIndicator,
+      enableErrorSnackBar: enableErrorSnackBar ?? this.enableErrorSnackBar,
     );
   }
 

@@ -39,20 +39,24 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Display errors using SnackBar
-    ref.listen(provider, (_, state) {
-      if (!state.isLoading && state.hasError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              state.error!.toString(),
-            ),
-          ),
-        );
-      }
-    });
-
     final theme = Theme.of(context).extension<PagingHelperViewTheme>();
+    final enableErrorSnackBar = theme?.enableErrorSnackBar ?? true;
+
+    if (enableErrorSnackBar) {
+      // Display errors using SnackBar
+      ref.listen(provider, (_, state) {
+        if (!state.isLoading && state.hasError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                state.error!.toString(),
+              ),
+            ),
+          );
+        }
+      });
+    }
+
     final loadingBuilder = theme?.loadingViewBuilder ??
         (context) => const Center(
               child: CircularProgressIndicator(),
@@ -78,28 +82,40 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
             required isLoading,
             required error,
           }) {
-            return RefreshIndicator(
-              onRefresh: () => ref.refresh(futureRefreshable),
-              child: contentBuilder(
-                data,
-                switch ((data.hasMore, hasError, isLoading)) {
-                  // Display a widget to detect when the last element is reached
-                  // if there are more pages and no errors
-                  (true, false, _) => _EndVisibilityDetectorLoadingItemView(
-                      onScrollEnd: () =>
-                          ref.read(notifierRefreshable).loadNext(),
-                    ),
-                  (true, true, false) when showSecondPageError =>
-                    _EndErrorItemView(
-                      error: error,
-                      onRetryButtonPressed: () =>
-                          ref.read(notifierRefreshable).loadNext(),
-                    ),
-                  (true, true, true) => const _EndLoadingItemView(),
-                  _ => null,
-                },
-              ),
+            final content = contentBuilder(
+              data,
+              switch ((data.hasMore, hasError, isLoading)) {
+                // Display a widget to detect when the last element is reached
+                // if there are more pages and no errors
+                (true, false, _) => _EndVisibilityDetectorLoadingItemView(
+                    onScrollEnd: () => ref.read(notifierRefreshable).loadNext(),
+                  ),
+                (true, true, false) when showSecondPageError =>
+                  _EndErrorItemView(
+                    error: error,
+                    onRetryButtonPressed: () =>
+                        ref.read(notifierRefreshable).loadNext(),
+                  ),
+                (true, true, true) => const _EndLoadingItemView(),
+                _ => null,
+              },
             );
+
+            final enableRefreshIndicator =
+                theme?.enableRefreshIndicator ?? true;
+
+            if (enableRefreshIndicator) {
+              return RefreshIndicator(
+                onRefresh: () {
+                  // ignore: unused_result
+                  ref.refresh(futureRefreshable);
+                  return ref.read(futureRefreshable);
+                },
+                child: content,
+              );
+            } else {
+              return content;
+            }
           },
           // Loading state for the first page
           loading: () => loadingBuilder(context),
