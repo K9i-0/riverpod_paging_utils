@@ -1,13 +1,13 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 import 'package:riverpod_paging_utils/theme_extension.dart';
 
-part 'main2.g.dart';
+part 'main3.g.dart';
 
 void main() {
   runApp(
@@ -26,21 +26,10 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         extensions: [
           PagingHelperViewTheme(
-            loadingViewBuilder: (context) => Padding(
-              padding: const EdgeInsets.all(16),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: LoadingAnimationWidget.horizontalRotatingDots(
-                  color: Colors.red,
-                  size: 100,
-                ),
-              ),
-            ),
-            endLoadingViewBuilder: (context) =>
-                LoadingAnimationWidget.threeArchedCircle(
-              color: Colors.red,
-              size: 50,
-            ),
+            // disable error snackbar
+            enableErrorSnackBar: false,
+            // disable pull-to-refresh
+            enableRefreshIndicator: false,
           ),
         ],
       ),
@@ -80,35 +69,44 @@ class SampleNotifier extends _$SampleNotifier
 }
 
 /// A sample page that demonstrates the usage of [PagingHelperView] with the [SampleNotifier] provider.
-class SampleScreen extends StatelessWidget {
+class SampleScreen extends ConsumerWidget {
   const SampleScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basic UI Customization'),
+        title: const Text('Advanced UI Customization'),
       ),
       body: PagingHelperView(
         provider: sampleNotifierProvider,
         futureRefreshable: sampleNotifierProvider.future,
         notifierRefreshable: sampleNotifierProvider.notifier,
-        contentBuilder: (data, endItemView) => ListView.builder(
-          itemCount: data.items.length + (endItemView != null ? 1 : 0),
-          itemBuilder: (context, index) {
-            // If the end item view is provided and the index is the last item,
-            // return the end item view.
-            if (endItemView != null && index == data.items.length) {
-              return endItemView;
-            }
+        contentBuilder: (data, endItemView) {
+          // Use EasyRefresh alternative to RefreshIndicator
+          return EasyRefresh(
+            onRefresh: () {
+              ref.invalidate(sampleNotifierProvider);
+              return ref.read(sampleNotifierProvider.future);
+            },
+            child: ListView.builder(
+              itemCount: data.items.length + (endItemView != null ? 1 : 0),
+              itemBuilder: (context, index) {
+                // If the end item view is provided and the index is the last item,
+                // return the end item view.
+                if (endItemView != null && index == data.items.length) {
+                  return endItemView;
+                }
 
-            // Otherwise, build a list tile for each sample item.
-            return ListTile(
-              title: Text(data.items[index].name),
-              subtitle: Text(data.items[index].id),
-            );
-          },
-        ),
+                // Otherwise, build a list tile for each sample item.
+                return ListTile(
+                  title: Text(data.items[index].name),
+                  subtitle: Text(data.items[index].id),
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }

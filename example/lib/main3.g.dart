@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'main2.dart';
+part of 'main3.dart';
 
 // **************************************************************************
 // RiverpodGenerator
