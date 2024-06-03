@@ -26,8 +26,6 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         extensions: [
           PagingHelperViewTheme(
-            // disable error snackbar
-            enableErrorSnackBar: false,
             // disable pull-to-refresh
             enableRefreshIndicator: false,
           ),
@@ -74,6 +72,19 @@ class SampleScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Display errors using SnackBar
+    ref.listen(sampleNotifierProvider, (_, state) {
+      if (!state.isLoading && state.hasError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              state.error!.toString(),
+            ),
+          ),
+        );
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Advanced UI Customization'),
