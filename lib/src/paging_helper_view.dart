@@ -40,22 +40,6 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context).extension<PagingHelperViewTheme>();
-    final enableErrorSnackBar = theme?.enableErrorSnackBar ?? true;
-
-    if (enableErrorSnackBar) {
-      // Display errors using SnackBar
-      ref.listen(provider, (_, state) {
-        if (!state.isLoading && state.hasError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.error!.toString(),
-              ),
-            ),
-          );
-        }
-      });
-    }
 
     final loadingBuilder = theme?.loadingViewBuilder ??
         (context) => const Center(

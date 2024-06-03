@@ -144,7 +144,7 @@ A complete sample implementation can be found in the [example/lib/main2.dart](ht
 
 ### Advanced Customization
 
-Customizing the appearance of error SnackBars or RefreshIndicators requires a bit more setup.
+Customizing the appearance of RefreshIndicators requires a bit more setup.
 
 #### 1. Theme Configuration
 
@@ -160,8 +160,6 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         extensions: [
           PagingHelperViewTheme(
-            // disable error snackbar
-            enableErrorSnackBar: false,
             // disable pull-to-refresh
             enableRefreshIndicator: false,
           ),
