@@ -1,3 +1,7 @@
+## [0.6.0](https://github.com/K9i-0/riverpod_paging_utils/compare/0.5.0...0.6.0) - 2024-06-03
+- refactor: onRefresh callback by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/21
+- del!: Since we added an error UI on the second page and beyond, we will remove the error display in the Snackbar. by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/23
+
 ## [0.5.0](https://github.com/K9i-0/riverpod_paging_utils/compare/0.4.3...0.5.0) - 2024-06-02
 - UI Customization Sample by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/16
 - change lint package by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/18

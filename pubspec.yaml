@@ -2,7 +2,7 @@ name: riverpod_paging_utils
 description: A Flutter package that provides utilities for implementing
   pagination with Riverpod. It includes a generic PagingHelperView widget and
   mixins for page-based, offset-based, and cursor-based pagination.
-version: 0.5.0
+version: 0.6.0
 homepage: https://github.com/K9i-0/riverpod_paging_utils
 environment:
   sdk: ">=3.0.0 <4.0.0"
