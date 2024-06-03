@@ -194,10 +194,7 @@ class SampleScreen extends ConsumerWidget {
         contentBuilder: (data, endItemView) {
           // Use EasyRefresh alternative to RefreshIndicator
           return EasyRefresh(
-            onRefresh: () {
-              ref.invalidate(sampleNotifierProvider);
-              return ref.read(sampleNotifierProvider.future);
-            },
+            onRefresh: () async => ref.refresh(sampleNotifierProvider.future),
             child: ListView.builder(
               itemCount: data.items.length + (endItemView != null ? 1 : 0),
               itemBuilder: (context, index) {

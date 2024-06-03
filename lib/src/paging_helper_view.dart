@@ -106,11 +106,7 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
 
             if (enableRefreshIndicator) {
               return RefreshIndicator(
-                onRefresh: () {
-                  // ignore: unused_result
-                  ref.refresh(futureRefreshable);
-                  return ref.read(futureRefreshable);
-                },
+                onRefresh: () async => ref.refresh(futureRefreshable),
                 child: content,
               );
             } else {
