@@ -10,7 +10,6 @@ abstract class PagingData<T> {
   /// The list of items in the current page.
   List<T> get items;
 
-  /// Indicates whether there are more pages available.
   bool get hasMore;
 }
 
