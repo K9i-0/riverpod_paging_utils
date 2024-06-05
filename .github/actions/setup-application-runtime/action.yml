@@ -1,0 +1,21 @@
+name: "Setup Application Runtime"
+description: "Setup application runtime for Flutter"
+
+runs:
+  using: "composite"
+  steps:
+    # https://github.com/dart-lang/setup-dart/blob/v1/.github/workflows/publish.yml
+    - name: Fetch flutter config
+      uses: kuhnroyal/flutter-fvm-config-action@v2
+      id: fvm-config-action
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+        channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+        cache: true
+
+    - name: Install dependencies
+      run: dart pub get
+      shell: bash
