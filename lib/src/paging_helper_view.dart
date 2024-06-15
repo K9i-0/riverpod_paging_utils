@@ -75,7 +75,7 @@ final class PagingHelperView<D extends PagingData<I>, I>
               switch ((data.hasMore, hasError, isLoading)) {
                 // Display a widget to detect when the last element is reached
                 // if there are more pages and no errors
-                (true, false, _) => _EndVisibilityDetectorLoadingItemView(
+                (true, false, _) => _EndVDLoadingItemView(
                     onScrollEnd: () => ref.read(notifierRefreshable).loadNext(),
                   ),
                 (true, true, false) when showSecondPageError =>
@@ -116,35 +116,6 @@ final class PagingHelperView<D extends PagingData<I>, I>
   }
 }
 
-final class _EndVisibilityDetectorLoadingItemView extends StatelessWidget {
-  const _EndVisibilityDetectorLoadingItemView({
-    required this.onScrollEnd,
-  });
-  final VoidCallback onScrollEnd;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<PagingHelperViewTheme>();
-    final childBuilder = theme?.endLoadingViewBuilder ??
-        (context) => const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
-              ),
-            );
-
-    return VisibilityDetector(
-      key: key ?? const Key('EndItem'),
-      onVisibilityChanged: (info) {
-        if (info.visibleFraction > 0.1) {
-          onScrollEnd();
-        }
-      },
-      child: childBuilder(context),
-    );
-  }
-}
-
 final class _EndLoadingItemView extends StatelessWidget {
   const _EndLoadingItemView();
 
@@ -160,6 +131,26 @@ final class _EndLoadingItemView extends StatelessWidget {
             );
 
     return childBuilder(context);
+  }
+}
+
+final class _EndVDLoadingItemView extends StatelessWidget {
+  const _EndVDLoadingItemView({
+    required this.onScrollEnd,
+  });
+  final VoidCallback onScrollEnd;
+
+  @override
+  Widget build(BuildContext context) {
+    return VisibilityDetector(
+      key: key ?? const Key('EndItem'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction > 0.1) {
+          onScrollEnd();
+        }
+      },
+      child: const _EndLoadingItemView(),
+    );
   }
 }
 
