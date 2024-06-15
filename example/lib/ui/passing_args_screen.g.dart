@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'id_screen.dart';
+part of 'passing_args_screen.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$idNotifierHash() => r'91c95ce77b18c23ad587a925e2df28905a89d96d';
+String _$passingArgsNotifierHash() =>
+    r'c95fb6cad7afc1d3b99ca5ceaea44b673a86e912';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,7 +30,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$IdNotifier
+abstract class _$PassingArgsNotifier
     extends BuildlessAutoDisposeAsyncNotifier<CursorPagingData<SampleItem>> {
   late final String id;
 
@@ -38,28 +39,28 @@ abstract class _$IdNotifier
   });
 }
 
-/// See also [IdNotifier].
-@ProviderFor(IdNotifier)
-const idNotifierProvider = IdNotifierFamily();
+/// See also [PassingArgsNotifier].
+@ProviderFor(PassingArgsNotifier)
+const passingArgsNotifierProvider = PassingArgsNotifierFamily();
 
-/// See also [IdNotifier].
-class IdNotifierFamily
+/// See also [PassingArgsNotifier].
+class PassingArgsNotifierFamily
     extends Family<AsyncValue<CursorPagingData<SampleItem>>> {
-  /// See also [IdNotifier].
-  const IdNotifierFamily();
+  /// See also [PassingArgsNotifier].
+  const PassingArgsNotifierFamily();
 
-  /// See also [IdNotifier].
-  IdNotifierProvider call({
+  /// See also [PassingArgsNotifier].
+  PassingArgsNotifierProvider call({
     required String id,
   }) {
-    return IdNotifierProvider(
+    return PassingArgsNotifierProvider(
       id: id,
     );
   }
 
   @override
-  IdNotifierProvider getProviderOverride(
-    covariant IdNotifierProvider provider,
+  PassingArgsNotifierProvider getProviderOverride(
+    covariant PassingArgsNotifierProvider provider,
   ) {
     return call(
       id: provider.id,
@@ -78,30 +79,30 @@ class IdNotifierFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'idNotifierProvider';
+  String? get name => r'passingArgsNotifierProvider';
 }
 
-/// See also [IdNotifier].
-class IdNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    IdNotifier, CursorPagingData<SampleItem>> {
-  /// See also [IdNotifier].
-  IdNotifierProvider({
+/// See also [PassingArgsNotifier].
+class PassingArgsNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    PassingArgsNotifier, CursorPagingData<SampleItem>> {
+  /// See also [PassingArgsNotifier].
+  PassingArgsNotifierProvider({
     required String id,
   }) : this._internal(
-          () => IdNotifier()..id = id,
-          from: idNotifierProvider,
-          name: r'idNotifierProvider',
+          () => PassingArgsNotifier()..id = id,
+          from: passingArgsNotifierProvider,
+          name: r'passingArgsNotifierProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$idNotifierHash,
-          dependencies: IdNotifierFamily._dependencies,
+                  : _$passingArgsNotifierHash,
+          dependencies: PassingArgsNotifierFamily._dependencies,
           allTransitiveDependencies:
-              IdNotifierFamily._allTransitiveDependencies,
+              PassingArgsNotifierFamily._allTransitiveDependencies,
           id: id,
         );
 
-  IdNotifierProvider._internal(
+  PassingArgsNotifierProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -115,7 +116,7 @@ class IdNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
   @override
   FutureOr<CursorPagingData<SampleItem>> runNotifierBuild(
-    covariant IdNotifier notifier,
+    covariant PassingArgsNotifier notifier,
   ) {
     return notifier.build(
       id: id,
@@ -123,10 +124,10 @@ class IdNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  Override overrideWith(IdNotifier Function() create) {
+  Override overrideWith(PassingArgsNotifier Function() create) {
     return ProviderOverride(
       origin: this,
-      override: IdNotifierProvider._internal(
+      override: PassingArgsNotifierProvider._internal(
         () => create()..id = id,
         from: from,
         name: null,
@@ -139,14 +140,14 @@ class IdNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<IdNotifier,
+  AutoDisposeAsyncNotifierProviderElement<PassingArgsNotifier,
       CursorPagingData<SampleItem>> createElement() {
-    return _IdNotifierProviderElement(this);
+    return _PassingArgsNotifierProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is IdNotifierProvider && other.id == id;
+    return other is PassingArgsNotifierProvider && other.id == id;
   }
 
   @override
@@ -158,19 +159,19 @@ class IdNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
-mixin IdNotifierRef
+mixin PassingArgsNotifierRef
     on AutoDisposeAsyncNotifierProviderRef<CursorPagingData<SampleItem>> {
   /// The parameter `id` of this provider.
   String get id;
 }
 
-class _IdNotifierProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<IdNotifier,
-        CursorPagingData<SampleItem>> with IdNotifierRef {
-  _IdNotifierProviderElement(super.provider);
+class _PassingArgsNotifierProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<PassingArgsNotifier,
+        CursorPagingData<SampleItem>> with PassingArgsNotifierRef {
+  _PassingArgsNotifierProviderElement(super.provider);
 
   @override
-  String get id => (origin as IdNotifierProvider).id;
+  String get id => (origin as PassingArgsNotifierProvider).id;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -46,7 +46,7 @@ class FirstPageErrorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('1st Page Error Screen'),
+        title: const Text('1st Page Error Sample'),
       ),
       body: PagingHelperView(
         provider: firstPageErrorNotifierProvider,

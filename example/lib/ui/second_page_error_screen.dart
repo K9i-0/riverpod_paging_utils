@@ -55,7 +55,7 @@ class SecondPageErrorScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('2nd Page Error Screen'),
+        title: const Text('2nd Page Error Sample'),
         actions: [
           Tooltip(
             message: 'Toggle showSecondPageError',
