@@ -22,7 +22,8 @@ typedef EndErrorWidgetBuilder = Widget Function(
 /// [endLoadingViewBuilder] is used to build the ui of endItemView.
 /// [endErrorViewBuilder] is used to build the ui of endItemView when an error occurs.
 /// [enableRefreshIndicator] is used to enable or disable the pull-to-refresh functionality.
-class PagingHelperViewTheme extends ThemeExtension<PagingHelperViewTheme> {
+final class PagingHelperViewTheme
+    extends ThemeExtension<PagingHelperViewTheme> {
   PagingHelperViewTheme({
     this.loadingViewBuilder,
     this.errorViewBuilder,

@@ -16,7 +16,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 /// 6. Supports pull-to-refresh functionality.
 ///
 /// You can customize the appearance of the loading view, error view, and endItemView using [PagingHelperViewTheme].
-class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
+final class PagingHelperView<D extends PagingData<I>, I>
+    extends ConsumerWidget {
   const PagingHelperView({
     required this.provider,
     required this.futureRefreshable,
@@ -74,7 +75,7 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
               switch ((data.hasMore, hasError, isLoading)) {
                 // Display a widget to detect when the last element is reached
                 // if there are more pages and no errors
-                (true, false, _) => _EndVisibilityDetectorLoadingItemView(
+                (true, false, _) => _EndVDLoadingItemView(
                     onScrollEnd: () => ref.read(notifierRefreshable).loadNext(),
                   ),
                 (true, true, false) when showSecondPageError =>
@@ -115,36 +116,7 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
   }
 }
 
-class _EndVisibilityDetectorLoadingItemView extends StatelessWidget {
-  const _EndVisibilityDetectorLoadingItemView({
-    required this.onScrollEnd,
-  });
-  final VoidCallback onScrollEnd;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<PagingHelperViewTheme>();
-    final childBuilder = theme?.endLoadingViewBuilder ??
-        (context) => const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
-              ),
-            );
-
-    return VisibilityDetector(
-      key: key ?? const Key('EndItem'),
-      onVisibilityChanged: (info) {
-        if (info.visibleFraction > 0.1) {
-          onScrollEnd();
-        }
-      },
-      child: childBuilder(context),
-    );
-  }
-}
-
-class _EndLoadingItemView extends StatelessWidget {
+final class _EndLoadingItemView extends StatelessWidget {
   const _EndLoadingItemView();
 
   @override
@@ -162,7 +134,27 @@ class _EndLoadingItemView extends StatelessWidget {
   }
 }
 
-class _EndErrorItemView extends StatelessWidget {
+final class _EndVDLoadingItemView extends StatelessWidget {
+  const _EndVDLoadingItemView({
+    required this.onScrollEnd,
+  });
+  final VoidCallback onScrollEnd;
+
+  @override
+  Widget build(BuildContext context) {
+    return VisibilityDetector(
+      key: key ?? const Key('EndItem'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction > 0.1) {
+          onScrollEnd();
+        }
+      },
+      child: const _EndLoadingItemView(),
+    );
+  }
+}
+
+final class _EndErrorItemView extends StatelessWidget {
   const _EndErrorItemView({
     required this.error,
     required this.onRetryButtonPressed,
