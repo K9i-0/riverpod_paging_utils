@@ -74,12 +74,12 @@ class SampleScreen extends StatelessWidget {
         provider: sampleNotifierProvider,
         futureRefreshable: sampleNotifierProvider.future,
         notifierRefreshable: sampleNotifierProvider.notifier,
-        contentBuilder: (data, endItemView) => ListView.builder(
-          itemCount: data.items.length + (endItemView != null ? 1 : 0),
+        contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
+          itemCount: widgetCount,
           itemBuilder: (context, index) {
-            // If the end item view is provided and the index is the last item,
+            // if the index is last, then
             // return the end item view.
-            if (endItemView != null && index == data.items.length) {
+            if (index == widgetCount - 1) {
               return endItemView;
             }
 
@@ -189,16 +189,16 @@ class SampleScreen extends ConsumerWidget {
         provider: sampleNotifierProvider,
         futureRefreshable: sampleNotifierProvider.future,
         notifierRefreshable: sampleNotifierProvider.notifier,
-        contentBuilder: (data, endItemView) {
+        contentBuilder: (data, widgetCount, endItemView) {
           // Use EasyRefresh alternative to RefreshIndicator
           return EasyRefresh(
             onRefresh: () async => ref.refresh(sampleNotifierProvider.future),
             child: ListView.builder(
-              itemCount: data.items.length + (endItemView != null ? 1 : 0),
+              itemCount: widgetCount,
               itemBuilder: (context, index) {
-                // If the end item view is provided and the index is the last item,
+                // if the index is last, then
                 // return the end item view.
-                if (endItemView != null && index == data.items.length) {
+                if (index == widgetCount - 1) {
                   return endItemView;
                 }
 

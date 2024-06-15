@@ -33,7 +33,8 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
   /// Specifies a function that returns a widget to display when data is available.
   /// endItemView is a widget to detect when the last displayed item is visible.
   /// If endItemView is non-null, it is displayed at the end of the list.
-  final Widget Function(D data, Widget? endItemView) contentBuilder;
+  final Widget Function(D data, int widgetCount, Widget endItemView)
+      contentBuilder;
 
   final bool showSecondPageError;
 
@@ -68,6 +69,8 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
           }) {
             final content = contentBuilder(
               data,
+              // Add 1 to the length to include the endItemView
+              data.items.length + 1,
               switch ((data.hasMore, hasError, isLoading)) {
                 // Display a widget to detect when the last element is reached
                 // if there are more pages and no errors
@@ -81,7 +84,7 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
                         ref.read(notifierRefreshable).loadNext(),
                   ),
                 (true, true, true) => const _EndLoadingItemView(),
-                _ => null,
+                _ => const SizedBox.shrink(),
               },
             );
 
