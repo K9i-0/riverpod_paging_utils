@@ -10,6 +10,48 @@ SampleRepository sampleRepository(SampleRepositoryRef ref) =>
     SampleRepository();
 
 class SampleRepository {
+  Future<(List<SampleItem> items, bool hasMore)> getByPage({
+    required int page,
+    required int limit,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+
+    final items = _db
+        .sublist((page - 1) * limit, page * limit)
+        .mapRecord(
+          (id, name) => SampleItem(id: id.toString(), name: name),
+        )
+        .toList();
+
+    final hasMore = _db.length > page * limit;
+
+    return (
+      items,
+      hasMore,
+    );
+  }
+
+  Future<(List<SampleItem> items, bool hasMore)> getByOffset({
+    required int offset,
+    required int limit,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+
+    final items = _db
+        .sublist(offset, offset + limit)
+        .mapRecord(
+          (id, name) => SampleItem(id: id.toString(), name: name),
+        )
+        .toList();
+
+    final hasMore = _db.length > offset + limit;
+
+    return (
+      items,
+      hasMore,
+    );
+  }
+
   Future<(List<SampleItem> items, String? nextCursor)> getByCursor(
     String? cursor,
   ) async {
