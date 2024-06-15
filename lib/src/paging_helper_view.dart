@@ -16,7 +16,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 /// 6. Supports pull-to-refresh functionality.
 ///
 /// You can customize the appearance of the loading view, error view, and endItemView using [PagingHelperViewTheme].
-class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
+final class PagingHelperView<D extends PagingData<I>, I>
+    extends ConsumerWidget {
   const PagingHelperView({
     required this.provider,
     required this.futureRefreshable,
@@ -115,7 +116,7 @@ class PagingHelperView<D extends PagingData<I>, I> extends ConsumerWidget {
   }
 }
 
-class _EndVisibilityDetectorLoadingItemView extends StatelessWidget {
+final class _EndVisibilityDetectorLoadingItemView extends StatelessWidget {
   const _EndVisibilityDetectorLoadingItemView({
     required this.onScrollEnd,
   });
@@ -144,7 +145,7 @@ class _EndVisibilityDetectorLoadingItemView extends StatelessWidget {
   }
 }
 
-class _EndLoadingItemView extends StatelessWidget {
+final class _EndLoadingItemView extends StatelessWidget {
   const _EndLoadingItemView();
 
   @override
@@ -162,7 +163,7 @@ class _EndLoadingItemView extends StatelessWidget {
   }
 }
 
-class _EndErrorItemView extends StatelessWidget {
+final class _EndErrorItemView extends StatelessWidget {
   const _EndErrorItemView({
     required this.error,
     required this.onRetryButtonPressed,

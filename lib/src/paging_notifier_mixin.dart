@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 import 'package:riverpod_paging_utils/src/paging_data.dart';
 
 @internal
