@@ -1,3 +1,8 @@
+## [0.7.0](https://github.com/K9i-0/riverpod_paging_utils/compare/0.6.1...0.7.0) - 2024-06-15
+- Refactor!: Ensure endItemView is non-null by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/29
+- refactor: class modifier by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/31
+- Chore: new sample by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/32
+
 ## [0.6.1](https://github.com/K9i-0/riverpod_paging_utils/compare/0.6.0...0.6.1) - 2024-06-13
 - [Refactor]: Refactor CI by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/25
 - [Improve]: add format check and code gen check by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/27
