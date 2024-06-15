@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 
-part 'id_screen.g.dart';
+part 'passing_args_screen.g.dart';
 
 @riverpod
-class IdNotifier extends _$IdNotifier
+class PassingArgsNotifier extends _$PassingArgsNotifier
     with CursorPagingNotifierMixin<SampleItem> {
   @override
   Future<CursorPagingData<SampleItem>> build({required String id}) =>
@@ -30,21 +30,21 @@ class IdNotifier extends _$IdNotifier
   }
 }
 
-class IdScreen extends StatelessWidget {
-  const IdScreen._();
+class PassingArgsScreen extends StatelessWidget {
+  const PassingArgsScreen._();
 
   static Route<void> route() {
     return MaterialPageRoute(
-      builder: (context) => const IdScreen._(),
+      builder: (context) => const PassingArgsScreen._(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = idNotifierProvider(id: '1');
+    final provider = passingArgsNotifierProvider(id: '1');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Id Screen'),
+        title: const Text('Passing Args Sample'),
       ),
       body: PagingHelperView(
         provider: provider,
