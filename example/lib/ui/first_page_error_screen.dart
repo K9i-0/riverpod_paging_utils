@@ -63,6 +63,7 @@ class FirstPageErrorScreen extends StatelessWidget {
 
             // Otherwise, build a list tile for each sample item.
             return ListTile(
+              key: ValueKey(data.items[index].id),
               title: Text(data.items[index].name),
               subtitle: Text(data.items[index].id),
             );
