@@ -24,12 +24,12 @@ command:
       
 scripts:
   build:
-    run: dart run build_runner build -d
+    exec: dart run build_runner build -d
     packageFilters:
       dependsOn: build_runner
 
   watch:
-    run: dart run build_runner watch -d
+    exec: dart run build_runner watch -d
     packageFilters:
       dependsOn: build_runner
 
