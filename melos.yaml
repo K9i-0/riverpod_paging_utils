@@ -23,17 +23,24 @@ command:
       post: melos run yumemi_lints_update
       
 scripts:
+  h:
+    description: Show help
+    run: dart run scripts/help.dart
+
   build:
+    description: build_runner build
     exec: dart run build_runner build -d
     packageFilters:
       dependsOn: build_runner
 
   watch:
+    description: build_runner watch
     exec: dart run build_runner watch -d
     packageFilters:
       dependsOn: build_runner
 
   yumemi_lints_update:
+    description: Update yumemi_lints configuration
     exec: dart run yumemi_lints update
     packageFilters:
       dependsOn: yumemi_lints
