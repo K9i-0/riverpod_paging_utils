@@ -1,5 +1,7 @@
 name: riverpod_paging_utils
+sdkPath: .fvm/flutter_sdk
 repository: https://github.com/K9i-0/riverpod_paging_utils
+
 packages:
   - .
   - example
@@ -17,6 +19,8 @@ command:
       build_runner: ^2.4.9
       freezed: ^2.5.2
       yumemi_lints: ^2.1.0
+    hooks:
+      post: melos run yumemi_lints_update
       
 scripts:
   build:
@@ -28,3 +32,8 @@ scripts:
     run: dart run build_runner watch -d
     packageFilters:
       dependsOn: build_runner
+
+  yumemi_lints_update:
+    exec: dart run yumemi_lints update
+    packageFilters:
+      dependsOn: yumemi_lints
