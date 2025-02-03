@@ -22,7 +22,7 @@ dev_dependencies:
   grinder: ^0.9.5
   melos: ^6.0.0
   yaml: ^3.1.2
-  yumemi_lints: ^2.1.0
+  yumemi_lints: ">=2.1.0 <4.0.0"
 
 dependency_overrides:
   file: ^7.0.0
