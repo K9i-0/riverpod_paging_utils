@@ -86,25 +86,25 @@ class SampleScreen extends StatelessWidget {
             const DrawerHeader(child: Text('Menu')),
             ListTile(
               title: const Text('1st page error'),
-              onTap: () => Navigator.of(context).push(
+              onTap: () async => Navigator.of(context).push(
                 FirstPageErrorScreen.route(),
               ),
             ),
             ListTile(
               title: const Text('2nd page error'),
-              onTap: () => Navigator.of(context).push(
+              onTap: () async => Navigator.of(context).push(
                 SecondPageErrorScreen.route(),
               ),
             ),
             ListTile(
               title: const Text('Passing args screen'),
-              onTap: () => Navigator.of(context).push(
+              onTap: () async => Navigator.of(context).push(
                 PassingArgsScreen.route(),
               ),
             ),
             ListTile(
               title: const Text('Paging method screen'),
-              onTap: () => Navigator.of(context).push(
+              onTap: () async => Navigator.of(context).push(
                 PagingMethodScreen.route(),
               ),
             ),

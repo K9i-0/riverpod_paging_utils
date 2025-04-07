@@ -13,6 +13,8 @@ class FirstPageErrorNotifier extends _$FirstPageErrorNotifier
   Future<CursorPagingData<SampleItem>> build() async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
     throw Exception('Error fetching data');
+
+    // sample code
     // ignore: dead_code
     return fetch(cursor: null);
   }

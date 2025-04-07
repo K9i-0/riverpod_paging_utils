@@ -1,4 +1,5 @@
 import 'package:example/data/sample_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:random_name_generator/random_name_generator.dart';
 import 'package:record_iterable_utils/record_iterable_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -6,8 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'sample_repository.g.dart';
 
 @riverpod
-SampleRepository sampleRepository(SampleRepositoryRef ref) =>
-    SampleRepository();
+SampleRepository sampleRepository(Ref ref) => SampleRepository();
 
 class SampleRepository {
   Future<(List<SampleItem> items, bool hasMore)> getByPage({
