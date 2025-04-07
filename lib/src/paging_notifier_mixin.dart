@@ -6,7 +6,7 @@ import 'package:riverpod_paging_utils/src/paging_data.dart';
 abstract interface class PagingNotifierMixin<D extends PagingData<T>, T> {
   AsyncValue<D> get state;
   set state(AsyncValue<D> newState);
-  AsyncNotifierProviderRef<D> get ref;
+  Ref<AsyncValue<D>> get ref;
 
   Future<void> loadNext();
   void forceRefresh();
