@@ -1,7 +1,7 @@
 name: riverpod_paging_utils
 description: Flutter/Riverpod pagination utilities. Easily build screens with
   loading/error states. Supports page, offset, and cursor-based pagination.
-version: 0.7.1
+version: 0.8.0
 homepage: https://github.com/K9i-0/riverpod_paging_utils
 environment:
   sdk: ">=3.6.0 <4.0.0"
