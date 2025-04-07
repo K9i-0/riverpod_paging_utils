@@ -20,7 +20,9 @@ abstract interface class PagingData<T> {
 /// This class implements the [PagingData] interface and provides additional
 /// information specific to page-based pagination.
 @freezed
-class PagePagingData<T> with _$PagePagingData<T> implements PagingData<T> {
+abstract class PagePagingData<T>
+    with _$PagePagingData<T>
+    implements PagingData<T> {
   /// Creates a new instance of [PagePagingData].
   ///
   /// [items] is the list of items in the current page.
@@ -38,7 +40,9 @@ class PagePagingData<T> with _$PagePagingData<T> implements PagingData<T> {
 /// This class implements the [PagingData] interface and provides additional
 /// information specific to offset-based pagination.
 @freezed
-class OffsetPagingData<T> with _$OffsetPagingData<T> implements PagingData<T> {
+abstract class OffsetPagingData<T>
+    with _$OffsetPagingData<T>
+    implements PagingData<T> {
   /// Creates a new instance of [OffsetPagingData].
   ///
   /// [items] is the list of items in the current page.
@@ -56,7 +60,9 @@ class OffsetPagingData<T> with _$OffsetPagingData<T> implements PagingData<T> {
 /// This class implements the [PagingData] interface and provides additional
 /// information specific to cursor-based pagination.
 @freezed
-class CursorPagingData<T> with _$CursorPagingData<T> implements PagingData<T> {
+abstract class CursorPagingData<T>
+    with _$CursorPagingData<T>
+    implements PagingData<T> {
   /// Creates a new instance of [CursorPagingData].
   ///
   /// [items] is the list of items in the current page.

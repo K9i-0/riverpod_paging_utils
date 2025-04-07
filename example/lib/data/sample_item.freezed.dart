@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,91 +10,70 @@ part of 'sample_item.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SampleItem {
-  String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String get id;
+  String get name;
 
-  @JsonKey(ignore: true)
-  $SampleItemCopyWith<SampleItem> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SampleItemCopyWith<$Res> {
-  factory $SampleItemCopyWith(
-          SampleItem value, $Res Function(SampleItem) then) =
-      _$SampleItemCopyWithImpl<$Res, SampleItem>;
-  @useResult
-  $Res call({String id, String name});
-}
-
-/// @nodoc
-class _$SampleItemCopyWithImpl<$Res, $Val extends SampleItem>
-    implements $SampleItemCopyWith<$Res> {
-  _$SampleItemCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of SampleItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $SampleItemCopyWith<SampleItem> get copyWith =>
+      _$SampleItemCopyWithImpl<SampleItem>(this as SampleItem, _$identity);
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SampleItem &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name);
+
+  @override
+  String toString() {
+    return 'SampleItem(id: $id, name: $name)';
   }
 }
 
 /// @nodoc
-abstract class _$$SampleItemImplCopyWith<$Res>
-    implements $SampleItemCopyWith<$Res> {
-  factory _$$SampleItemImplCopyWith(
-          _$SampleItemImpl value, $Res Function(_$SampleItemImpl) then) =
-      __$$SampleItemImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $SampleItemCopyWith<$Res> {
+  factory $SampleItemCopyWith(
+          SampleItem value, $Res Function(SampleItem) _then) =
+      _$SampleItemCopyWithImpl;
   @useResult
   $Res call({String id, String name});
 }
 
 /// @nodoc
-class __$$SampleItemImplCopyWithImpl<$Res>
-    extends _$SampleItemCopyWithImpl<$Res, _$SampleItemImpl>
-    implements _$$SampleItemImplCopyWith<$Res> {
-  __$$SampleItemImplCopyWithImpl(
-      _$SampleItemImpl _value, $Res Function(_$SampleItemImpl) _then)
-      : super(_value, _then);
+class _$SampleItemCopyWithImpl<$Res> implements $SampleItemCopyWith<$Res> {
+  _$SampleItemCopyWithImpl(this._self, this._then);
 
+  final SampleItem _self;
+  final $Res Function(SampleItem) _then;
+
+  /// Create a copy of SampleItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
     Object? name = null,
   }) {
-    return _then(_$SampleItemImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -102,24 +82,27 @@ class __$$SampleItemImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SampleItemImpl implements _SampleItem {
-  const _$SampleItemImpl({required this.id, required this.name});
+class _SampleItem implements SampleItem {
+  const _SampleItem({required this.id, required this.name});
 
   @override
   final String id;
   @override
   final String name;
 
+  /// Create a copy of SampleItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'SampleItem(id: $id, name: $name)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SampleItemCopyWith<_SampleItem> get copyWith =>
+      __$SampleItemCopyWithImpl<_SampleItem>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SampleItemImpl &&
+            other is _SampleItem &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name));
   }
@@ -127,24 +110,49 @@ class _$SampleItemImpl implements _SampleItem {
   @override
   int get hashCode => Object.hash(runtimeType, id, name);
 
-  @JsonKey(ignore: true)
+  @override
+  String toString() {
+    return 'SampleItem(id: $id, name: $name)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SampleItemCopyWith<$Res>
+    implements $SampleItemCopyWith<$Res> {
+  factory _$SampleItemCopyWith(
+          _SampleItem value, $Res Function(_SampleItem) _then) =
+      __$SampleItemCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String id, String name});
+}
+
+/// @nodoc
+class __$SampleItemCopyWithImpl<$Res> implements _$SampleItemCopyWith<$Res> {
+  __$SampleItemCopyWithImpl(this._self, this._then);
+
+  final _SampleItem _self;
+  final $Res Function(_SampleItem) _then;
+
+  /// Create a copy of SampleItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  _$$SampleItemImplCopyWith<_$SampleItemImpl> get copyWith =>
-      __$$SampleItemImplCopyWithImpl<_$SampleItemImpl>(this, _$identity);
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+  }) {
+    return _then(_SampleItem(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
-abstract class _SampleItem implements SampleItem {
-  const factory _SampleItem(
-      {required final String id,
-      required final String name}) = _$SampleItemImpl;
-
-  @override
-  String get id;
-  @override
-  String get name;
-  @override
-  @JsonKey(ignore: true)
-  _$$SampleItemImplCopyWith<_$SampleItemImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on
