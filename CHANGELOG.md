@@ -1,3 +1,5 @@
+## [0.8.1](https://github.com/K9i-0/riverpod_paging_utils/compare/0.8.0...0.8.1) - 2025-04-07
+
 ## [0.8.0](https://github.com/K9i-0/riverpod_paging_utils/compare/0.7.0...0.8.0) - 2025-04-07
 
 - add: melos by @K9i-0 in <https://github.com/K9i-0/riverpod_paging_utils/pull/33>
