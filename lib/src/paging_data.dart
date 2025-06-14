@@ -33,6 +33,8 @@ abstract class PagePagingData<T>
     required bool hasMore,
     required int page,
   }) = _PagePagingData;
+
+  const PagePagingData._();
 }
 
 /// Represents paginated data using offset-based pagination.
@@ -53,6 +55,8 @@ abstract class OffsetPagingData<T>
     required bool hasMore,
     required int offset,
   }) = _OffsetPagingData;
+
+  const OffsetPagingData._();
 }
 
 /// Represents paginated data using cursor-based pagination.
@@ -73,4 +77,6 @@ abstract class CursorPagingData<T>
     required bool hasMore,
     required String? nextCursor,
   }) = _CursorPagingData;
+
+  const CursorPagingData._();
 }

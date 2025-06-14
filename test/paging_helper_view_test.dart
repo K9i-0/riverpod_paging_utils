@@ -17,8 +17,8 @@ class TestPagingNotifier
 
   @override
   Future<PagePagingData<String>> fetch({required int page}) async {
-    // Simulate network delay
-    await Future<void>.delayed(const Duration(milliseconds: 100));
+    // Remove delay for tests to avoid timer issues
+    // await Future<void>.delayed(const Duration(milliseconds: 100));
 
     if (page == 0) {
       return const PagePagingData(
@@ -52,7 +52,8 @@ class TestErrorPagingNotifier
 
   @override
   Future<PagePagingData<String>> fetch({required int page}) async {
-    await Future<void>.delayed(const Duration(milliseconds: 100));
+    // Remove delay for tests to avoid timer issues
+    // await Future<void>.delayed(const Duration(milliseconds: 100));
 
     if (page == 0) {
       throw Exception('Network error');
@@ -76,7 +77,8 @@ class TestSecondPageErrorNotifier
 
   @override
   Future<PagePagingData<String>> fetch({required int page}) async {
-    await Future<void>.delayed(const Duration(milliseconds: 100));
+    // Remove delay for tests to avoid timer issues
+    // await Future<void>.delayed(const Duration(milliseconds: 100));
 
     if (page == 0) {
       return const PagePagingData(
@@ -146,6 +148,10 @@ void main() {
       );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      
+      // Advance timers to complete the Future.delayed and visibility detector
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 500));
     });
 
     testWidgets('displays content when data is loaded', (tester) async {
@@ -177,6 +183,9 @@ void main() {
       expect(find.text('Item 1'), findsOneWidget);
       expect(find.text('Item 2'), findsOneWidget);
       expect(find.text('Item 3'), findsOneWidget);
+      
+      // Clean up timers
+      await tester.pump(const Duration(milliseconds: 500));
     });
 
     testWidgets('shows error view on first page error', (tester) async {
@@ -207,6 +216,9 @@ void main() {
 
       expect(find.text('Exception: Network error'), findsOneWidget);
       expect(find.byIcon(Icons.refresh), findsOneWidget);
+      
+      // Clean up timers
+      await tester.pump(const Duration(milliseconds: 500));
     });
 
     testWidgets('shows snackbar on second page error when enabled',
@@ -250,6 +262,9 @@ void main() {
 
       // Check for snackbar
       expect(find.text('Second page error'), findsOneWidget);
+      
+      // Clean up timers
+      await tester.pump(const Duration(milliseconds: 500));
     });
 
     testWidgets('supports custom loading view', (tester) async {
@@ -281,6 +296,7 @@ void main() {
 
       // Allow timer to complete
       await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 500));
     });
 
     testWidgets('supports custom error view', (tester) async {
