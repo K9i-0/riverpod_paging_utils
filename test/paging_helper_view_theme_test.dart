@@ -6,10 +6,15 @@ void main() {
   group('PagingHelperViewTheme', () {
     test('should create with all properties', () {
       Widget loadingBuilder(BuildContext context) => const Text('Loading');
-      Widget errorBuilder(BuildContext context, Object error, StackTrace stackTrace, VoidCallback onRefresh) => const Text('Error');
-      Widget endLoadingBuilder(BuildContext context) => const Text('End Loading');
-      Widget endErrorBuilder(BuildContext context, Object? error, VoidCallback onRetry) => const Text('End Error');
-      
+      Widget errorBuilder(BuildContext context, Object error,
+              StackTrace stackTrace, VoidCallback onRefresh,) =>
+          const Text('Error');
+      Widget endLoadingBuilder(BuildContext context) =>
+          const Text('End Loading');
+      Widget endErrorBuilder(
+              BuildContext context, Object? error, VoidCallback onRetry,) =>
+          const Text('End Error');
+
       final theme = PagingHelperViewTheme(
         loadingViewBuilder: loadingBuilder,
         errorViewBuilder: errorBuilder,
@@ -27,7 +32,7 @@ void main() {
 
     test('should create with partial properties', () {
       Widget loadingBuilder(BuildContext context) => const Text('Loading');
-      
+
       final theme = PagingHelperViewTheme(
         loadingViewBuilder: loadingBuilder,
       );
@@ -42,8 +47,10 @@ void main() {
     test('copyWith should update specified properties', () {
       Widget loadingBuilder1(BuildContext context) => const Text('Loading 1');
       Widget loadingBuilder2(BuildContext context) => const Text('Loading 2');
-      Widget errorBuilder(BuildContext context, Object error, StackTrace stackTrace, VoidCallback onRefresh) => const Text('Error');
-      
+      Widget errorBuilder(BuildContext context, Object error,
+              StackTrace stackTrace, VoidCallback onRefresh,) =>
+          const Text('Error');
+
       final originalTheme = PagingHelperViewTheme(
         loadingViewBuilder: loadingBuilder1,
         enableRefreshIndicator: true,
@@ -61,7 +68,7 @@ void main() {
 
     test('copyWith with no parameters should preserve existing values', () {
       Widget loadingBuilder(BuildContext context) => const Text('Loading');
-      
+
       final theme = PagingHelperViewTheme(
         loadingViewBuilder: loadingBuilder,
         enableRefreshIndicator: false,
@@ -79,7 +86,7 @@ void main() {
       final theme1 = PagingHelperViewTheme(
         enableRefreshIndicator: true,
       );
-      
+
       final theme2 = PagingHelperViewTheme(
         enableRefreshIndicator: false,
       );
@@ -103,9 +110,10 @@ void main() {
   });
 
   group('PagingHelperViewTheme as ThemeExtension', () {
-    testWidgets('should be accessible from Theme', (WidgetTester tester) async {
-      Widget loadingBuilder(BuildContext context) => const Text('Custom Loading');
-      
+    testWidgets('should be accessible from Theme', (tester) async {
+      Widget loadingBuilder(BuildContext context) =>
+          const Text('Custom Loading');
+
       final theme = PagingHelperViewTheme(
         loadingViewBuilder: loadingBuilder,
         enableRefreshIndicator: false,
@@ -118,12 +126,14 @@ void main() {
           ),
           home: Builder(
             builder: (context) {
-              final themeFromContext = Theme.of(context).extension<PagingHelperViewTheme>();
-              
+              final themeFromContext =
+                  Theme.of(context).extension<PagingHelperViewTheme>();
+
               expect(themeFromContext, isNotNull);
-              expect(themeFromContext?.loadingViewBuilder, equals(loadingBuilder));
+              expect(
+                  themeFromContext?.loadingViewBuilder, equals(loadingBuilder),);
               expect(themeFromContext?.enableRefreshIndicator, isFalse);
-              
+
               return const SizedBox();
             },
           ),
@@ -131,16 +141,17 @@ void main() {
       );
     });
 
-    testWidgets('should return null when not provided', (WidgetTester tester) async {
+    testWidgets('should return null when not provided', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData(),
           home: Builder(
             builder: (context) {
-              final themeFromContext = Theme.of(context).extension<PagingHelperViewTheme>();
-              
+              final themeFromContext =
+                  Theme.of(context).extension<PagingHelperViewTheme>();
+
               expect(themeFromContext, isNull);
-              
+
               return const SizedBox();
             },
           ),

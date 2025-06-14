@@ -4,7 +4,8 @@ import 'package:riverpod_paging_utils/src/paging_data.dart';
 import 'package:riverpod_paging_utils/src/paging_notifier_mixin.dart';
 
 // Test implementations
-class TestPagePagingNotifier extends Notifier<AsyncValue<PagePagingData<String>>>
+class TestPagePagingNotifier
+    extends Notifier<AsyncValue<PagePagingData<String>>>
     with PagePagingNotifierMixin<String> {
   List<String> Function(int page)? fetchFunction;
 
@@ -24,14 +25,19 @@ class TestPagePagingNotifier extends Notifier<AsyncValue<PagePagingData<String>>
       );
     }
     return PagePagingData(
-      items: ['item${page * 3 + 1}', 'item${page * 3 + 2}', 'item${page * 3 + 3}'],
+      items: [
+        'item${page * 3 + 1}',
+        'item${page * 3 + 2}',
+        'item${page * 3 + 3}',
+      ],
       page: page,
       hasMore: page < 3,
     );
   }
 }
 
-class TestOffsetPagingNotifier extends Notifier<AsyncValue<OffsetPagingData<String>>>
+class TestOffsetPagingNotifier
+    extends Notifier<AsyncValue<OffsetPagingData<String>>>
     with OffsetPagingNotifierMixin<String> {
   List<String> Function(int offset)? fetchFunction;
 
@@ -58,7 +64,8 @@ class TestOffsetPagingNotifier extends Notifier<AsyncValue<OffsetPagingData<Stri
   }
 }
 
-class TestCursorPagingNotifier extends Notifier<AsyncValue<CursorPagingData<String>>>
+class TestCursorPagingNotifier
+    extends Notifier<AsyncValue<CursorPagingData<String>>>
     with CursorPagingNotifierMixin<String> {
   List<String> Function(String? cursor)? fetchFunction;
 
@@ -79,7 +86,11 @@ class TestCursorPagingNotifier extends Notifier<AsyncValue<CursorPagingData<Stri
     }
     final page = cursor == null ? 0 : int.parse(cursor.split('_').last);
     return CursorPagingData(
-      items: ['item${page * 3 + 1}', 'item${page * 3 + 2}', 'item${page * 3 + 3}'],
+      items: [
+        'item${page * 3 + 1}',
+        'item${page * 3 + 2}',
+        'item${page * 3 + 3}',
+      ],
       nextCursor: page < 2 ? 'cursor_${page + 1}' : null,
       hasMore: page < 2,
     );
@@ -87,18 +98,18 @@ class TestCursorPagingNotifier extends Notifier<AsyncValue<CursorPagingData<Stri
 }
 
 // Test providers
-final testPagePagingProvider =
-    NotifierProvider<TestPagePagingNotifier, AsyncValue<PagePagingData<String>>>(() {
+final testPagePagingProvider = NotifierProvider<TestPagePagingNotifier,
+    AsyncValue<PagePagingData<String>>>(() {
   return TestPagePagingNotifier();
 });
 
-final testOffsetPagingProvider =
-    NotifierProvider<TestOffsetPagingNotifier, AsyncValue<OffsetPagingData<String>>>(() {
+final testOffsetPagingProvider = NotifierProvider<TestOffsetPagingNotifier,
+    AsyncValue<OffsetPagingData<String>>>(() {
   return TestOffsetPagingNotifier();
 });
 
-final testCursorPagingProvider =
-    NotifierProvider<TestCursorPagingNotifier, AsyncValue<CursorPagingData<String>>>(() {
+final testCursorPagingProvider = NotifierProvider<TestCursorPagingNotifier,
+    AsyncValue<CursorPagingData<String>>>(() {
   return TestCursorPagingNotifier();
 });
 
@@ -110,7 +121,7 @@ void main() {
 
       // Set initial data
       notifier.state = const AsyncValue.data(
-        PagePagingData(
+        PagePagingData<String>(
           items: ['item1', 'item2', 'item3'],
           page: 0,
           hasMore: true,
@@ -122,7 +133,8 @@ void main() {
       final state = container.read(testPagePagingProvider);
       expect(state.hasValue, isTrue);
       expect(state.value!.items.length, equals(6));
-      expect(state.value!.items, equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']));
+      expect(state.value!.items,
+          equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']),);
       expect(state.value!.page, equals(1));
     });
 
@@ -132,7 +144,7 @@ void main() {
 
       // Set initial data with hasMore = false
       notifier.state = const AsyncValue.data(
-        PagePagingData(
+        PagePagingData<String>(
           items: ['item1', 'item2', 'item3'],
           page: 3,
           hasMore: false,
@@ -154,7 +166,7 @@ void main() {
       notifier.fetchFunction = (page) => throw Exception('Fetch error');
 
       notifier.state = const AsyncValue.data(
-        PagePagingData(
+        PagePagingData<String>(
           items: ['item1', 'item2', 'item3'],
           page: 0,
           hasMore: true,
@@ -175,7 +187,7 @@ void main() {
       final notifier = container.read(testPagePagingProvider.notifier);
 
       notifier.state = const AsyncValue.data(
-        PagePagingData(
+        PagePagingData<String>(
           items: ['item1', 'item2', 'item3'],
           page: 1,
           hasMore: true,
@@ -195,7 +207,7 @@ void main() {
 
       // Set initial data
       notifier.state = const AsyncValue.data(
-        PagePagingData(
+        PagePagingData<String>(
           items: ['item1', 'item2', 'item3'],
           page: 0,
           hasMore: true,
@@ -235,7 +247,7 @@ void main() {
 
       // Set initial data
       notifier.state = const AsyncValue.data(
-        PagePagingData(
+        PagePagingData<String>(
           items: ['item1', 'item2', 'item3'],
           page: 0,
           hasMore: true,
@@ -270,7 +282,7 @@ void main() {
 
       // Set initial data
       notifier.state = const AsyncValue.data(
-        OffsetPagingData(
+        OffsetPagingData<String>(
           items: ['item1', 'item2', 'item3'],
           offset: 3,
           hasMore: true,
@@ -282,7 +294,8 @@ void main() {
       final state = container.read(testOffsetPagingProvider);
       expect(state.hasValue, isTrue);
       expect(state.value!.items.length, equals(6));
-      expect(state.value!.items, equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']));
+      expect(state.value!.items,
+          equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']),);
       expect(state.value!.offset, equals(6));
     });
 
@@ -292,7 +305,7 @@ void main() {
 
       // Set initial data with hasMore = false
       notifier.state = const AsyncValue.data(
-        OffsetPagingData(
+        OffsetPagingData<String>(
           items: ['item1', 'item2', 'item3'],
           offset: 12,
           hasMore: false,
@@ -314,7 +327,7 @@ void main() {
       notifier.fetchFunction = (offset) => throw Exception('Fetch error');
 
       notifier.state = const AsyncValue.data(
-        OffsetPagingData(
+        OffsetPagingData<String>(
           items: ['item1', 'item2', 'item3'],
           offset: 3,
           hasMore: true,
@@ -335,7 +348,7 @@ void main() {
       final notifier = container.read(testOffsetPagingProvider.notifier);
 
       notifier.state = const AsyncValue.data(
-        OffsetPagingData(
+        OffsetPagingData<String>(
           items: ['item1', 'item2', 'item3'],
           offset: 3,
           hasMore: true,
@@ -357,7 +370,7 @@ void main() {
 
       // Set initial data
       notifier.state = const AsyncValue.data(
-        CursorPagingData(
+        CursorPagingData<String>(
           items: ['item1', 'item2', 'item3'],
           nextCursor: 'cursor_1',
           hasMore: true,
@@ -369,7 +382,8 @@ void main() {
       final state = container.read(testCursorPagingProvider);
       expect(state.hasValue, isTrue);
       expect(state.value!.items.length, equals(6));
-      expect(state.value!.items, equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']));
+      expect(state.value!.items,
+          equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']),);
       expect(state.value!.nextCursor, equals('cursor_2'));
     });
 
@@ -379,7 +393,7 @@ void main() {
 
       // Set initial data with hasMore = false
       notifier.state = const AsyncValue.data(
-        CursorPagingData(
+        CursorPagingData<String>(
           items: ['item1', 'item2', 'item3'],
           nextCursor: null,
           hasMore: false,
@@ -401,7 +415,7 @@ void main() {
       notifier.fetchFunction = (cursor) => throw Exception('Fetch error');
 
       notifier.state = const AsyncValue.data(
-        CursorPagingData(
+        CursorPagingData<String>(
           items: ['item1', 'item2', 'item3'],
           nextCursor: 'cursor_1',
           hasMore: true,
@@ -422,7 +436,7 @@ void main() {
       final notifier = container.read(testCursorPagingProvider.notifier);
 
       notifier.state = const AsyncValue.data(
-        CursorPagingData(
+        CursorPagingData<String>(
           items: ['item1', 'item2', 'item3'],
           nextCursor: 'cursor_1',
           hasMore: true,
@@ -436,5 +450,4 @@ void main() {
       expect(state.value, isNull);
     });
   });
-
 }

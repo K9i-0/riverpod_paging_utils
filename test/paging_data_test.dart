@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_paging_utils/src/paging_data.dart';
 
@@ -200,7 +201,7 @@ void main() {
 
   group('Edge cases', () {
     test('PagePagingData with empty items', () {
-      final data = PagePagingData<String>(
+      const data = PagePagingData(
         items: [],
         page: 0,
         hasMore: false,
@@ -226,7 +227,7 @@ void main() {
 
     test('PagingData with different type parameters', () {
       // Test with int
-      final intData = PagePagingData<int>(
+      const intData = PagePagingData(
         items: [1, 2, 3],
         page: 0,
         hasMore: true,
@@ -234,7 +235,7 @@ void main() {
       expect(intData.items, equals([1, 2, 3]));
 
       // Test with custom object
-      final customData = PagePagingData<CustomItem>(
+      const customData = PagePagingData<CustomItem>(
         items: [
           CustomItem(id: 1, name: 'Item 1'),
           CustomItem(id: 2, name: 'Item 2'),
@@ -247,7 +248,7 @@ void main() {
     });
 
     test('OffsetPagingData with zero offset', () {
-      final data = OffsetPagingData<String>(
+      const data = OffsetPagingData<String>(
         items: ['item1', 'item2'],
         offset: 0,
         hasMore: true,
@@ -258,7 +259,7 @@ void main() {
     });
 
     test('CursorPagingData with empty string cursor', () {
-      final data = CursorPagingData<String>(
+      const data = CursorPagingData<String>(
         items: ['item1'],
         nextCursor: '',
         hasMore: true,
@@ -270,19 +271,19 @@ void main() {
     });
 
     test('PagingData implements common interface', () {
-      final pagePaging = PagePagingData<String>(
+      const pagePaging = PagePagingData<String>(
         items: ['a', 'b'],
         page: 1,
         hasMore: true,
       );
-      
-      final offsetPaging = OffsetPagingData<String>(
+
+      const offsetPaging = OffsetPagingData<String>(
         items: ['c', 'd'],
         offset: 2,
         hasMore: false,
       );
-      
-      final cursorPaging = CursorPagingData<String>(
+
+      const cursorPaging = CursorPagingData<String>(
         items: ['e', 'f'],
         nextCursor: 'next',
         hasMore: true,
@@ -296,10 +297,10 @@ void main() {
       // Test interface methods
       expect(pagePaging.items, equals(['a', 'b']));
       expect(pagePaging.hasMore, isTrue);
-      
+
       expect(offsetPaging.items, equals(['c', 'd']));
       expect(offsetPaging.hasMore, isFalse);
-      
+
       expect(cursorPaging.items, equals(['e', 'f']));
       expect(cursorPaging.hasMore, isTrue);
     });
@@ -307,11 +308,12 @@ void main() {
 }
 
 // Test helper class
+@immutable
 class CustomItem {
+  const CustomItem({required this.id, required this.name});
+
   final int id;
   final String name;
-
-  CustomItem({required this.id, required this.name});
 
   @override
   bool operator ==(Object other) =>

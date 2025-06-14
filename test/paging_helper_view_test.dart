@@ -7,7 +7,8 @@ import 'package:riverpod_paging_utils/src/paging_helper_view_theme.dart';
 import 'package:riverpod_paging_utils/src/paging_notifier_mixin.dart';
 
 // Test notifier for widget tests
-class TestPagingNotifier extends AutoDisposeAsyncNotifier<PagePagingData<String>>
+class TestPagingNotifier
+    extends AutoDisposeAsyncNotifier<PagePagingData<String>>
     with PagePagingNotifierMixin<String> {
   @override
   Future<PagePagingData<String>> build() async {
@@ -17,8 +18,8 @@ class TestPagingNotifier extends AutoDisposeAsyncNotifier<PagePagingData<String>
   @override
   Future<PagePagingData<String>> fetch({required int page}) async {
     // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 100));
-    
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+
     if (page == 0) {
       return const PagePagingData(
         items: ['Item 1', 'Item 2', 'Item 3'],
@@ -41,7 +42,8 @@ class TestPagingNotifier extends AutoDisposeAsyncNotifier<PagePagingData<String>
 }
 
 // Test notifier that throws error on first page
-class TestErrorPagingNotifier extends AutoDisposeAsyncNotifier<PagePagingData<String>>
+class TestErrorPagingNotifier
+    extends AutoDisposeAsyncNotifier<PagePagingData<String>>
     with PagePagingNotifierMixin<String> {
   @override
   Future<PagePagingData<String>> build() async {
@@ -50,8 +52,8 @@ class TestErrorPagingNotifier extends AutoDisposeAsyncNotifier<PagePagingData<St
 
   @override
   Future<PagePagingData<String>> fetch({required int page}) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+
     if (page == 0) {
       throw Exception('Network error');
     }
@@ -64,7 +66,8 @@ class TestErrorPagingNotifier extends AutoDisposeAsyncNotifier<PagePagingData<St
 }
 
 // Test notifier that throws error on second page
-class TestSecondPageErrorNotifier extends AutoDisposeAsyncNotifier<PagePagingData<String>>
+class TestSecondPageErrorNotifier
+    extends AutoDisposeAsyncNotifier<PagePagingData<String>>
     with PagePagingNotifierMixin<String> {
   @override
   Future<PagePagingData<String>> build() async {
@@ -73,8 +76,8 @@ class TestSecondPageErrorNotifier extends AutoDisposeAsyncNotifier<PagePagingDat
 
   @override
   Future<PagePagingData<String>> fetch({required int page}) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+
     if (page == 0) {
       return const PagePagingData(
         items: ['Item 1', 'Item 2', 'Item 3'],
@@ -87,8 +90,8 @@ class TestSecondPageErrorNotifier extends AutoDisposeAsyncNotifier<PagePagingDat
   }
 }
 
-final testPagingProvider = AutoDisposeAsyncNotifierProvider<
-    TestPagingNotifier, PagePagingData<String>>(() {
+final testPagingProvider = AutoDisposeAsyncNotifierProvider<TestPagingNotifier,
+    PagePagingData<String>>(() {
   return TestPagingNotifier();
 });
 
@@ -120,7 +123,7 @@ Widget createTestWidget({
 
 void main() {
   group('PagingHelperView', () {
-    testWidgets('shows loading indicator on initial load', (WidgetTester tester) async {
+    testWidgets('shows loading indicator on initial load', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           child: PagingHelperView(
@@ -145,7 +148,7 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('displays content when data is loaded', (WidgetTester tester) async {
+    testWidgets('displays content when data is loaded', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           child: PagingHelperView(
@@ -176,7 +179,7 @@ void main() {
       expect(find.text('Item 3'), findsOneWidget);
     });
 
-    testWidgets('shows error view on first page error', (WidgetTester tester) async {
+    testWidgets('shows error view on first page error', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           child: PagingHelperView(
@@ -206,14 +209,14 @@ void main() {
       expect(find.byIcon(Icons.refresh), findsOneWidget);
     });
 
-    testWidgets('shows snackbar on second page error when enabled', (WidgetTester tester) async {
+    testWidgets('shows snackbar on second page error when enabled',
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           child: PagingHelperView(
             provider: testSecondPageErrorProvider,
             futureRefreshable: testSecondPageErrorProvider.future,
             notifierRefreshable: testSecondPageErrorProvider.notifier,
-            showSecondPageError: true,
             contentBuilder: (data, widgetCount, endItemView) {
               return ListView.builder(
                 itemCount: widgetCount,
@@ -235,10 +238,11 @@ void main() {
 
       // Find the notifier and trigger loadNext
       final container = ProviderScope.containerOf(
-        tester.element(find.byType(PagingHelperView<PagePagingData<String>, String>)),
+        tester.element(
+            find.byType(PagingHelperView<PagePagingData<String>, String>),),
       );
       final notifier = container.read(testSecondPageErrorProvider.notifier);
-      
+
       // Trigger loading next page
       await notifier.loadNext();
       await tester.pump(const Duration(milliseconds: 100));
@@ -248,7 +252,7 @@ void main() {
       expect(find.text('Second page error'), findsOneWidget);
     });
 
-    testWidgets('supports custom loading view', (WidgetTester tester) async {
+    testWidgets('supports custom loading view', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           theme: PagingHelperViewTheme(
@@ -274,12 +278,12 @@ void main() {
       );
 
       expect(find.text('Custom Loading'), findsOneWidget);
-      
+
       // Allow timer to complete
       await tester.pump(const Duration(milliseconds: 100));
     });
 
-    testWidgets('supports custom error view', (WidgetTester tester) async {
+    testWidgets('supports custom error view', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           theme: PagingHelperViewTheme(
@@ -320,7 +324,7 @@ void main() {
       expect(find.text('Retry'), findsOneWidget);
     });
 
-    testWidgets('supports refresh indicator when enabled', (WidgetTester tester) async {
+    testWidgets('supports refresh indicator when enabled', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           theme: PagingHelperViewTheme(
@@ -360,7 +364,7 @@ void main() {
       expect(find.byType(RefreshProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('disables refresh indicator when configured', (WidgetTester tester) async {
+    testWidgets('disables refresh indicator when configured', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           theme: PagingHelperViewTheme(
@@ -393,7 +397,8 @@ void main() {
       expect(find.byType(RefreshIndicator), findsNothing);
     });
 
-    testWidgets('does not show snackbar when showSecondPageError is false', (WidgetTester tester) async {
+    testWidgets('does not show snackbar when showSecondPageError is false',
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           child: PagingHelperView(
@@ -422,10 +427,11 @@ void main() {
 
       // Find the notifier and trigger loadNext
       final container = ProviderScope.containerOf(
-        tester.element(find.byType(PagingHelperView<PagePagingData<String>, String>)),
+        tester.element(
+            find.byType(PagingHelperView<PagePagingData<String>, String>),),
       );
       final notifier = container.read(testSecondPageErrorProvider.notifier);
-      
+
       // Trigger loading next page
       await notifier.loadNext();
       await tester.pump(const Duration(milliseconds: 100));
@@ -436,10 +442,10 @@ void main() {
       expect(find.byIcon(Icons.refresh), findsNothing);
     });
 
-    testWidgets('handles empty items list correctly', (WidgetTester tester) async {
+    testWidgets('handles empty items list correctly', (tester) async {
       // Create a notifier that returns empty items
-      final emptyProvider = AutoDisposeAsyncNotifierProvider<
-          EmptyItemsNotifier, PagePagingData<String>>(() {
+      final emptyProvider = AutoDisposeAsyncNotifierProvider<EmptyItemsNotifier,
+          PagePagingData<String>>(() {
         return EmptyItemsNotifier();
       });
 
@@ -474,7 +480,7 @@ void main() {
       expect(find.text('No items'), findsOneWidget);
     });
 
-    testWidgets('supports custom end loading view', (WidgetTester tester) async {
+    testWidgets('supports custom end loading view', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           theme: PagingHelperViewTheme(
@@ -511,7 +517,7 @@ void main() {
       expect(find.text('Loading more...'), findsOneWidget);
     });
 
-    testWidgets('supports custom end error view', (WidgetTester tester) async {
+    testWidgets('supports custom end error view', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           theme: PagingHelperViewTheme(
@@ -550,7 +556,8 @@ void main() {
 
       // Trigger error on second page
       final container = ProviderScope.containerOf(
-        tester.element(find.byType(PagingHelperView<PagePagingData<String>, String>)),
+        tester.element(
+            find.byType(PagingHelperView<PagePagingData<String>, String>),),
       );
       final notifier = container.read(testSecondPageErrorProvider.notifier);
       await notifier.loadNext();
@@ -565,7 +572,8 @@ void main() {
 }
 
 // Add empty items notifier for testing
-class EmptyItemsNotifier extends AutoDisposeAsyncNotifier<PagePagingData<String>>
+class EmptyItemsNotifier
+    extends AutoDisposeAsyncNotifier<PagePagingData<String>>
     with PagePagingNotifierMixin<String> {
   @override
   Future<PagePagingData<String>> build() async {
@@ -574,7 +582,7 @@ class EmptyItemsNotifier extends AutoDisposeAsyncNotifier<PagePagingData<String>
 
   @override
   Future<PagePagingData<String>> fetch({required int page}) async {
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future<void>.delayed(const Duration(milliseconds: 100));
     return PagePagingData(
       items: [],
       page: page,
