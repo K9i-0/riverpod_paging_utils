@@ -55,3 +55,46 @@ git checkout -b feature/branch-name
 # PR作成（gh CLI使用）
 gh pr create --title "title" --body "description"
 ```
+
+## ccusageの使い方
+Claude Codeの使用状況を確認するためのCLIツール
+
+### 環境設定
+```bash
+# .mise.tomlに以下を追加
+[tools]
+node = "20.11.1"
+
+# miseで環境を更新
+mise install
+```
+
+### 基本的な使い方
+```bash
+# 日別レポート
+npx ccusage@latest
+
+# セッション別レポート
+npx ccusage@latest session
+
+# 特定の期間のレポート
+npx ccusage@latest --since YYYYMMDD --until YYYYMMDD
+
+# JSON形式での出力
+npx ccusage@latest --json
+```
+
+### 出力例
+```
+╭──────────────────────────────────────────╮
+│                                          │
+│  Claude Code Token Usage Report - Daily  │
+│                                          │
+╰──────────────────────────────────────────╯
+
+┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┬──────────────┬──────────────┬────────────┐
+│ Date         │ Models       │        Input │       Output │ Cache Create │   Cache Read │ Total Tokens │ Cost (USD) │
+├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼────────────┤
+│ 2025-06-14   │ opus-4       │          482 │       12,815 │      280,611 │    8,876,104 │    9,170,012 │    $19.54  │
+└──────────────┴──────────────┴──────────────┴──────────────┴──────────────┴──────────────┴──────────────┴────────────┘
+```
