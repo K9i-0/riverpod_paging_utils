@@ -148,7 +148,7 @@ void main() {
       );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      
+
       // Advance timers to complete the Future.delayed and visibility detector
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 500));
@@ -183,7 +183,7 @@ void main() {
       expect(find.text('Item 1'), findsOneWidget);
       expect(find.text('Item 2'), findsOneWidget);
       expect(find.text('Item 3'), findsOneWidget);
-      
+
       // Clean up timers
       await tester.pump(const Duration(milliseconds: 500));
     });
@@ -216,7 +216,7 @@ void main() {
 
       expect(find.text('Exception: Network error'), findsOneWidget);
       expect(find.byIcon(Icons.refresh), findsOneWidget);
-      
+
       // Clean up timers
       await tester.pump(const Duration(milliseconds: 500));
     });
@@ -251,7 +251,8 @@ void main() {
       // Find the notifier and trigger loadNext
       final container = ProviderScope.containerOf(
         tester.element(
-            find.byType(PagingHelperView<PagePagingData<String>, String>),),
+          find.byType(PagingHelperView<PagePagingData<String>, String>),
+        ),
       );
       final notifier = container.read(testSecondPageErrorProvider.notifier);
 
@@ -262,7 +263,7 @@ void main() {
 
       // Check for snackbar
       expect(find.text('Second page error'), findsOneWidget);
-      
+
       // Clean up timers
       await tester.pump(const Duration(milliseconds: 500));
     });
@@ -444,7 +445,8 @@ void main() {
       // Find the notifier and trigger loadNext
       final container = ProviderScope.containerOf(
         tester.element(
-            find.byType(PagingHelperView<PagePagingData<String>, String>),),
+          find.byType(PagingHelperView<PagePagingData<String>, String>),
+        ),
       );
       final notifier = container.read(testSecondPageErrorProvider.notifier);
 
@@ -573,7 +575,8 @@ void main() {
       // Trigger error on second page
       final container = ProviderScope.containerOf(
         tester.element(
-            find.byType(PagingHelperView<PagePagingData<String>, String>),),
+          find.byType(PagingHelperView<PagePagingData<String>, String>),
+        ),
       );
       final notifier = container.read(testSecondPageErrorProvider.notifier);
       await notifier.loadNext();

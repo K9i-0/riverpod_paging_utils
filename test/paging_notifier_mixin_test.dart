@@ -133,8 +133,10 @@ void main() {
       final state = container.read(testPagePagingProvider);
       expect(state.hasValue, isTrue);
       expect(state.value!.items.length, equals(6));
-      expect(state.value!.items,
-          equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']),);
+      expect(
+        state.value!.items,
+        equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']),
+      );
       expect(state.value!.page, equals(1));
     });
 
@@ -294,8 +296,10 @@ void main() {
       final state = container.read(testOffsetPagingProvider);
       expect(state.hasValue, isTrue);
       expect(state.value!.items.length, equals(6));
-      expect(state.value!.items,
-          equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']),);
+      expect(
+        state.value!.items,
+        equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']),
+      );
       expect(state.value!.offset, equals(6));
     });
 
@@ -382,8 +386,10 @@ void main() {
       final state = container.read(testCursorPagingProvider);
       expect(state.hasValue, isTrue);
       expect(state.value!.items.length, equals(6));
-      expect(state.value!.items,
-          equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']),);
+      expect(
+        state.value!.items,
+        equals(['item1', 'item2', 'item3', 'item4', 'item5', 'item6']),
+      );
       expect(state.value!.nextCursor, equals('cursor_2'));
     });
 

@@ -6,13 +6,20 @@ void main() {
   group('PagingHelperViewTheme', () {
     test('should create with all properties', () {
       Widget loadingBuilder(BuildContext context) => const Text('Loading');
-      Widget errorBuilder(BuildContext context, Object error,
-              StackTrace stackTrace, VoidCallback onRefresh,) =>
+      Widget errorBuilder(
+        BuildContext context,
+        Object error,
+        StackTrace stackTrace,
+        VoidCallback onRefresh,
+      ) =>
           const Text('Error');
       Widget endLoadingBuilder(BuildContext context) =>
           const Text('End Loading');
       Widget endErrorBuilder(
-              BuildContext context, Object? error, VoidCallback onRetry,) =>
+        BuildContext context,
+        Object? error,
+        VoidCallback onRetry,
+      ) =>
           const Text('End Error');
 
       final theme = PagingHelperViewTheme(
@@ -47,8 +54,12 @@ void main() {
     test('copyWith should update specified properties', () {
       Widget loadingBuilder1(BuildContext context) => const Text('Loading 1');
       Widget loadingBuilder2(BuildContext context) => const Text('Loading 2');
-      Widget errorBuilder(BuildContext context, Object error,
-              StackTrace stackTrace, VoidCallback onRefresh,) =>
+      Widget errorBuilder(
+        BuildContext context,
+        Object error,
+        StackTrace stackTrace,
+        VoidCallback onRefresh,
+      ) =>
           const Text('Error');
 
       final originalTheme = PagingHelperViewTheme(
@@ -131,7 +142,9 @@ void main() {
 
               expect(themeFromContext, isNotNull);
               expect(
-                  themeFromContext?.loadingViewBuilder, equals(loadingBuilder),);
+                themeFromContext?.loadingViewBuilder,
+                equals(loadingBuilder),
+              );
               expect(themeFromContext?.enableRefreshIndicator, isFalse);
 
               return const SizedBox();
