@@ -1,3 +1,16 @@
+## [0.9.0-dev.1] - Unreleased
+
+### Breaking Changes
+- **BREAKING**: Migrated to Riverpod 3.0.0-dev.15
+  - Removed `AutoDisposeAsyncNotifier` in favor of `AsyncNotifier`
+  - Updated all provider types to match Riverpod 3.0 API
+  - Added dependency overrides for analyzer compatibility
+
+### Migration
+- This is a pre-release version for testing Riverpod 3.0 compatibility
+- Please refer to the [migration guide](docs/migration-to-riverpod-3.0.md) for detailed instructions
+- Report any issues at https://github.com/K9i-0/riverpod_paging_utils/issues
+
 ## [0.8.0](https://github.com/K9i-0/riverpod_paging_utils/compare/0.7.0...0.8.0) - 2025-04-07
 
 - add: melos by @K9i-0 in <https://github.com/K9i-0/riverpod_paging_utils/pull/33>
