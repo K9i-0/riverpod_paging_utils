@@ -92,11 +92,10 @@ class _$PagePagingDataCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _PagePagingData<T> extends PagePagingData<T> {
+class _PagePagingData<T> implements PagePagingData<T> {
   const _PagePagingData(
       {required final List<T> items, required this.hasMore, required this.page})
-      : _items = items,
-        super._();
+      : _items = items;
 
   final List<T> _items;
   @override
@@ -263,13 +262,12 @@ class _$OffsetPagingDataCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _OffsetPagingData<T> extends OffsetPagingData<T> {
+class _OffsetPagingData<T> implements OffsetPagingData<T> {
   const _OffsetPagingData(
       {required final List<T> items,
       required this.hasMore,
       required this.offset})
-      : _items = items,
-        super._();
+      : _items = items;
 
   final List<T> _items;
   @override
@@ -438,13 +436,12 @@ class _$CursorPagingDataCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _CursorPagingData<T> extends CursorPagingData<T> {
+class _CursorPagingData<T> implements CursorPagingData<T> {
   const _CursorPagingData(
       {required final List<T> items,
       required this.hasMore,
       required this.nextCursor})
-      : _items = items,
-        super._();
+      : _items = items;
 
   final List<T> _items;
   @override
