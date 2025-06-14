@@ -8,7 +8,7 @@ import 'package:riverpod_paging_utils/src/paging_notifier_mixin.dart';
 
 // Test notifier for widget tests
 class TestPagingNotifier
-    extends AutoDisposeAsyncNotifier<PagePagingData<String>>
+    extends AsyncNotifier<PagePagingData<String>>
     with PagePagingNotifierMixin<String> {
   @override
   Future<PagePagingData<String>> build() async {
@@ -42,7 +42,7 @@ class TestPagingNotifier
 
 // Test notifier that throws error on first page
 class TestErrorPagingNotifier
-    extends AutoDisposeAsyncNotifier<PagePagingData<String>>
+    extends AsyncNotifier<PagePagingData<String>>
     with PagePagingNotifierMixin<String> {
   @override
   Future<PagePagingData<String>> build() async {
@@ -66,7 +66,7 @@ class TestErrorPagingNotifier
 
 // Test notifier that throws error on second page
 class TestSecondPageErrorNotifier
-    extends AutoDisposeAsyncNotifier<PagePagingData<String>>
+    extends AsyncNotifier<PagePagingData<String>>
     with PagePagingNotifierMixin<String> {
   @override
   Future<PagePagingData<String>> build() async {
@@ -89,17 +89,17 @@ class TestSecondPageErrorNotifier
   }
 }
 
-final testPagingProvider = AutoDisposeAsyncNotifierProvider<TestPagingNotifier,
+final testPagingProvider = AsyncNotifierProvider<TestPagingNotifier,
     PagePagingData<String>>(() {
   return TestPagingNotifier();
 });
 
-final testErrorPagingProvider = AutoDisposeAsyncNotifierProvider<
+final testErrorPagingProvider = AsyncNotifierProvider<
     TestErrorPagingNotifier, PagePagingData<String>>(() {
   return TestErrorPagingNotifier();
 });
 
-final testSecondPageErrorProvider = AutoDisposeAsyncNotifierProvider<
+final testSecondPageErrorProvider = AsyncNotifierProvider<
     TestSecondPageErrorNotifier, PagePagingData<String>>(() {
   return TestSecondPageErrorNotifier();
 });
@@ -385,7 +385,7 @@ void main() {
 
     testWidgets('handles empty items list correctly', (tester) async {
       // Create a notifier that returns empty items
-      final emptyProvider = AutoDisposeAsyncNotifierProvider<EmptyItemsNotifier,
+      final emptyProvider = AsyncNotifierProvider<EmptyItemsNotifier,
           PagePagingData<String>>(() {
         return EmptyItemsNotifier();
       });
@@ -508,7 +508,7 @@ void main() {
 
 // Add empty items notifier for testing
 class EmptyItemsNotifier
-    extends AutoDisposeAsyncNotifier<PagePagingData<String>>
+    extends AsyncNotifier<PagePagingData<String>>
     with PagePagingNotifierMixin<String> {
   @override
   Future<PagePagingData<String>> build() async {
