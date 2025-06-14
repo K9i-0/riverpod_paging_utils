@@ -46,7 +46,7 @@ final class PagingHelperViewTheme
     bool? enableRefreshIndicator,
   }) {
     return PagingHelperViewTheme(
-      loadingViewBuilder: loadingViewBuilder ?? loadingViewBuilder,
+      loadingViewBuilder: loadingViewBuilder ?? this.loadingViewBuilder,
       errorViewBuilder: errorViewBuilder ?? this.errorViewBuilder,
       endLoadingViewBuilder:
           endLoadingViewBuilder ?? this.endLoadingViewBuilder,
