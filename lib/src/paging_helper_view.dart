@@ -27,9 +27,9 @@ final class PagingHelperView<D extends PagingData<I>, I>
     super.key,
   });
 
-  final ProviderListenable<AsyncValue<D>> provider;
-  final Refreshable<Future<D>> futureRefreshable;
-  final Refreshable<PagingNotifierMixin<D, I>> notifierRefreshable;
+  final dynamic provider;
+  final dynamic futureRefreshable;
+  final dynamic notifierRefreshable;
 
   /// Specifies a function that returns a widget to display when data is available.
   /// endItemView is a widget to detect when the last displayed item is visible.

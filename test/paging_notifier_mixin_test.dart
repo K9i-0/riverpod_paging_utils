@@ -181,7 +181,7 @@ void main() {
       expect(state.hasError, isTrue);
       expect(state.error.toString(), contains('Fetch error'));
       // Previous data should be preserved
-      expect(state.valueOrNull?.items, equals(['item1', 'item2', 'item3']));
+      expect(state.value?.items, equals(['item1', 'item2', 'item3']));
     });
 
     test('forceRefresh should clear state and invalidate', () {
@@ -240,7 +240,7 @@ void main() {
 
       final state = container.read(testPagePagingProvider);
       expect(state.isLoading, isTrue);
-      expect(state.valueOrNull, isNull);
+      expect(state.value, isNull);
     });
 
     test('loadNext should work correctly after error recovery', () async {
@@ -263,7 +263,7 @@ void main() {
       // Verify error state with preserved data
       var state = container.read(testPagePagingProvider);
       expect(state.hasError, isTrue);
-      expect(state.valueOrNull?.items, equals(['item1', 'item2', 'item3']));
+      expect(state.value?.items, equals(['item1', 'item2', 'item3']));
 
       // Fix the fetch function and retry
       notifier.fetchFunction = null; // Reset to default
@@ -344,7 +344,7 @@ void main() {
       expect(state.hasError, isTrue);
       expect(state.error.toString(), contains('Fetch error'));
       // Previous data should be preserved
-      expect(state.valueOrNull?.items, equals(['item1', 'item2', 'item3']));
+      expect(state.value?.items, equals(['item1', 'item2', 'item3']));
     });
 
     test('forceRefresh should clear state and invalidate', () {
@@ -434,7 +434,7 @@ void main() {
       expect(state.hasError, isTrue);
       expect(state.error.toString(), contains('Fetch error'));
       // Previous data should be preserved
-      expect(state.valueOrNull?.items, equals(['item1', 'item2', 'item3']));
+      expect(state.value?.items, equals(['item1', 'item2', 'item3']));
     });
 
     test('forceRefresh should clear state and invalidate', () {

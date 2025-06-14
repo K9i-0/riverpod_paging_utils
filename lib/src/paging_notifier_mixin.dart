@@ -6,7 +6,7 @@ import 'package:riverpod_paging_utils/src/paging_data.dart';
 abstract interface class PagingNotifierMixin<D extends PagingData<T>, T> {
   AsyncValue<D> get state;
   set state(AsyncValue<D> newState);
-  Ref<AsyncValue<D>> get ref;
+  Ref get ref;
 
   Future<void> loadNext();
   void forceRefresh();
@@ -23,7 +23,7 @@ abstract mixin class PagePagingNotifierMixin<T>
   /// Loads the next page of data.
   @override
   Future<void> loadNext() async {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) {
       return;
     }
@@ -64,7 +64,7 @@ abstract mixin class OffsetPagingNotifierMixin<T>
   /// Loads the next set of data based on the offset.
   @override
   Future<void> loadNext() async {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) {
       return;
     }
@@ -105,7 +105,7 @@ abstract mixin class CursorPagingNotifierMixin<T>
   /// Loads the next set of data based on the cursor.
   @override
   Future<void> loadNext() async {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) {
       return;
     }
