@@ -87,9 +87,8 @@ void main() {
 
       final copiedTheme = theme.copyWith() as PagingHelperViewTheme;
 
-      // Note: Due to a bug in copyWith, loadingViewBuilder becomes null
-      // expect(copiedTheme.loadingViewBuilder, equals(loadingBuilder));
-      expect(copiedTheme.loadingViewBuilder, isNull);
+      // Note: copyWith preserves existing values when no parameters are passed
+      expect(copiedTheme.loadingViewBuilder, equals(loadingBuilder));
       expect(copiedTheme.enableRefreshIndicator, isFalse);
     });
 
