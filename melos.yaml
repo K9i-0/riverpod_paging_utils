@@ -1,5 +1,4 @@
 name: riverpod_paging_utils
-sdkPath: .fvm/flutter_sdk
 repository: https://github.com/K9i-0/riverpod_paging_utils
 
 packages:
