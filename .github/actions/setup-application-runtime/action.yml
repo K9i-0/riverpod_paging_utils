@@ -4,16 +4,23 @@ description: "Setup application runtime for Flutter"
 runs:
   using: "composite"
   steps:
-    - name: Fetch flutter config
-      uses: kuhnroyal/flutter-fvm-config-action@v2
-      id: fvm-config-action
-
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
+    - name: Setup mise
+      uses: jdx/mise-action@v2
       with:
-        flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-        channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+        version: latest
+        install: true
         cache: true
+        experimental: true
+
+    - name: Install Flutter via mise
+      run: |
+        mise install
+        echo "$(mise where flutter)/bin" >> $GITHUB_PATH
+      shell: bash
+
+    - name: Verify Flutter installation
+      run: flutter --version
+      shell: bash
 
     - name: Install dependencies
       run: dart pub get

@@ -16,6 +16,8 @@ jobs:
           filters: |
             src:
               - "**.dart"
+              - "pubspec.yaml"
+              - "pubspec_overrides.yaml"
 
   check:
     needs: pre-check
@@ -44,3 +46,12 @@ jobs:
         run: |
           git add -N .
           git diff --name-only --exit-code
+      
+      - name: Run tests
+        run: flutter test --coverage
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage/lcov.info
+          fail_ci_if_error: false

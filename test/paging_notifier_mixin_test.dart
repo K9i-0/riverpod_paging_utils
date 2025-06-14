@@ -188,6 +188,79 @@ void main() {
       expect(state.isLoading, isTrue);
       expect(state.value, isNull);
     });
+
+    test('loadNext should handle concurrent calls properly', () async {
+      final container = ProviderContainer();
+      final notifier = container.read(testPagePagingProvider.notifier);
+
+      // Set initial data
+      notifier.state = const AsyncValue.data(
+        PagePagingData(
+          items: ['item1', 'item2', 'item3'],
+          page: 0,
+          hasMore: true,
+        ),
+      );
+
+      // Call loadNext multiple times concurrently
+      final future1 = notifier.loadNext();
+      final future2 = notifier.loadNext();
+      final future3 = notifier.loadNext();
+
+      await Future.wait([future1, future2, future3]);
+
+      final state = container.read(testPagePagingProvider);
+      // Should only load once, not three times
+      expect(state.value!.items.length, equals(6));
+      expect(state.value!.page, equals(1));
+    });
+
+    test('loadNext should do nothing when state is null', () async {
+      final container = ProviderContainer();
+      final notifier = container.read(testPagePagingProvider.notifier);
+
+      // Keep state as loading (no value)
+      notifier.state = const AsyncValue.loading();
+
+      await notifier.loadNext();
+
+      final state = container.read(testPagePagingProvider);
+      expect(state.isLoading, isTrue);
+      expect(state.valueOrNull, isNull);
+    });
+
+    test('loadNext should work correctly after error recovery', () async {
+      final container = ProviderContainer();
+      final notifier = container.read(testPagePagingProvider.notifier);
+
+      // Set initial data
+      notifier.state = const AsyncValue.data(
+        PagePagingData(
+          items: ['item1', 'item2', 'item3'],
+          page: 0,
+          hasMore: true,
+        ),
+      );
+
+      // First attempt fails
+      notifier.fetchFunction = (page) => throw Exception('Network error');
+      await notifier.loadNext();
+
+      // Verify error state with preserved data
+      var state = container.read(testPagePagingProvider);
+      expect(state.hasError, isTrue);
+      expect(state.valueOrNull?.items, equals(['item1', 'item2', 'item3']));
+
+      // Fix the fetch function and retry
+      notifier.fetchFunction = null; // Reset to default
+      await notifier.loadNext();
+
+      // Should successfully load next page
+      state = container.read(testPagePagingProvider);
+      expect(state.hasError, isFalse);
+      expect(state.value!.items.length, equals(6));
+      expect(state.value!.page, equals(1));
+    });
   });
 
   group('OffsetPagingNotifierMixin', () {
@@ -363,4 +436,5 @@ void main() {
       expect(state.value, isNull);
     });
   });
+
 }

@@ -32,7 +32,7 @@ class TestPagingNotifier extends AutoDisposeAsyncNotifier<PagePagingData<String>
         hasMore: false,
       );
     }
-    return const PagePagingData(
+    return PagePagingData(
       items: [],
       page: page,
       hasMore: false,
@@ -55,7 +55,7 @@ class TestErrorPagingNotifier extends AutoDisposeAsyncNotifier<PagePagingData<St
     if (page == 0) {
       throw Exception('Network error');
     }
-    return const PagePagingData(
+    return PagePagingData(
       items: ['Item 1'],
       page: page,
       hasMore: false,
@@ -168,7 +168,8 @@ void main() {
       );
 
       // Wait for data to load
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
 
       expect(find.text('Item 1'), findsOneWidget);
       expect(find.text('Item 2'), findsOneWidget);
@@ -198,10 +199,11 @@ void main() {
       );
 
       // Wait for error to occur
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
 
-      expect(find.text('Network error'), findsOneWidget);
-      expect(find.byIcon(Icons.error), findsOneWidget);
+      expect(find.text('Exception: Network error'), findsOneWidget);
+      expect(find.byIcon(Icons.refresh), findsOneWidget);
     });
 
     testWidgets('shows snackbar on second page error when enabled', (WidgetTester tester) async {
@@ -228,7 +230,8 @@ void main() {
       );
 
       // Wait for initial data to load
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
 
       // Find the notifier and trigger loadNext
       final container = ProviderScope.containerOf(
@@ -238,7 +241,8 @@ void main() {
       
       // Trigger loading next page
       await notifier.loadNext();
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
 
       // Check for snackbar
       expect(find.text('Second page error'), findsOneWidget);
@@ -270,13 +274,16 @@ void main() {
       );
 
       expect(find.text('Custom Loading'), findsOneWidget);
+      
+      // Allow timer to complete
+      await tester.pump(const Duration(milliseconds: 100));
     });
 
     testWidgets('supports custom error view', (WidgetTester tester) async {
       await tester.pumpWidget(
         createTestWidget(
           theme: PagingHelperViewTheme(
-            errorViewBuilder: (context, error, retry) => Column(
+            errorViewBuilder: (context, error, stackTrace, retry) => Column(
               children: [
                 const Text('Custom Error'),
                 ElevatedButton(
@@ -306,7 +313,8 @@ void main() {
       );
 
       // Wait for error to occur
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
 
       expect(find.text('Custom Error'), findsOneWidget);
       expect(find.text('Retry'), findsOneWidget);
@@ -315,7 +323,7 @@ void main() {
     testWidgets('supports refresh indicator when enabled', (WidgetTester tester) async {
       await tester.pumpWidget(
         createTestWidget(
-          theme: const PagingHelperViewTheme(
+          theme: PagingHelperViewTheme(
             enableRefreshIndicator: true,
           ),
           child: PagingHelperView(
@@ -338,7 +346,8 @@ void main() {
       );
 
       // Wait for data to load
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
 
       // Check that RefreshIndicator is present
       expect(find.byType(RefreshIndicator), findsOneWidget);
@@ -354,7 +363,7 @@ void main() {
     testWidgets('disables refresh indicator when configured', (WidgetTester tester) async {
       await tester.pumpWidget(
         createTestWidget(
-          theme: const PagingHelperViewTheme(
+          theme: PagingHelperViewTheme(
             enableRefreshIndicator: false,
           ),
           child: PagingHelperView(
@@ -377,10 +386,199 @@ void main() {
       );
 
       // Wait for data to load
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
 
       // Check that RefreshIndicator is not present
       expect(find.byType(RefreshIndicator), findsNothing);
     });
+
+    testWidgets('does not show snackbar when showSecondPageError is false', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: PagingHelperView(
+            provider: testSecondPageErrorProvider,
+            futureRefreshable: testSecondPageErrorProvider.future,
+            notifierRefreshable: testSecondPageErrorProvider.notifier,
+            showSecondPageError: false,
+            contentBuilder: (data, widgetCount, endItemView) {
+              return ListView.builder(
+                itemCount: widgetCount,
+                itemBuilder: (context, index) {
+                  if (index == widgetCount - 1) {
+                    return endItemView;
+                  }
+                  return ListTile(title: Text(data.items[index]));
+                },
+              );
+            },
+          ),
+        ),
+      );
+
+      // Wait for initial data to load
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+
+      // Find the notifier and trigger loadNext
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(PagingHelperView<PagePagingData<String>, String>)),
+      );
+      final notifier = container.read(testSecondPageErrorProvider.notifier);
+      
+      // Trigger loading next page
+      await notifier.loadNext();
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+
+      // Check that no error widget is shown
+      expect(find.text('Exception: Second page error'), findsNothing);
+      expect(find.byIcon(Icons.refresh), findsNothing);
+    });
+
+    testWidgets('handles empty items list correctly', (WidgetTester tester) async {
+      // Create a notifier that returns empty items
+      final emptyProvider = AutoDisposeAsyncNotifierProvider<
+          EmptyItemsNotifier, PagePagingData<String>>(() {
+        return EmptyItemsNotifier();
+      });
+
+      await tester.pumpWidget(
+        createTestWidget(
+          child: PagingHelperView(
+            provider: emptyProvider,
+            futureRefreshable: emptyProvider.future,
+            notifierRefreshable: emptyProvider.notifier,
+            contentBuilder: (data, widgetCount, endItemView) {
+              if (data.items.isEmpty) {
+                return const Center(child: Text('No items'));
+              }
+              return ListView.builder(
+                itemCount: widgetCount,
+                itemBuilder: (context, index) {
+                  if (index == widgetCount - 1) {
+                    return endItemView;
+                  }
+                  return ListTile(title: Text(data.items[index]));
+                },
+              );
+            },
+          ),
+        ),
+      );
+
+      // Wait for data to load
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+
+      expect(find.text('No items'), findsOneWidget);
+    });
+
+    testWidgets('supports custom end loading view', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          theme: PagingHelperViewTheme(
+            endLoadingViewBuilder: (context) => const Text('Loading more...'),
+          ),
+          child: PagingHelperView(
+            provider: testPagingProvider,
+            futureRefreshable: testPagingProvider.future,
+            notifierRefreshable: testPagingProvider.notifier,
+            contentBuilder: (data, widgetCount, endItemView) {
+              return ListView.builder(
+                itemCount: widgetCount,
+                itemBuilder: (context, index) {
+                  if (index == widgetCount - 1) {
+                    return endItemView;
+                  }
+                  return ListTile(title: Text(data.items[index]));
+                },
+              );
+            },
+          ),
+        ),
+      );
+
+      // Wait for initial data to load
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+
+      // Scroll to trigger loading more
+      await tester.drag(find.byType(ListView), const Offset(0, -500));
+      await tester.pump();
+
+      // Should show custom loading view
+      expect(find.text('Loading more...'), findsOneWidget);
+    });
+
+    testWidgets('supports custom end error view', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          theme: PagingHelperViewTheme(
+            endErrorViewBuilder: (context, error, onRetry) => Column(
+              children: [
+                const Text('Failed to load more'),
+                TextButton(
+                  onPressed: onRetry,
+                  child: const Text('Try Again'),
+                ),
+              ],
+            ),
+          ),
+          child: PagingHelperView(
+            provider: testSecondPageErrorProvider,
+            futureRefreshable: testSecondPageErrorProvider.future,
+            notifierRefreshable: testSecondPageErrorProvider.notifier,
+            contentBuilder: (data, widgetCount, endItemView) {
+              return ListView.builder(
+                itemCount: widgetCount,
+                itemBuilder: (context, index) {
+                  if (index == widgetCount - 1) {
+                    return endItemView;
+                  }
+                  return ListTile(title: Text(data.items[index]));
+                },
+              );
+            },
+          ),
+        ),
+      );
+
+      // Wait for initial data to load
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+
+      // Trigger error on second page
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(PagingHelperView<PagePagingData<String>, String>)),
+      );
+      final notifier = container.read(testSecondPageErrorProvider.notifier);
+      await notifier.loadNext();
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+
+      // Should show custom error view
+      expect(find.text('Failed to load more'), findsOneWidget);
+      expect(find.text('Try Again'), findsOneWidget);
+    });
   });
+}
+
+// Add empty items notifier for testing
+class EmptyItemsNotifier extends AutoDisposeAsyncNotifier<PagePagingData<String>>
+    with PagePagingNotifierMixin<String> {
+  @override
+  Future<PagePagingData<String>> build() async {
+    return fetch(page: 0);
+  }
+
+  @override
+  Future<PagePagingData<String>> fetch({required int page}) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    return PagePagingData(
+      items: [],
+      page: page,
+      hasMore: false,
+    );
+  }
 }

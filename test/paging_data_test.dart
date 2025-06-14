@@ -197,4 +197,130 @@ void main() {
       expect(copiedData.hasMore, equals(data.hasMore));
     });
   });
+
+  group('Edge cases', () {
+    test('PagePagingData with empty items', () {
+      final data = PagePagingData<String>(
+        items: [],
+        page: 0,
+        hasMore: false,
+      );
+
+      expect(data.items, isEmpty);
+      expect(data.page, equals(0));
+      expect(data.hasMore, isFalse);
+    });
+
+    test('PagePagingData with large number of items', () {
+      final items = List.generate(10000, (i) => 'item$i');
+      final data = PagePagingData(
+        items: items,
+        page: 100,
+        hasMore: true,
+      );
+
+      expect(data.items.length, equals(10000));
+      expect(data.items.first, equals('item0'));
+      expect(data.items.last, equals('item9999'));
+    });
+
+    test('PagingData with different type parameters', () {
+      // Test with int
+      final intData = PagePagingData<int>(
+        items: [1, 2, 3],
+        page: 0,
+        hasMore: true,
+      );
+      expect(intData.items, equals([1, 2, 3]));
+
+      // Test with custom object
+      final customData = PagePagingData<CustomItem>(
+        items: [
+          CustomItem(id: 1, name: 'Item 1'),
+          CustomItem(id: 2, name: 'Item 2'),
+        ],
+        page: 0,
+        hasMore: false,
+      );
+      expect(customData.items.length, equals(2));
+      expect(customData.items.first.name, equals('Item 1'));
+    });
+
+    test('OffsetPagingData with zero offset', () {
+      final data = OffsetPagingData<String>(
+        items: ['item1', 'item2'],
+        offset: 0,
+        hasMore: true,
+      );
+
+      expect(data.offset, equals(0));
+      expect(data.hasMore, isTrue);
+    });
+
+    test('CursorPagingData with empty string cursor', () {
+      final data = CursorPagingData<String>(
+        items: ['item1'],
+        nextCursor: '',
+        hasMore: true,
+      );
+
+      expect(data.nextCursor, equals(''));
+      expect(data.nextCursor, isNotNull);
+      expect(data.hasMore, isTrue);
+    });
+
+    test('PagingData implements common interface', () {
+      final pagePaging = PagePagingData<String>(
+        items: ['a', 'b'],
+        page: 1,
+        hasMore: true,
+      );
+      
+      final offsetPaging = OffsetPagingData<String>(
+        items: ['c', 'd'],
+        offset: 2,
+        hasMore: false,
+      );
+      
+      final cursorPaging = CursorPagingData<String>(
+        items: ['e', 'f'],
+        nextCursor: 'next',
+        hasMore: true,
+      );
+
+      // All should implement PagingData interface
+      expect(pagePaging, isA<PagingData<String>>());
+      expect(offsetPaging, isA<PagingData<String>>());
+      expect(cursorPaging, isA<PagingData<String>>());
+
+      // Test interface methods
+      expect(pagePaging.items, equals(['a', 'b']));
+      expect(pagePaging.hasMore, isTrue);
+      
+      expect(offsetPaging.items, equals(['c', 'd']));
+      expect(offsetPaging.hasMore, isFalse);
+      
+      expect(cursorPaging.items, equals(['e', 'f']));
+      expect(cursorPaging.hasMore, isTrue);
+    });
+  });
+}
+
+// Test helper class
+class CustomItem {
+  final int id;
+  final String name;
+
+  CustomItem({required this.id, required this.name});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CustomItem &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name;
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode;
 }
