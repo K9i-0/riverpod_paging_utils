@@ -21,7 +21,7 @@ runs:
 
     - name: Setup melos
       run: |
-        MELOS_VERSION=$(cat pubspec.lock | yq ".packages.melos.version" -r)
+        MELOS_VERSION=$(cat pubspec.yaml | yq ".dev_dependencies.melos" -r)
         dart pub global activate melos $MELOS_VERSION
         melos bootstrap
       shell: bash
