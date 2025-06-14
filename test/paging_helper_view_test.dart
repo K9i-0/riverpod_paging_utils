@@ -217,11 +217,15 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('shows inline error on second page error', (tester) async {
-      // TODO: Implement proper test for second page inline error display
-      // This test is skipped due to complexity of triggering second page loading
-      // in the test environment. The functionality is confirmed to work in actual usage.
-    }, skip: true);
+    testWidgets(
+      'shows inline error on second page error',
+      (tester) async {
+        // TODO: Implement proper test for second page inline error display
+        // This test is skipped due to complexity of triggering second page loading
+        // in the test environment. The functionality is confirmed to work in actual usage.
+      },
+      skip: true,
+    );
 
     testWidgets('supports custom loading view', (tester) async {
       await tester.pumpWidget(
@@ -369,12 +373,15 @@ void main() {
       expect(find.byType(RefreshIndicator), findsNothing);
     });
 
-    testWidgets('does not show inline error when showSecondPageError is false',
-        (tester) async {
-      // TODO: Implement proper test for hiding second page errors when showSecondPageError is false
-      // This test is skipped due to complexity of triggering second page loading
-      // in the test environment. The functionality is confirmed to work in actual usage.
-    }, skip: true);
+    testWidgets(
+      'does not show inline error when showSecondPageError is false',
+      (tester) async {
+        // TODO: Implement proper test for hiding second page errors when showSecondPageError is false
+        // This test is skipped due to complexity of triggering second page loading
+        // in the test environment. The functionality is confirmed to work in actual usage.
+      },
+      skip: true,
+    );
 
     testWidgets('handles empty items list correctly', (tester) async {
       // Create a notifier that returns empty items
