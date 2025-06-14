@@ -32,7 +32,7 @@ abstract class PagePagingData<T>
     required List<T> items,
     required bool hasMore,
     required int page,
-  }) = _PagePagingData;
+  }) = _PagePagingData<T>;
 }
 
 /// Represents paginated data using offset-based pagination.
@@ -52,7 +52,7 @@ abstract class OffsetPagingData<T>
     required List<T> items,
     required bool hasMore,
     required int offset,
-  }) = _OffsetPagingData;
+  }) = _OffsetPagingData<T>;
 }
 
 /// Represents paginated data using cursor-based pagination.
@@ -72,5 +72,5 @@ abstract class CursorPagingData<T>
     required List<T> items,
     required bool hasMore,
     required String? nextCursor,
-  }) = _CursorPagingData;
+  }) = _CursorPagingData<T>;
 }

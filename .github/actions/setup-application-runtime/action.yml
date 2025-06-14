@@ -4,17 +4,24 @@ description: "Setup application runtime for Flutter"
 runs:
   using: "composite"
   steps:
-    - name: Fetch flutter config
-      uses: kuhnroyal/flutter-fvm-config-action@v2
-      id: fvm-config-action
 
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
+    # https://github.com/jdx/mise-action
+    - name: Setup flutter
+      uses: jdx/mise-action@7a111ead46986ccad89a74ad013ba2a7c08c9e67 # v2.2.1
       with:
-        flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-        channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
-        cache: true
+        install_args: "flutter"
 
-    - name: Install dependencies
-      run: dart pub get
+    # NOTE: 後述の melosコマンドが実行できないためPATHを通します。
+    # PUB_CACHE: $HOME/.pub-cache に設定
+    - name: Export PUB_CACHE
+      run: |
+        echo "PUB_CACHE=$HOME/.pub-cache" >> "$GITHUB_ENV"
+        echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+      shell: bash
+
+    - name: Setup melos
+      run: |
+        MELOS_VERSION=$(cat pubspec.yaml | yq ".dev_dependencies.melos" -r)
+        dart pub global activate melos $MELOS_VERSION
+        melos bootstrap
       shell: bash

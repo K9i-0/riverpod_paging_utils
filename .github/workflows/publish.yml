@@ -22,5 +22,8 @@ jobs:
       - name: Setup Application Runtime
         uses: ./.github/actions/setup-application-runtime
 
+      - name: Run tests
+        run: flutter test
+        
       - name: Publish
         run: dart pub publish --force

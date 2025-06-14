@@ -11,7 +11,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 /// 1. Displays the widget created by [contentBuilder] when data is available.
 /// 2. Shows a CircularProgressIndicator while loading the first page.
 /// 3. Displays an error widget when there is an error on the first page.
-/// 4. Shows error messages using a SnackBar.
+/// 4. Shows error messages inline when loading subsequent pages.
 /// 5. Loads the next page when the last item is displayed.
 /// 6. Supports pull-to-refresh functionality.
 ///

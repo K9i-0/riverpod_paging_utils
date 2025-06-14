@@ -1,3 +1,11 @@
 {
-  "dart.flutterSdkPath": ".fvm/versions/3.27.0"
+  // NOTE: miseの自動構成で`.vscode/mise-tools`配下にシンボリックリンクを作成し、それをツールのパスとして利用する機能を有効にします
+  "mise.configureExtensionsUseSymLinks": true,
+  // NOTE: miseの自動構成では、以下の拡張に関するパスを絶対パスで設定するため無効化
+  "mise.configureExtensionsAutomaticallyIgnoreList": ["dart-code.flutter"],
+  "dart.flutterSdkPath": "~/.local/share/mise/installs/flutter/3.27.0-stable",
+  "dart.sdkPath": "~/.local/share/mise/installs/flutter/3.27.0-stable/bin/dart",
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "${workspaceFolder}/.vscode/mise-tools/node"
+  }
 }

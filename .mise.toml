@@ -1,0 +1,4 @@
+[tools]
+aapt2 = "latest"
+flutter = "3.27.0"
+node = "22.16.0"

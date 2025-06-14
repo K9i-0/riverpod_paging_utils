@@ -28,5 +28,6 @@ pubspec.lock
 .dart_tool/
 build/
 
-# FVM Version Cache
-.fvm/
+# Memory files
+CLAUDE.md
+
