@@ -44,9 +44,8 @@ class _GridViewScreenState extends State<GridViewScreen> {
 
   void _toggleScrollDirection() {
     setState(() {
-      _scrollDirection = _scrollDirection == Axis.vertical
-          ? Axis.horizontal
-          : Axis.vertical;
+      _scrollDirection =
+          _scrollDirection == Axis.vertical ? Axis.horizontal : Axis.vertical;
     });
   }
 
