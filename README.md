@@ -96,6 +96,75 @@ class SampleScreen extends StatelessWidget {
 }
 ```
 
+### GridView Example
+
+You can also use `PagingHelperView` with `GridView` to create paginated grid layouts:
+
+```dart
+class GridViewScreen extends StatelessWidget {
+  const GridViewScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('GridView Example'),
+      ),
+      body: PagingHelperView(
+        provider: gridViewNotifierProvider,
+        futureRefreshable: gridViewNotifierProvider.future,
+        notifierRefreshable: gridViewNotifierProvider.notifier,
+        contentBuilder: (data, widgetCount, endItemView) {
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 1,
+            ),
+            padding: const EdgeInsets.all(8),
+            itemCount: widgetCount,
+            itemBuilder: (context, index) {
+              if (index == widgetCount - 1) {
+                return endItemView;
+              }
+
+              final item = data.items[index];
+              return Card(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.folder,
+                        size: 48,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        item.name,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        item.id,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+A complete implementation can be found in the [example/lib/ui/gridview_screen.dart](https://github.com/K9i-0/riverpod_paging_utils/blob/main/example/lib/ui/gridview_screen.dart) file.
+
 ## UI Customization
 
 ### Basic Customization

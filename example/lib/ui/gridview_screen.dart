@@ -1,7 +1,6 @@
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 
@@ -29,7 +28,7 @@ class GridViewNotifier extends _$GridViewNotifier
   }
 }
 
-class GridViewScreen extends StatelessWidget {
+class GridViewScreen extends StatefulWidget {
   const GridViewScreen({super.key});
 
   static Route<void> route() => MaterialPageRoute(
@@ -37,10 +36,36 @@ class GridViewScreen extends StatelessWidget {
       );
 
   @override
+  State<GridViewScreen> createState() => _GridViewScreenState();
+}
+
+class _GridViewScreenState extends State<GridViewScreen> {
+  Axis _scrollDirection = Axis.vertical;
+
+  void _toggleScrollDirection() {
+    setState(() {
+      _scrollDirection = _scrollDirection == Axis.vertical
+          ? Axis.horizontal
+          : Axis.vertical;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('GridView Example'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              _scrollDirection == Axis.vertical
+                  ? Icons.swap_horiz
+                  : Icons.swap_vert,
+            ),
+            onPressed: _toggleScrollDirection,
+            tooltip: 'Toggle scroll direction',
+          ),
+        ],
       ),
       body: PagingHelperView(
         provider: gridViewNotifierProvider,
@@ -48,11 +73,12 @@ class GridViewScreen extends StatelessWidget {
         notifierRefreshable: gridViewNotifierProvider.notifier,
         contentBuilder: (data, widgetCount, endItemView) {
           return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+            scrollDirection: _scrollDirection,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: _scrollDirection == Axis.vertical ? 2 : 3,
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
-              childAspectRatio: 1,
+              childAspectRatio: _scrollDirection == Axis.vertical ? 1 : 0.75,
             ),
             padding: const EdgeInsets.all(8),
             itemCount: widgetCount,
