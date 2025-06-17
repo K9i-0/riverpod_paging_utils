@@ -14,14 +14,16 @@ typedef EndErrorWidgetBuilder = Widget Function(
   VoidCallback onRetryButtonPressed,
 );
 
-/// A theme for [PagingHelperView].
-/// This is used to configure the default appearance of [PagingHelperView].
+/// A theme for [PagingHelperView] and [PagingHelperSliverView].
+/// This is used to configure the default appearance of [PagingHelperView] and [PagingHelperSliverView].
 ///
 /// [loadingViewBuilder] is used to build the loading view.
 /// [errorViewBuilder] is used to build the error view.
 /// [endLoadingViewBuilder] is used to build the ui of endItemView.
 /// [endErrorViewBuilder] is used to build the ui of endItemView when an error occurs.
 /// [enableRefreshIndicator] is used to enable or disable the pull-to-refresh functionality.
+/// [sliverLoadingViewBuilder] is used to build the loading view for sliver widgets.
+/// [sliverErrorViewBuilder] is used to build the error view for sliver widgets.
 final class PagingHelperViewTheme
     extends ThemeExtension<PagingHelperViewTheme> {
   PagingHelperViewTheme({
@@ -30,12 +32,16 @@ final class PagingHelperViewTheme
     this.endLoadingViewBuilder,
     this.endErrorViewBuilder,
     this.enableRefreshIndicator,
+    this.sliverLoadingViewBuilder,
+    this.sliverErrorViewBuilder,
   });
   final WidgetBuilder? loadingViewBuilder;
   final ErrorWidgetBuilder? errorViewBuilder;
   final WidgetBuilder? endLoadingViewBuilder;
   final EndErrorWidgetBuilder? endErrorViewBuilder;
   final bool? enableRefreshIndicator;
+  final WidgetBuilder? sliverLoadingViewBuilder;
+  final ErrorWidgetBuilder? sliverErrorViewBuilder;
 
   @override
   ThemeExtension<PagingHelperViewTheme> copyWith({
@@ -44,6 +50,8 @@ final class PagingHelperViewTheme
     WidgetBuilder? endLoadingViewBuilder,
     EndErrorWidgetBuilder? endErrorViewBuilder,
     bool? enableRefreshIndicator,
+    WidgetBuilder? sliverLoadingViewBuilder,
+    ErrorWidgetBuilder? sliverErrorViewBuilder,
   }) {
     return PagingHelperViewTheme(
       loadingViewBuilder: loadingViewBuilder ?? this.loadingViewBuilder,
@@ -53,6 +61,10 @@ final class PagingHelperViewTheme
       endErrorViewBuilder: endErrorViewBuilder ?? this.endErrorViewBuilder,
       enableRefreshIndicator:
           enableRefreshIndicator ?? this.enableRefreshIndicator,
+      sliverLoadingViewBuilder:
+          sliverLoadingViewBuilder ?? this.sliverLoadingViewBuilder,
+      sliverErrorViewBuilder:
+          sliverErrorViewBuilder ?? this.sliverErrorViewBuilder,
     );
   }
 

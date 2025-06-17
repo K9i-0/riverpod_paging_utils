@@ -17,6 +17,7 @@ The main example showing basic pagination with ListView using cursor-based pagin
 - **Passing Args Screen**: Example of passing arguments to the fetch method
 - **Paging Method Screen**: Demonstrates different pagination methods (Page, Offset, Cursor)
 - **GridView Example**: Shows how to use `PagingHelperView` with `GridView` for paginated grid layouts
+- **CustomScrollView Example**: Demonstrates `PagingHelperSliverView` for use in `CustomScrollView` with other slivers
 
 ## Running the Examples
 
