@@ -5,19 +5,22 @@ import 'package:riverpod_paging_utils/src/paging_helper_view_theme.dart';
 import 'package:riverpod_paging_utils/src/paging_notifier_mixin.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-/// A generic sliver widget for pagination in CustomScrollView.
+/// A sliver version of PagingHelperView for use in CustomScrollView.
 ///
-/// Main features:
-/// 1. Displays the sliver widget created by [contentBuilder] when data is available.
-/// 2. Shows a SliverFillRemaining with CircularProgressIndicator while loading the first page.
-/// 3. Displays a SliverFillRemaining with error widget when there is an error on the first page.
-/// 4. Shows error messages inline when loading subsequent pages.
-/// 5. Loads the next page when the last item is displayed.
+/// This widget has the same API as PagingHelperView with the following differences:
+/// 1. Returns sliver widgets (e.g., SliverList, SliverGrid) from [contentBuilder] instead of regular widgets.
+/// 2. Loading and error states are wrapped with SliverFillRemaining to work in CustomScrollView.
+/// 3. Uses sliverLoadingViewBuilder and sliverErrorViewBuilder from PagingHelperViewTheme instead of the regular builders.
+/// 4. Does not support RefreshIndicator (use CupertinoSliverRefreshControl or pull_to_refresh package instead).
 ///
-/// Note: This widget does not support RefreshIndicator as it's designed for CustomScrollView.
-/// Consider using CupertinoSliverRefreshControl or pull_to_refresh package for refresh functionality.
+/// All other features remain the same as PagingHelperView:
+/// - Displays the widget created by [contentBuilder] when data is available.
+/// - Shows loading indicator while loading the first page.
+/// - Displays error widget when there is an error on the first page.
+/// - Shows error messages inline when loading subsequent pages.
+/// - Loads the next page when the last item is displayed.
 ///
-/// You can customize the appearance of the loading view, error view, and endItemView using [PagingHelperViewTheme].
+/// You can customize the appearance of the loading view, error view, and endItemView using PagingHelperViewTheme.
 final class PagingHelperSliverView<D extends PagingData<I>, I>
     extends ConsumerWidget {
   const PagingHelperSliverView({

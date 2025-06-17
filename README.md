@@ -168,7 +168,14 @@ A complete implementation can be found in the [example/lib/ui/gridview_screen.da
 
 ### CustomScrollView with PagingHelperSliverView
 
-For use in `CustomScrollView`, you can use `PagingHelperSliverView`:
+`PagingHelperSliverView` is a sliver version of `PagingHelperView` for use in `CustomScrollView`. It has the same API as `PagingHelperView` with these differences:
+
+- Returns sliver widgets from `contentBuilder` (e.g., `SliverList` instead of `ListView`)
+- Wraps loading/error states with `SliverFillRemaining`
+- Uses `sliverLoadingViewBuilder` and `sliverErrorViewBuilder` from theme
+- Does not support `RefreshIndicator` (use `CupertinoSliverRefreshControl` instead)
+
+Example:
 
 ```dart
 class CustomScrollViewScreen extends ConsumerWidget {
