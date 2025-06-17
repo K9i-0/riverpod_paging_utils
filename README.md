@@ -10,6 +10,7 @@ A Flutter package that provides utilities for implementing pagination with River
 ## Features
 
 - `PagingHelperView`: A generic widget that simplifies the implementation of pagination in Flutter apps.
+- `PagingHelperSliverView`: A sliver version of `PagingHelperView` for use in `CustomScrollView`.
 - `PagePagingNotifierMixin`: A mixin for implementing page-based pagination logic.
 - `OffsetPagingNotifierMixin`: A mixin for implementing offset-based pagination logic.
 - `CursorPagingNotifierMixin`: A mixin for implementing cursor-based pagination logic.
@@ -164,6 +165,73 @@ class GridViewScreen extends StatelessWidget {
 ```
 
 A complete implementation can be found in the [example/lib/ui/gridview_screen.dart](https://github.com/K9i-0/riverpod_paging_utils/blob/main/example/lib/ui/gridview_screen.dart) file.
+
+### CustomScrollView with PagingHelperSliverView
+
+`PagingHelperSliverView` is a sliver version of `PagingHelperView` for use in `CustomScrollView`. It has the same API as `PagingHelperView` with these differences:
+
+- Returns sliver widgets from `contentBuilder` (e.g., `SliverList` instead of `ListView`)
+- Wraps loading/error states with `SliverFillRemaining`
+- Uses `sliverLoadingViewBuilder` and `sliverErrorViewBuilder` from theme
+- Does not support `RefreshIndicator` (use `CupertinoSliverRefreshControl` instead)
+
+Example:
+
+```dart
+class CustomScrollViewScreen extends ConsumerWidget {
+  const CustomScrollViewScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBar(
+            title: Text('CustomScrollView with Sliver'),
+            pinned: true,
+            expandedHeight: 200,
+          ),
+          // CupertinoSliverRefreshControl for iOS-style pull-to-refresh
+          CupertinoSliverRefreshControl(
+            onRefresh: () async =>
+                ref.refresh(customScrollViewNotifierProvider.future),
+          ),
+          // Static content before the list
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Text('Header Content'),
+            ),
+          ),
+          // The paginated list using PagingHelperSliverView
+          PagingHelperSliverView(
+            provider: customScrollViewNotifierProvider,
+            futureRefreshable: customScrollViewNotifierProvider.future,
+            notifierRefreshable: customScrollViewNotifierProvider.notifier,
+            contentBuilder: (data, widgetCount, endItemView) {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    if (index == widgetCount - 1) {
+                      return endItemView;
+                    }
+                    return ListTile(
+                      title: Text(data.items[index].name),
+                    );
+                  },
+                  childCount: widgetCount,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+A complete implementation can be found in the [example/lib/ui/custom_scroll_view_screen.dart](https://github.com/K9i-0/riverpod_paging_utils/blob/main/example/lib/ui/custom_scroll_view_screen.dart) file.
 
 ## UI Customization
 

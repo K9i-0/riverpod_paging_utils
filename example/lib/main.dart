@@ -1,5 +1,6 @@
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
+import 'package:example/ui/custom_scroll_view_screen.dart';
 import 'package:example/ui/first_page_error_screen.dart';
 import 'package:example/ui/gridview_screen.dart';
 import 'package:example/ui/paging_method_screen.dart';
@@ -113,6 +114,12 @@ class SampleScreen extends StatelessWidget {
               title: const Text('GridView example'),
               onTap: () async => Navigator.of(context).push(
                 GridViewScreen.route(),
+              ),
+            ),
+            ListTile(
+              title: const Text('CustomScrollView example'),
+              onTap: () async => Navigator.of(context).push(
+                CustomScrollViewScreen.route(),
               ),
             ),
           ],
