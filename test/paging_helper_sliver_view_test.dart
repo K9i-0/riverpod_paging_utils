@@ -9,6 +9,8 @@ import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 // Test data
 class TestItem {
   TestItem(this.id, this.name);
+  // test
+  // ignore: unreachable_from_main
   final String id;
   final String name;
 }
@@ -29,7 +31,7 @@ class TestSliverPagingNotifier extends AsyncNotifier<CursorPagingData<TestItem>>
     required String? cursor,
   }) async {
     // Simulate async operation
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future<void>.delayed(const Duration(milliseconds: 100));
 
     if (cursor == 'error') {
       throw Exception('Test error');
@@ -62,7 +64,7 @@ Widget createTestWidget(Widget child) {
 void main() {
   group('PagingHelperSliverView', () {
     testWidgets('shows loading indicator on initial load',
-        (WidgetTester tester) async {
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           CustomScrollView(
@@ -97,7 +99,7 @@ void main() {
     });
 
     testWidgets('displays content when data is loaded',
-        (WidgetTester tester) async {
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           CustomScrollView(
@@ -136,7 +138,7 @@ void main() {
     });
 
     testWidgets('works with other slivers in CustomScrollView',
-        (WidgetTester tester) async {
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           CustomScrollView(
@@ -186,7 +188,7 @@ void main() {
     });
 
     testWidgets('supports CupertinoSliverRefreshControl',
-        (WidgetTester tester) async {
+        (tester) async {
       final refreshCompleter = Completer<void>();
 
       await tester.pumpWidget(
@@ -232,7 +234,7 @@ void main() {
     });
 
     testWidgets('shows error view on first page error',
-        (WidgetTester tester) async {
+        (tester) async {
       // Use error provider directly
       await tester.pumpWidget(
         ProviderScope(

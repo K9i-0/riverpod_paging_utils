@@ -43,7 +43,6 @@ class CustomScrollViewScreen extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           const SliverAppBar(
-            title: Text('CustomScrollView with Sliver'),
             pinned: true,
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
@@ -52,11 +51,11 @@ class CustomScrollViewScreen extends ConsumerWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.blue, Colors.blue[700]!],
+                    colors: <Color>[Colors.blue, Colors.red],
                   ),
                 ),
                 child: Center(
-                  child: const Text(
+                  child: Text(
                     'PagingHelperSliverView\nExample',
                     style: TextStyle(
                       color: Colors.white,
