@@ -16,8 +16,8 @@ class TestItem {
 }
 
 // Test provider
-final testSliverPagingNotifierProvider = AsyncNotifierProvider<
-    TestSliverPagingNotifier, CursorPagingData<TestItem>>(
+final testSliverPagingNotifierProvider =
+    AsyncNotifierProvider<TestSliverPagingNotifier, CursorPagingData<TestItem>>(
   TestSliverPagingNotifier.new,
 );
 
@@ -63,10 +63,9 @@ Widget createTestWidget(Widget child) {
 
 void main() {
   group('PagingHelperSliverView', () {
-    testWidgets(
-      'shows loading indicator on initial load',
-      skip: true, // Timer issue in test environment
-      (tester) async {
+    testWidgets('shows loading indicator on initial load',
+        skip: true, // Timer issue in test environment
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           CustomScrollView(
@@ -100,10 +99,9 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets(
-      'displays content when data is loaded',
-      skip: true, // Timer issue in test environment
-      (tester) async {
+    testWidgets('displays content when data is loaded',
+        skip: true, // Timer issue in test environment
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           CustomScrollView(
@@ -142,10 +140,9 @@ void main() {
       expect(find.text('Item null-9'), findsOneWidget);
     });
 
-    testWidgets(
-      'works with other slivers in CustomScrollView',
-      skip: true, // Timeout issue with pumpAndSettle in test environment
-      (tester) async {
+    testWidgets('works with other slivers in CustomScrollView',
+        skip: true, // Timeout issue with pumpAndSettle in test environment
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           CustomScrollView(
@@ -195,10 +192,9 @@ void main() {
       expect(find.text('Item null-0'), findsOneWidget);
     });
 
-    testWidgets(
-      'supports CupertinoSliverRefreshControl',
-      skip: true, // Timeout issue with pumpAndSettle in test environment
-      (tester) async {
+    testWidgets('supports CupertinoSliverRefreshControl',
+        skip: true, // Timeout issue with pumpAndSettle in test environment
+        (tester) async {
       final refreshCompleter = Completer<void>();
 
       await tester.pumpWidget(
@@ -244,51 +240,53 @@ void main() {
       expect(find.byType(CupertinoSliverRefreshControl), findsOneWidget);
     });
 
-    testWidgets('shows error view on first page error',
-        (tester) async {
-      // Use error provider directly
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            home: Scaffold(
-              body: CustomScrollView(
-                slivers: [
-                  PagingHelperSliverView(
-                    provider: testSliverPagingNotifierErrorProvider,
-                    futureRefreshable: testSliverPagingNotifierErrorProvider.future,
-                    notifierRefreshable:
-                        testSliverPagingNotifierErrorProvider.notifier,
-                    contentBuilder: (data, widgetCount, endItemView) {
-                      return SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            if (index == widgetCount - 1) {
-                              return endItemView;
-                            }
-                            return ListTile(
-                              title: Text(data.items[index].name),
-                            );
-                          },
-                          childCount: widgetCount,
-                        ),
-                      );
-                    },
-                  ),
-                ],
+    testWidgets(
+      'shows error view on first page error',
+      (tester) async {
+        // Use error provider directly
+        await tester.pumpWidget(
+          ProviderScope(
+            child: MaterialApp(
+              home: Scaffold(
+                body: CustomScrollView(
+                  slivers: [
+                    PagingHelperSliverView(
+                      provider: testSliverPagingNotifierErrorProvider,
+                      futureRefreshable:
+                          testSliverPagingNotifierErrorProvider.future,
+                      notifierRefreshable:
+                          testSliverPagingNotifierErrorProvider.notifier,
+                      contentBuilder: (data, widgetCount, endItemView) {
+                        return SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              if (index == widgetCount - 1) {
+                                return endItemView;
+                              }
+                              return ListTile(
+                                title: Text(data.items[index].name),
+                              );
+                            },
+                            childCount: widgetCount,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      );
+        );
 
-      // Wait for error to occur
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 100));
+        // Wait for error to occur
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Verify error view is shown
-      expect(find.byIcon(Icons.refresh), findsOneWidget);
-      expect(find.text('Exception: First page error'), findsOneWidget);
-    },
+        // Verify error view is shown
+        expect(find.byIcon(Icons.refresh), findsOneWidget);
+        expect(find.text('Exception: First page error'), findsOneWidget);
+      },
     );
   });
 }
