@@ -2,14 +2,19 @@ import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 
-part 'riverpod3_example_screen.g.dart';
+// Provider definitions (manual since code generation has build issues)
+final riverpod3PostsNotifierProvider = AsyncNotifierProvider<Riverpod3PostsNotifier, PagePagingData<SampleItem>>(
+  () => Riverpod3PostsNotifier(),
+);
 
-/// Example implementation using Riverpod 3.0's @mutation feature
-@riverpod
-class Riverpod3PostsNotifier extends _$Riverpod3PostsNotifier {
+final riverpod3MixinNotifierProvider = AsyncNotifierProvider<Riverpod3MixinNotifier, PagePagingData<SampleItem>>(
+  () => Riverpod3MixinNotifier(),
+);
+
+/// Example implementation using Riverpod 3.0's features (without @mutation due to build issues)
+class Riverpod3PostsNotifier extends AsyncNotifier<PagePagingData<SampleItem>> {
   static const _pageSize = 20;
 
   @override
@@ -18,8 +23,7 @@ class Riverpod3PostsNotifier extends _$Riverpod3PostsNotifier {
     return await _fetchPage(1);
   }
 
-  /// Loads the next page using @mutation for automatic state management
-  @mutation
+  /// Loads the next page (manual implementation since @mutation causes build issues)
   Future<void> loadNextPage() async {
     final currentState = await future;
     if (!currentState.hasMore) return;
@@ -49,7 +53,6 @@ class Riverpod3PostsNotifier extends _$Riverpod3PostsNotifier {
   }
 
   /// Refreshes the data from the beginning
-  @mutation
   Future<void> refresh() async {
     state = const AsyncLoading();
     state = AsyncData(await _fetchPage(1));
@@ -76,8 +79,7 @@ class Riverpod3PostsNotifier extends _$Riverpod3PostsNotifier {
 }
 
 /// Alternative implementation using the mixin pattern with V3
-@riverpod
-class Riverpod3MixinNotifier extends _$Riverpod3MixinNotifier
+class Riverpod3MixinNotifier extends AsyncNotifier<PagePagingData<SampleItem>>
     with PagePagingNotifierMixinV3<SampleItem> {
   @override
   Future<PagePagingData<SampleItem>> build() => fetch(page: 1);
@@ -134,8 +136,7 @@ class _MutationExampleView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final postsAsync = ref.watch(riverpod3PostsNotifierProvider);
-    final loadNextPage = ref.watch(riverpod3PostsNotifierProvider.loadNextPage);
-    final refresh = ref.watch(riverpod3PostsNotifierProvider.refresh);
+    final notifier = ref.read(riverpod3PostsNotifierProvider.notifier);
     
     return Scaffold(
       body: postsAsync.when(
@@ -154,33 +155,20 @@ class _MutationExampleView extends ConsumerWidget {
         ),
         data: (pagedData) {
           return RefreshIndicator(
-            onRefresh: () async => await refresh(),
+            onRefresh: () async => await notifier.refresh(),
             child: ListView.builder(
               itemCount: pagedData.items.length + (pagedData.hasMore ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == pagedData.items.length) {
                   // Auto-load next page when reaching the end
-                  if (loadNextPage.state is MutationIdle) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      loadNextPage();
-                    });
-                  }
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    notifier.loadNextPage();
+                  });
                   
-                  return Padding(
-                    padding: const EdgeInsets.all(16),
+                  return const Padding(
+                    padding: EdgeInsets.all(16),
                     child: Center(
-                      child: switch (loadNextPage.state) {
-                        MutationError(:final error) => Column(
-                          children: [
-                            Text('Error: $error'),
-                            ElevatedButton(
-                              onPressed: () => loadNextPage(),
-                              child: const Text('Retry'),
-                            ),
-                          ],
-                        ),
-                        _ => const CircularProgressIndicator(),
-                      },
+                      child: CircularProgressIndicator(),
                     ),
                   );
                 }

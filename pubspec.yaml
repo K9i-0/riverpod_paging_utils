@@ -28,8 +28,13 @@ dev_dependencies:
 
 dependency_overrides:
   file: ^7.0.0
-  analyzer: ^7.0.0
+  analyzer: 7.0.0
   test_api: 0.7.3
+  test_core: 0.6.5
+  test: 1.25.8
+  mockito: 5.4.5
+  analyzer_plugin: 0.12.0
+  _fe_analyzer_shared: 76.0.0
 
 melos:
   repository: https://github.com/K9i-0/riverpod_paging_utils
