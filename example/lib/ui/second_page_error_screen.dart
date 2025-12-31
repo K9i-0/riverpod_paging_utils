@@ -53,41 +53,51 @@ class SecondPageErrorScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('2nd Page Error Sample'),
-        actions: [
-          Tooltip(
-            message: 'Toggle showSecondPageError',
-            child: Switch(
-              value: ref.watch(showSecondPageErrorProvider),
-              onChanged: (_) => ref
-                  .read(showSecondPageErrorProvider.notifier)
-                  .toggle(),
-            ),
+    final showSecondPageError = ref.watch(showSecondPageErrorProvider);
+
+    return Theme(
+      data: Theme.of(context).copyWith(
+        extensions: [
+          PagingHelperViewTheme(
+            showSecondPageError: showSecondPageError,
           ),
         ],
       ),
-      body: PagingHelperView(
-        provider: secondPageErrorProvider,
-        futureRefreshable: secondPageErrorProvider.future,
-        notifierRefreshable: secondPageErrorProvider.notifier,
-        contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
-          itemCount: widgetCount,
-          itemBuilder: (context, index) {
-            // if the index is last, then
-            // return the end item view.
-            if (index == widgetCount - 1) {
-              return endItemView;
-            }
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('2nd Page Error Sample'),
+          actions: [
+            Tooltip(
+              message: 'Toggle showSecondPageError',
+              child: Switch(
+                value: showSecondPageError,
+                onChanged: (_) =>
+                    ref.read(showSecondPageErrorProvider.notifier).toggle(),
+              ),
+            ),
+          ],
+        ),
+        body: PagingHelperView(
+          provider: secondPageErrorProvider,
+          futureRefreshable: secondPageErrorProvider.future,
+          notifierRefreshable: secondPageErrorProvider.notifier,
+          contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
+            itemCount: widgetCount,
+            itemBuilder: (context, index) {
+              // if the index is last, then
+              // return the end item view.
+              if (index == widgetCount - 1) {
+                return endItemView;
+              }
 
-            // Otherwise, build a list tile for each sample item.
-            return ListTile(
-              key: ValueKey(data.items[index].id),
-              title: Text(data.items[index].name),
-              subtitle: Text(data.items[index].id),
-            );
-          },
+              // Otherwise, build a list tile for each sample item.
+              return ListTile(
+                key: ValueKey(data.items[index].id),
+                title: Text(data.items[index].name),
+                subtitle: Text(data.items[index].id),
+              );
+            },
+          ),
         ),
       ),
     );

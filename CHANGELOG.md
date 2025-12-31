@@ -1,3 +1,21 @@
+## [1.0.0] - TBD
+
+### Breaking Changes
+- Riverpod 3.0対応
+  - `AutoDisposeAsyncNotifier` → `AsyncNotifier`へ移行
+  - `AutoDisposeAsyncNotifierProvider` → `AsyncNotifierProvider`へ移行
+  - 2ページ目以降のエラー状態を`PagingData`内で管理する方式に変更（`LoadNextStatus`を追加）
+
+### Changed
+- Dart SDK要件を`>=3.7.0`に更新
+- Flutter SDK要件を`>=3.32.0`に更新
+- `PagingHelperViewTheme`をパブリックAPIとしてエクスポート
+
+### Notes
+- `ProviderListenable`と`Refreshable`を`package:flutter_riverpod/misc.dart`からインポート
+  - Riverpodの公開APIからエクスポートされなくなったため
+  - 将来のRiverpodバージョンで別のインポートパスに変更される可能性あり
+
 ## [0.8.1](https://github.com/K9i-0/riverpod_paging_utils/compare/0.8.0...0.8.1) - 2025-06-17
 - ｀test: add comprehensive test coverage for paging utilities by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/43
 - feat(example): Add GridView support example by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/47

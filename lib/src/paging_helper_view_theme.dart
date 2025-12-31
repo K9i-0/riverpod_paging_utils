@@ -22,6 +22,7 @@ typedef EndErrorWidgetBuilder = Widget Function(
 /// [endLoadingViewBuilder] is used to build the ui of endItemView.
 /// [endErrorViewBuilder] is used to build the ui of endItemView when an error occurs.
 /// [enableRefreshIndicator] is used to enable or disable the pull-to-refresh functionality.
+/// [showSecondPageError] is used to show or hide the error view when loading subsequent pages fails.
 /// [sliverLoadingViewBuilder] is used to build the loading view for sliver widgets.
 /// [sliverErrorViewBuilder] is used to build the error view for sliver widgets.
 final class PagingHelperViewTheme
@@ -32,6 +33,7 @@ final class PagingHelperViewTheme
     this.endLoadingViewBuilder,
     this.endErrorViewBuilder,
     this.enableRefreshIndicator,
+    this.showSecondPageError,
     this.sliverLoadingViewBuilder,
     this.sliverErrorViewBuilder,
   });
@@ -40,6 +42,10 @@ final class PagingHelperViewTheme
   final WidgetBuilder? endLoadingViewBuilder;
   final EndErrorWidgetBuilder? endErrorViewBuilder;
   final bool? enableRefreshIndicator;
+
+  /// Whether to show error view when loading subsequent pages fails.
+  /// Defaults to true.
+  final bool? showSecondPageError;
   final WidgetBuilder? sliverLoadingViewBuilder;
   final ErrorWidgetBuilder? sliverErrorViewBuilder;
 
@@ -50,6 +56,7 @@ final class PagingHelperViewTheme
     WidgetBuilder? endLoadingViewBuilder,
     EndErrorWidgetBuilder? endErrorViewBuilder,
     bool? enableRefreshIndicator,
+    bool? showSecondPageError,
     WidgetBuilder? sliverLoadingViewBuilder,
     ErrorWidgetBuilder? sliverErrorViewBuilder,
   }) {
@@ -61,6 +68,7 @@ final class PagingHelperViewTheme
       endErrorViewBuilder: endErrorViewBuilder ?? this.endErrorViewBuilder,
       enableRefreshIndicator:
           enableRefreshIndicator ?? this.enableRefreshIndicator,
+      showSecondPageError: showSecondPageError ?? this.showSecondPageError,
       sliverLoadingViewBuilder:
           sliverLoadingViewBuilder ?? this.sliverLoadingViewBuilder,
       sliverErrorViewBuilder:

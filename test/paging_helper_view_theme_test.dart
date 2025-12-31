@@ -28,6 +28,7 @@ void main() {
         endLoadingViewBuilder: endLoadingBuilder,
         endErrorViewBuilder: endErrorBuilder,
         enableRefreshIndicator: false,
+        showSecondPageError: true,
       );
 
       expect(theme.loadingViewBuilder, equals(loadingBuilder));
@@ -35,6 +36,7 @@ void main() {
       expect(theme.endLoadingViewBuilder, equals(endLoadingBuilder));
       expect(theme.endErrorViewBuilder, equals(endErrorBuilder));
       expect(theme.enableRefreshIndicator, isFalse);
+      expect(theme.showSecondPageError, isTrue);
     });
 
     test('should create with partial properties', () {
@@ -49,6 +51,18 @@ void main() {
       expect(theme.endLoadingViewBuilder, isNull);
       expect(theme.endErrorViewBuilder, isNull);
       expect(theme.enableRefreshIndicator, isNull);
+      expect(theme.showSecondPageError, isNull);
+    });
+
+    test('showSecondPageError defaults to null and can be set', () {
+      final themeDefault = PagingHelperViewTheme();
+      expect(themeDefault.showSecondPageError, isNull);
+
+      final themeTrue = PagingHelperViewTheme(showSecondPageError: true);
+      expect(themeTrue.showSecondPageError, isTrue);
+
+      final themeFalse = PagingHelperViewTheme(showSecondPageError: false);
+      expect(themeFalse.showSecondPageError, isFalse);
     });
 
     test('copyWith should update specified properties', () {
@@ -65,16 +79,19 @@ void main() {
       final originalTheme = PagingHelperViewTheme(
         loadingViewBuilder: loadingBuilder1,
         enableRefreshIndicator: true,
+        showSecondPageError: true,
       );
 
       final updatedTheme = originalTheme.copyWith(
         loadingViewBuilder: loadingBuilder2,
         errorViewBuilder: errorBuilder,
+        showSecondPageError: false,
       ) as PagingHelperViewTheme;
 
       expect(updatedTheme.loadingViewBuilder, equals(loadingBuilder2));
       expect(updatedTheme.errorViewBuilder, equals(errorBuilder));
       expect(updatedTheme.enableRefreshIndicator, isTrue);
+      expect(updatedTheme.showSecondPageError, isFalse);
     });
 
     test('copyWith with no parameters should preserve existing values', () {
@@ -83,6 +100,7 @@ void main() {
       final theme = PagingHelperViewTheme(
         loadingViewBuilder: loadingBuilder,
         enableRefreshIndicator: false,
+        showSecondPageError: true,
       );
 
       final copiedTheme = theme.copyWith() as PagingHelperViewTheme;
@@ -90,6 +108,7 @@ void main() {
       // Note: copyWith preserves existing values when no parameters are passed
       expect(copiedTheme.loadingViewBuilder, equals(loadingBuilder));
       expect(copiedTheme.enableRefreshIndicator, isFalse);
+      expect(copiedTheme.showSecondPageError, isTrue);
     });
 
     test('lerp should return the same instance', () {

@@ -105,6 +105,8 @@ final class PagingHelperView<D extends PagingData<I>, I>
       return const SizedBox.shrink();
     }
 
+    final showSecondPageError = theme?.showSecondPageError ?? true;
+
     // Build widget based on loadNextStatus
     return switch (data.loadNextStatus) {
       // Idle: show visibility detector to trigger loading
@@ -113,11 +115,14 @@ final class PagingHelperView<D extends PagingData<I>, I>
         ),
       // Loading: show loading indicator
       LoadNextStatus.loading => const _EndLoadingItemView(),
-      // Error: show error with retry button
-      LoadNextStatus.error => _EndErrorItemView(
-          error: data.loadNextError,
-          onRetryButtonPressed: () => ref.read(notifierRefreshable).loadNext(),
-        ),
+      // Error: show error with retry button (or hide if showSecondPageError is false)
+      LoadNextStatus.error => showSecondPageError
+          ? _EndErrorItemView(
+              error: data.loadNextError,
+              onRetryButtonPressed: () =>
+                  ref.read(notifierRefreshable).loadNext(),
+            )
+          : const SizedBox.shrink(),
     };
   }
 }
