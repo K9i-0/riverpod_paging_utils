@@ -2,6 +2,18 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'paging_data.freezed.dart';
 
+/// The status of loading the next page.
+enum LoadNextStatus {
+  /// Idle state, ready to load next page.
+  idle,
+
+  /// Currently loading the next page.
+  loading,
+
+  /// An error occurred while loading the next page.
+  error,
+}
+
 /// An abstract class representing paginated data.
 ///
 /// This class provides a common interface for different types of paginated data,
@@ -13,6 +25,24 @@ abstract interface class PagingData<T> {
 
   /// Indicates whether there are more pages available.
   bool get hasMore;
+
+  /// The status of loading the next page.
+  LoadNextStatus get loadNextStatus;
+
+  /// The error that occurred while loading the next page, if any.
+  Object? get loadNextError;
+
+  /// The stack trace of the error that occurred while loading the next page.
+  StackTrace? get loadNextStackTrace;
+}
+
+/// Extension methods for [PagingData].
+extension PagingDataX<T> on PagingData<T> {
+  /// Returns `true` if the next page is currently being loaded.
+  bool get isLoadingNext => loadNextStatus == LoadNextStatus.loading;
+
+  /// Returns `true` if an error occurred while loading the next page.
+  bool get hasLoadNextError => loadNextStatus == LoadNextStatus.error;
 }
 
 /// Represents paginated data using page-based pagination.
@@ -28,10 +58,16 @@ abstract class PagePagingData<T>
   /// [items] is the list of items in the current page.
   /// [hasMore] indicates whether there are more pages available.
   /// [page] is the current page number.
+  /// [loadNextStatus] is the status of loading the next page.
+  /// [loadNextError] is the error that occurred while loading the next page.
+  /// [loadNextStackTrace] is the stack trace of the error.
   const factory PagePagingData({
     required List<T> items,
     required bool hasMore,
     required int page,
+    @Default(LoadNextStatus.idle) LoadNextStatus loadNextStatus,
+    @Default(null) Object? loadNextError,
+    @Default(null) StackTrace? loadNextStackTrace,
   }) = _PagePagingData<T>;
 }
 
@@ -48,10 +84,16 @@ abstract class OffsetPagingData<T>
   /// [items] is the list of items in the current page.
   /// [hasMore] indicates whether there are more items available.
   /// [offset] is the current offset value.
+  /// [loadNextStatus] is the status of loading the next page.
+  /// [loadNextError] is the error that occurred while loading the next page.
+  /// [loadNextStackTrace] is the stack trace of the error.
   const factory OffsetPagingData({
     required List<T> items,
     required bool hasMore,
     required int offset,
+    @Default(LoadNextStatus.idle) LoadNextStatus loadNextStatus,
+    @Default(null) Object? loadNextError,
+    @Default(null) StackTrace? loadNextStackTrace,
   }) = _OffsetPagingData<T>;
 }
 
@@ -68,9 +110,15 @@ abstract class CursorPagingData<T>
   /// [items] is the list of items in the current page.
   /// [hasMore] indicates whether there are more items available.
   /// [nextCursor] is the cursor value for the next page, or `null` if there are no more pages.
+  /// [loadNextStatus] is the status of loading the next page.
+  /// [loadNextError] is the error that occurred while loading the next page.
+  /// [loadNextStackTrace] is the stack trace of the error.
   const factory CursorPagingData({
     required List<T> items,
     required bool hasMore,
     required String? nextCursor,
+    @Default(LoadNextStatus.idle) LoadNextStatus loadNextStatus,
+    @Default(null) Object? loadNextError,
+    @Default(null) StackTrace? loadNextStackTrace,
   }) = _CursorPagingData<T>;
 }

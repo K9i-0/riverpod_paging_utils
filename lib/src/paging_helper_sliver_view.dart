@@ -28,7 +28,6 @@ final class PagingHelperSliverView<D extends PagingData<I>, I>
     required this.futureRefreshable,
     required this.notifierRefreshable,
     required this.contentBuilder,
-    this.showSecondPageError = true,
     super.key,
   });
 
@@ -41,8 +40,6 @@ final class PagingHelperSliverView<D extends PagingData<I>, I>
   /// If endItemView is non-null, it is displayed at the end of the list.
   final Widget Function(D data, int widgetCount, Widget endItemView)
       contentBuilder;
-
-  final bool showSecondPageError;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -70,33 +67,13 @@ final class PagingHelperSliverView<D extends PagingData<I>, I>
               ),
             );
 
-    return ref.watch(provider).whenIgnorableError(
-          data: (
-            data, {
-            required hasError,
-            required isLoading,
-            required error,
-          }) {
+    return ref.watch(provider).when(
+          data: (data) {
             return contentBuilder(
               data,
               // Add 1 to the length to include the endItemView
               data.items.length + 1,
-              switch ((data.hasMore, hasError, isLoading)) {
-                // Display a widget to detect when the last element is reached
-                // if there are more pages and no errors
-                (true, false, _) => _EndVDLoadingItemView(
-                    onScrollEnd: () async =>
-                        ref.read(notifierRefreshable).loadNext(),
-                  ),
-                (true, true, false) when showSecondPageError =>
-                  _EndErrorItemView(
-                    error: error,
-                    onRetryButtonPressed: () async =>
-                        ref.read(notifierRefreshable).loadNext(),
-                  ),
-                (true, true, true) => const _EndLoadingItemView(),
-                _ => const SizedBox.shrink(),
-              },
+              _buildEndItemView(context, ref, data, theme),
             );
           },
           // Loading state for the first page
@@ -108,9 +85,35 @@ final class PagingHelperSliverView<D extends PagingData<I>, I>
             st,
             () => ref.read(notifierRefreshable).forceRefresh(),
           ),
-          // Prioritize data for errors on the second page and beyond
-          skipErrorOnHasValue: true,
         );
+  }
+
+  /// Builds the end item view based on the current state.
+  Widget _buildEndItemView(
+    BuildContext context,
+    WidgetRef ref,
+    D data,
+    PagingHelperViewTheme? theme,
+  ) {
+    // No more data to load
+    if (!data.hasMore) {
+      return const SizedBox.shrink();
+    }
+
+    // Build widget based on loadNextStatus
+    return switch (data.loadNextStatus) {
+      // Idle: show visibility detector to trigger loading
+      LoadNextStatus.idle => _EndVDLoadingItemView(
+          onScrollEnd: () => ref.read(notifierRefreshable).loadNext(),
+        ),
+      // Loading: show loading indicator
+      LoadNextStatus.loading => const _EndLoadingItemView(),
+      // Error: show error with retry button
+      LoadNextStatus.error => _EndErrorItemView(
+          error: data.loadNextError,
+          onRetryButtonPressed: () => ref.read(notifierRefreshable).loadNext(),
+        ),
+    };
   }
 }
 
@@ -182,49 +185,5 @@ final class _EndErrorItemView extends StatelessWidget {
             );
 
     return childBuilder(context, error, onRetryButtonPressed);
-  }
-}
-
-extension _AsyncValueX<T> on AsyncValue<T> {
-  /// Extends the [when] method to handle async data states more effectively,
-  /// especially when maintaining data integrity despite errors.
-  ///
-  /// Use `skipErrorOnHasValue` to retain and display existing data
-  /// even if subsequent fetch attempts result in errors,
-  /// ideal for maintaining a seamless user experience.
-  R whenIgnorableError<R>({
-    required R Function(
-      T data, {
-      required bool hasError,
-      required bool isLoading,
-      required Object? error,
-    }) data,
-    required R Function(Object error, StackTrace stackTrace) error,
-    required R Function() loading,
-    bool skipLoadingOnReload = false,
-    bool skipLoadingOnRefresh = true,
-    bool skipError = false,
-    bool skipErrorOnHasValue = false,
-  }) {
-    if (skipErrorOnHasValue) {
-      if (hasValue && hasError) {
-        return data(
-          requireValue,
-          hasError: true,
-          isLoading: isLoading,
-          error: this.error,
-        );
-      }
-    }
-
-    return when(
-      skipLoadingOnReload: skipLoadingOnReload,
-      skipLoadingOnRefresh: skipLoadingOnRefresh,
-      skipError: skipError,
-      data: (d) =>
-          data(d, hasError: hasError, isLoading: isLoading, error: this.error),
-      error: error,
-      loading: loading,
-    );
   }
 }
