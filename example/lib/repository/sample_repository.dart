@@ -1,5 +1,4 @@
 import 'package:example/data/sample_item.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:random_name_generator/random_name_generator.dart';
 import 'package:record_iterable_utils/record_iterable_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
