@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart'
+    show ProviderListenable, Refreshable;
 import 'package:riverpod_paging_utils/src/paging_data.dart';
 import 'package:riverpod_paging_utils/src/paging_helper_view_theme.dart';
 import 'package:riverpod_paging_utils/src/paging_notifier_mixin.dart';

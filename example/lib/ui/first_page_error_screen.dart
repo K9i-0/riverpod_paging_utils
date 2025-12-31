@@ -51,9 +51,9 @@ class FirstPageErrorScreen extends StatelessWidget {
         title: const Text('1st Page Error Sample'),
       ),
       body: PagingHelperView(
-        provider: firstPageErrorNotifierProvider,
-        futureRefreshable: firstPageErrorNotifierProvider.future,
-        notifierRefreshable: firstPageErrorNotifierProvider.notifier,
+        provider: firstPageErrorProvider,
+        futureRefreshable: firstPageErrorProvider.future,
+        notifierRefreshable: firstPageErrorProvider.notifier,
         contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
           itemCount: widgetCount,
           itemBuilder: (context, index) {

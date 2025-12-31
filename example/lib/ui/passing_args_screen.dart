@@ -41,7 +41,7 @@ class PassingArgsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = passingArgsNotifierProvider(id: '1');
+    final provider = passingArgsProvider(id: '1');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Passing Args Sample'),

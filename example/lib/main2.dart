@@ -90,9 +90,9 @@ class SampleScreen extends StatelessWidget {
         title: const Text('Basic UI Customization'),
       ),
       body: PagingHelperView(
-        provider: sampleNotifierProvider,
-        futureRefreshable: sampleNotifierProvider.future,
-        notifierRefreshable: sampleNotifierProvider.notifier,
+        provider: sampleProvider,
+        futureRefreshable: sampleProvider.future,
+        notifierRefreshable: sampleProvider.notifier,
         contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
           itemCount: widgetCount,
           itemBuilder: (context, index) {

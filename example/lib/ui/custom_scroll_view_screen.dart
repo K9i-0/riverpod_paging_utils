@@ -71,7 +71,7 @@ class CustomScrollViewScreen extends ConsumerWidget {
           // CupertinoSliverRefreshControl for iOS-style pull-to-refresh
           CupertinoSliverRefreshControl(
             onRefresh: () async =>
-                ref.refresh(customScrollViewNotifierProvider.future),
+                ref.refresh(customScrollViewProvider.future),
           ),
           // Static content before the list
           const SliverToBoxAdapter(
@@ -104,9 +104,9 @@ class CustomScrollViewScreen extends ConsumerWidget {
           ),
           // The paginated list using PagingHelperSliverView
           PagingHelperSliverView(
-            provider: customScrollViewNotifierProvider,
-            futureRefreshable: customScrollViewNotifierProvider.future,
-            notifierRefreshable: customScrollViewNotifierProvider.notifier,
+            provider: customScrollViewProvider,
+            futureRefreshable: customScrollViewProvider.future,
+            notifierRefreshable: customScrollViewProvider.notifier,
             contentBuilder: (data, widgetCount, endItemView) {
               return SliverList(
                 delegate: SliverChildBuilderDelegate(

@@ -67,9 +67,9 @@ class _GridViewScreenState extends State<GridViewScreen> {
         ],
       ),
       body: PagingHelperView(
-        provider: gridViewNotifierProvider,
-        futureRefreshable: gridViewNotifierProvider.future,
-        notifierRefreshable: gridViewNotifierProvider.notifier,
+        provider: gridViewProvider,
+        futureRefreshable: gridViewProvider.future,
+        notifierRefreshable: gridViewProvider.notifier,
         contentBuilder: (data, widgetCount, endItemView) {
           return GridView.builder(
             scrollDirection: _scrollDirection,

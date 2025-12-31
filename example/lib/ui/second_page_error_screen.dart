@@ -60,18 +60,18 @@ class SecondPageErrorScreen extends ConsumerWidget {
           Tooltip(
             message: 'Toggle showSecondPageError',
             child: Switch(
-              value: ref.watch(showSecondPageErrorNotifierProvider),
+              value: ref.watch(showSecondPageErrorProvider),
               onChanged: (_) => ref
-                  .read(showSecondPageErrorNotifierProvider.notifier)
+                  .read(showSecondPageErrorProvider.notifier)
                   .toggle(),
             ),
           ),
         ],
       ),
       body: PagingHelperView(
-        provider: secondPageErrorNotifierProvider,
-        futureRefreshable: secondPageErrorNotifierProvider.future,
-        notifierRefreshable: secondPageErrorNotifierProvider.notifier,
+        provider: secondPageErrorProvider,
+        futureRefreshable: secondPageErrorProvider.future,
+        notifierRefreshable: secondPageErrorProvider.notifier,
         contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
           itemCount: widgetCount,
           itemBuilder: (context, index) {
@@ -89,7 +89,6 @@ class SecondPageErrorScreen extends ConsumerWidget {
             );
           },
         ),
-        showSecondPageError: ref.watch(showSecondPageErrorNotifierProvider),
       ),
     );
   }

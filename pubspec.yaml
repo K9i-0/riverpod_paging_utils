@@ -4,8 +4,8 @@ description: Flutter/Riverpod pagination utilities. Easily build screens with
 version: 0.8.1
 homepage: https://github.com/K9i-0/riverpod_paging_utils
 environment:
-  sdk: ">=3.6.0 <4.0.0"
-  flutter: ">=3.27.0"
+  sdk: ">=3.7.0 <4.0.0"
+  flutter: ">=3.32.0"
 
 dependencies:
   flutter:
@@ -36,8 +36,8 @@ melos:
   command:
     bootstrap:
       environment:
-        sdk: ">=3.6.0 <4.0.0"
-        flutter: ">=3.27.0"
+        sdk: ">=3.7.0 <4.0.0"
+        flutter: ">=3.32.0"
       dependencies:
         flutter_riverpod: ^3.0.0
         freezed_annotation: ^3.0.0

@@ -73,7 +73,7 @@ class SampleScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Display errors using SnackBar
-    ref.listen(sampleNotifierProvider, (_, state) {
+    ref.listen(sampleProvider, (_, state) {
       if (!state.isLoading && state.hasError) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -90,13 +90,13 @@ class SampleScreen extends ConsumerWidget {
         title: const Text('Advanced UI Customization'),
       ),
       body: PagingHelperView(
-        provider: sampleNotifierProvider,
-        futureRefreshable: sampleNotifierProvider.future,
-        notifierRefreshable: sampleNotifierProvider.notifier,
+        provider: sampleProvider,
+        futureRefreshable: sampleProvider.future,
+        notifierRefreshable: sampleProvider.notifier,
         contentBuilder: (data, widgetCount, endItemView) {
           // Use EasyRefresh alternative to RefreshIndicator
           return EasyRefresh(
-            onRefresh: () async => ref.refresh(sampleNotifierProvider.future),
+            onRefresh: () async => ref.refresh(sampleProvider.future),
             child: ListView.builder(
               itemCount: widgetCount,
               itemBuilder: (context, index) {

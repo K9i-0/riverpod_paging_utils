@@ -107,9 +107,9 @@ class PagingMethodScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             PagingHelperView(
-              provider: pageBasedNotifierProvider,
-              futureRefreshable: pageBasedNotifierProvider.future,
-              notifierRefreshable: pageBasedNotifierProvider.notifier,
+              provider: pageBasedProvider,
+              futureRefreshable: pageBasedProvider.future,
+              notifierRefreshable: pageBasedProvider.notifier,
               contentBuilder: (data, widgetCount, endItemView) =>
                   ListView.builder(
                 key: const PageStorageKey<String>('page'),
@@ -131,9 +131,9 @@ class PagingMethodScreen extends StatelessWidget {
               ),
             ),
             PagingHelperView(
-              provider: offsetBasedNotifierProvider,
-              futureRefreshable: offsetBasedNotifierProvider.future,
-              notifierRefreshable: offsetBasedNotifierProvider.notifier,
+              provider: offsetBasedProvider,
+              futureRefreshable: offsetBasedProvider.future,
+              notifierRefreshable: offsetBasedProvider.notifier,
               contentBuilder: (data, widgetCount, endItemView) =>
                   ListView.builder(
                 key: const PageStorageKey<String>('offset'),
@@ -155,9 +155,9 @@ class PagingMethodScreen extends StatelessWidget {
               ),
             ),
             PagingHelperView(
-              provider: cursorBasedNotifierProvider,
-              futureRefreshable: cursorBasedNotifierProvider.future,
-              notifierRefreshable: cursorBasedNotifierProvider.notifier,
+              provider: cursorBasedProvider,
+              futureRefreshable: cursorBasedProvider.future,
+              notifierRefreshable: cursorBasedProvider.notifier,
               contentBuilder: (data, widgetCount, endItemView) =>
                   ListView.builder(
                 key: const PageStorageKey<String>('cursor'),
