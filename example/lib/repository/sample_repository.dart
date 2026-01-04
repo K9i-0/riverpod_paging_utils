@@ -54,7 +54,10 @@ class SampleRepository {
   Future<(List<SampleItem> items, String? nextCursor)> getByCursor(
     String? cursor,
   ) async {
+    final stopwatch = Stopwatch()..start();
     await Future<void>.delayed(const Duration(milliseconds: 500));
+    // ignore: avoid_print
+    print('[SampleRepository] getByCursor($cursor) delay: ${stopwatch.elapsedMilliseconds}ms');
 
     final items = _db
         .sublist(

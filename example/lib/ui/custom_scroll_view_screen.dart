@@ -116,13 +116,16 @@ class CustomScrollViewScreen extends ConsumerWidget {
                     }
 
                     final item = data.items[index];
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Text(item.name[0]),
+                    return Semantics(
+                      identifier: 'sliver-item-$index',
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          child: Text(item.name[0]),
+                        ),
+                        title: Text(item.name),
+                        subtitle: Text(item.id),
+                        trailing: const Icon(Icons.arrow_forward_ios),
                       ),
-                      title: Text(item.name),
-                      subtitle: Text(item.id),
-                      trailing: const Icon(Icons.arrow_forward_ios),
                     );
                   },
                   childCount: widgetCount,

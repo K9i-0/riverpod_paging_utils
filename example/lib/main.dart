@@ -15,8 +15,10 @@ part 'main.g.dart';
 
 void main() {
   runApp(
-    const ProviderScope(
-      child: MainApp(),
+    ProviderScope(
+      // Disable automatic retry for testing error screens
+      retry: (retryCount, error) => null,
+      child: const MainApp(),
     ),
   );
 }
@@ -79,6 +81,15 @@ class SampleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) => Semantics(
+            identifier: 'drawer-menu-button',
+            child: IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
+        ),
         title: const Text('Sample Screen'),
       ),
       drawer: Drawer(
@@ -138,10 +149,13 @@ class SampleScreen extends StatelessWidget {
             }
 
             // Otherwise, build a list tile for each sample item.
-            return ListTile(
-              key: ValueKey(data.items[index].id),
-              title: Text(data.items[index].name),
-              subtitle: Text(data.items[index].id),
+            return Semantics(
+              identifier: 'sample-item-$index',
+              child: ListTile(
+                key: ValueKey(data.items[index].id),
+                title: Text(data.items[index].name),
+                subtitle: Text(data.items[index].id),
+              ),
             );
           },
         ),

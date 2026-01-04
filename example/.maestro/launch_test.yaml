@@ -1,0 +1,13 @@
+appId: ${APP_ID}
+name: Launch Test - アプリ起動確認
+---
+# アプリを起動（状態クリア）
+- launchApp:
+    clearState: true
+
+# Sample Screen が表示されることを確認
+- assertVisible: "Sample Screen"
+
+# リストアイテムが表示されることを確認（最初のアイテム）
+- assertVisible:
+    id: "sample-item-0"

@@ -1,0 +1,28 @@
+appId: ${APP_ID}
+name: Paging Test - ページング動作確認
+---
+# アプリを起動（状態クリア）
+- launchApp:
+    clearState: true
+
+# Sample Screen が表示されることを確認
+- assertVisible: "Sample Screen"
+
+# 最初のアイテムが表示されることを確認
+- assertVisible:
+    id: "sample-item-0"
+
+# 29番目のアイテムまでスクロール（最初のページの最後）
+- scrollUntilVisible:
+    element:
+      id: "sample-item-29"
+    direction: DOWN
+    timeout: 15000
+    speed: 80
+
+# 35番目のアイテムまでスクロール（次のページが読み込まれた確認）
+- scrollUntilVisible:
+    element:
+      id: "sample-item-35"
+    direction: DOWN
+    timeout: 10000
