@@ -1,3 +1,6 @@
+## [0.8.2](https://github.com/K9i-0/riverpod_paging_utils/compare/0.8.1...0.8.2) - 2026-01-04
+- feat!: Riverpod 3.0 compatibility by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/51
+
 ## [1.0.0] - TBD
 
 ### Breaking Changes
