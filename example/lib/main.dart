@@ -86,23 +86,37 @@ class MainApp extends StatelessWidget {
                           child: Column(
                             children: [
                               Container(
-                                width: 80,
-                                height: 80,
+                                width: 88,
+                                height: 88,
                                 decoration: BoxDecoration(
-                                  color: Colors.red.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(20),
+                                  color: const Color(
+                                    0xFFEF4444,
+                                  ).withValues(alpha: 0.08),
+                                  shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
-                                  Icons.error_outline_rounded,
-                                  size: 40,
-                                  color: Colors.red,
+                                child: Center(
+                                  child: Container(
+                                    width: 56,
+                                    height: 56,
+                                    decoration: BoxDecoration(
+                                      color: const Color(
+                                        0xFFEF4444,
+                                      ).withValues(alpha: 0.15),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.error_outline_rounded,
+                                      size: 32,
+                                      color: Color(0xFFEF4444),
+                                    ),
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 24),
                               Text(
                                 'Oops! Something went wrong',
                                 style: Theme.of(context).textTheme.titleLarge
-                                    ?.copyWith(fontWeight: FontWeight.w600),
+                                    ?.copyWith(fontWeight: FontWeight.w700),
                               ),
                               const SizedBox(height: 8),
                               Text(
@@ -111,7 +125,7 @@ class MainApp extends StatelessWidget {
                                   context,
                                 ).textTheme.bodyMedium?.copyWith(
                                   color: Theme.of(context).colorScheme.onSurface
-                                      .withValues(alpha: 0.6),
+                                      .withValues(alpha: 0.5),
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -141,7 +155,7 @@ class MainApp extends StatelessWidget {
                                   boxShadow: [
                                     BoxShadow(
                                       color: AppColors.primary.withValues(
-                                        alpha: 0.4,
+                                        alpha: 0.3,
                                       ),
                                       blurRadius: 12,
                                       offset: const Offset(0, 4),
@@ -178,25 +192,67 @@ class MainApp extends StatelessWidget {
             // Custom end error view
             endErrorViewBuilder:
                 (context, error, onRetryPressed) => Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.errorContainer.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Semantics(
                           identifier: 'end-error-view',
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
-                                Icons.wifi_off_rounded,
-                                color: Colors.orange,
-                                size: 20,
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: const Color(
+                                    0xFFEF4444,
+                                  ).withValues(alpha: 0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Container(
+                                    width: 28,
+                                    height: 28,
+                                    decoration: BoxDecoration(
+                                      color: const Color(
+                                        0xFFEF4444,
+                                      ).withValues(alpha: 0.2),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.error_outline_rounded,
+                                      size: 16,
+                                      color: Color(0xFFEF4444),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 12),
                               Flexible(
                                 child: Text(
                                   '$error',
-                                  style: const TextStyle(color: Colors.orange),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withValues(alpha: 0.6),
+                                  ),
                                 ),
                               ),
                             ],
@@ -207,12 +263,31 @@ class MainApp extends StatelessWidget {
                           identifier: 'error-retry-button',
                           button: true,
                           container: true,
-                          child: TextButton.icon(
-                            onPressed: onRetryPressed,
-                            icon: const Icon(Icons.refresh_rounded),
-                            label: const Text('Retry'),
-                            style: TextButton.styleFrom(
-                              foregroundColor: AppColors.primary,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: TextButton.icon(
+                              onPressed: onRetryPressed,
+                              icon: const Icon(Icons.refresh_rounded),
+                              label: const Text('Retry'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: AppColors.primary,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 10,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -297,23 +372,37 @@ class MainApp extends StatelessWidget {
                           child: Column(
                             children: [
                               Container(
-                                width: 80,
-                                height: 80,
+                                width: 88,
+                                height: 88,
                                 decoration: BoxDecoration(
-                                  color: Colors.red.withValues(alpha: 0.15),
-                                  borderRadius: BorderRadius.circular(20),
+                                  color: const Color(
+                                    0xFFEF4444,
+                                  ).withValues(alpha: 0.1),
+                                  shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
-                                  Icons.error_outline_rounded,
-                                  size: 40,
-                                  color: Colors.red,
+                                child: Center(
+                                  child: Container(
+                                    width: 56,
+                                    height: 56,
+                                    decoration: BoxDecoration(
+                                      color: const Color(
+                                        0xFFEF4444,
+                                      ).withValues(alpha: 0.2),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.error_outline_rounded,
+                                      size: 32,
+                                      color: Color(0xFFEF4444),
+                                    ),
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 24),
                               Text(
                                 'Oops! Something went wrong',
                                 style: Theme.of(context).textTheme.titleLarge
-                                    ?.copyWith(fontWeight: FontWeight.w600),
+                                    ?.copyWith(fontWeight: FontWeight.w700),
                               ),
                               const SizedBox(height: 8),
                               Text(
@@ -322,7 +411,7 @@ class MainApp extends StatelessWidget {
                                   context,
                                 ).textTheme.bodyMedium?.copyWith(
                                   color: Theme.of(context).colorScheme.onSurface
-                                      .withValues(alpha: 0.6),
+                                      .withValues(alpha: 0.5),
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -349,6 +438,15 @@ class MainApp extends StatelessWidget {
                                     colors: AppColors.primaryGradient,
                                   ),
                                   borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.primary.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                      blurRadius: 12,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
                                 ),
                                 child: const Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -379,25 +477,67 @@ class MainApp extends StatelessWidget {
                 ),
             endErrorViewBuilder:
                 (context, error, onRetryPressed) => Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.errorContainer.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Semantics(
                           identifier: 'end-error-view',
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
-                                Icons.wifi_off_rounded,
-                                color: Colors.orange,
-                                size: 20,
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: const Color(
+                                    0xFFEF4444,
+                                  ).withValues(alpha: 0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Container(
+                                    width: 28,
+                                    height: 28,
+                                    decoration: BoxDecoration(
+                                      color: const Color(
+                                        0xFFEF4444,
+                                      ).withValues(alpha: 0.2),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.error_outline_rounded,
+                                      size: 16,
+                                      color: Color(0xFFEF4444),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 12),
                               Flexible(
                                 child: Text(
                                   '$error',
-                                  style: const TextStyle(color: Colors.orange),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withValues(alpha: 0.6),
+                                  ),
                                 ),
                               ),
                             ],
@@ -408,12 +548,31 @@ class MainApp extends StatelessWidget {
                           identifier: 'error-retry-button',
                           button: true,
                           container: true,
-                          child: TextButton.icon(
-                            onPressed: onRetryPressed,
-                            icon: const Icon(Icons.refresh_rounded),
-                            label: const Text('Retry'),
-                            style: TextButton.styleFrom(
-                              foregroundColor: AppColors.primaryLight,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primaryLight.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: TextButton.icon(
+                              onPressed: onRetryPressed,
+                              icon: const Icon(Icons.refresh_rounded),
+                              label: const Text('Retry'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: AppColors.primaryLight,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 10,
+                                ),
+                              ),
                             ),
                           ),
                         ),

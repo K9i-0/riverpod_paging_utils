@@ -231,7 +231,8 @@ class PagingMethodScreen extends StatelessWidget {
                       const Spacer(),
                       TabBar(
                         indicatorColor: Colors.white,
-                        indicatorWeight: 3,
+                        indicatorWeight: 4,
+                        indicatorSize: TabBarIndicatorSize.label,
                         labelColor: Colors.white,
                         unselectedLabelColor: Colors.white60,
                         tabs: [
@@ -242,7 +243,7 @@ class PagingMethodScreen extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(Icons.filter_1_rounded, size: 18),
-                                  SizedBox(width: 6),
+                                  SizedBox(width: 8),
                                   Text('Page'),
                                 ],
                               ),
@@ -255,7 +256,7 @@ class PagingMethodScreen extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(Icons.format_list_numbered_rounded, size: 18),
-                                  SizedBox(width: 6),
+                                  SizedBox(width: 8),
                                   Text('Offset'),
                                 ],
                               ),
@@ -268,7 +269,7 @@ class PagingMethodScreen extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(Icons.arrow_forward_rounded, size: 18),
-                                  SizedBox(width: 6),
+                                  SizedBox(width: 8),
                                   Text('Cursor'),
                                 ],
                               ),

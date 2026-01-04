@@ -21,7 +21,8 @@ class ItemCard extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      // 改善2: カード間の余白を広げて視覚的分離を強化
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -33,8 +34,9 @@ class ItemCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
-                  blurRadius: 10,
+                  // 改善2: 影を強調して立体感を向上
+                  color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.1),
+                  blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -49,27 +51,35 @@ class ItemCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // 改善1: ユーザー名をより目立たせる
                         Text(
                           item.name,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            letterSpacing: 0.1,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 6),
+                        // 改善1: IDをより控えめに表示（#プレフィックス付き）
                         Text(
-                          item.id,
+                          '#${index + 1}',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurface.withValues(
-                              alpha: 0.6,
+                              alpha: 0.45,
                             ),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],
                     ),
                   ),
+                  // シンプルな矢印アイコン
                   Icon(
                     Icons.chevron_right_rounded,
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
+                    size: 22,
                   ),
                 ],
               ),
@@ -81,27 +91,37 @@ class ItemCard extends StatelessWidget {
   }
 
   Widget _buildAvatar(BuildContext context) {
-    final colors = [
-      AppColors.primary,
-      AppColors.secondary,
-      AppColors.primaryDark,
-      AppColors.secondaryDark,
-      const Color(0xFFFF6B6B),
-      const Color(0xFFFFBE0B),
+    // 改善3: 調和の取れたカラーパレット（彩度・明度を統一）
+    const colors = [
+      Color(0xFF6366F1), // Indigo
+      Color(0xFF14B8A6), // Teal
+      Color(0xFFF97316), // Orange
+      Color(0xFF8B5CF6), // Purple
+      Color(0xFF06B6D4), // Cyan
+      Color(0xFFEC4899), // Pink
     ];
 
-    final color = colors[index % colors.length];
+    // 改善3: ユーザー名のハッシュから色を決定（一貫性のある配色）
+    final colorIndex = item.name.hashCode.abs() % colors.length;
+    final color = colors[colorIndex];
 
     return Container(
       width: 48,
       height: 48,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [color, color.withValues(alpha: 0.7)],
+          colors: [color, color.withValues(alpha: 0.75)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: 0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Center(
         child: Text(
@@ -132,13 +152,14 @@ class GridItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // グラデーション: 2番目の色をより明るくしてコントラストを強調
     final gradients = [
-      [const Color(0xFF667EEA), const Color(0xFF764BA2)],
-      [const Color(0xFF00BFA6), const Color(0xFF00E5CC)],
-      [const Color(0xFFFF6B6B), const Color(0xFFFF8E8E)],
-      [const Color(0xFFFFBE0B), const Color(0xFFFFE066)],
-      [const Color(0xFF6C63FF), const Color(0xFFA29BFE)],
-      [const Color(0xFF00D4FF), const Color(0xFF00F5D4)],
+      [const Color(0xFF667EEA), const Color(0xFF9F7AEA)], // Purple系をより明るく
+      [const Color(0xFF00BFA6), const Color(0xFF5EEAD4)], // Tealをより明るく
+      [const Color(0xFFFF6B6B), const Color(0xFFFFB3B3)], // Redをより明るく
+      [const Color(0xFFFFBE0B), const Color(0xFFFFF176)], // Yellowをより明るく
+      [const Color(0xFF6C63FF), const Color(0xFFC4B5FD)], // Indigoをより明るく
+      [const Color(0xFF00D4FF), const Color(0xFF67E8F9)], // Cyanをより明るく
     ];
 
     final gradient = gradients[index % gradients.length];
@@ -147,7 +168,7 @@ class GridItemCard extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         child: DecoratedBox(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -155,12 +176,13 @@ class GridItemCard extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: gradient[0].withValues(alpha: 0.4),
-                blurRadius: 12,
-                offset: const Offset(0, 6),
+                // シャドウを強化: より広いblurRadius、より深いoffset
+                color: gradient[0].withValues(alpha: 0.35),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
               ),
             ],
           ),
@@ -173,7 +195,7 @@ class GridItemCard extends StatelessWidget {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.25),
+                    color: Colors.white.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Center(
@@ -194,6 +216,13 @@ class GridItemCard extends StatelessWidget {
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black26,
+                        blurRadius: 4,
+                        offset: Offset(0, 1),
+                      ),
+                    ],
                   ),
                   textAlign: TextAlign.center,
                   maxLines: 1,
@@ -201,10 +230,17 @@ class GridItemCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  item.id,
+                  '#${index + 1}',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.8),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 11,
+                    shadows: const [
+                      Shadow(
+                        color: Colors.black26,
+                        blurRadius: 4,
+                        offset: Offset(0, 1),
+                      ),
+                    ],
                   ),
                   textAlign: TextAlign.center,
                   maxLines: 1,
