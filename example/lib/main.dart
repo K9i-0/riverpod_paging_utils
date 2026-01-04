@@ -32,12 +32,90 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         extensions: [
           PagingHelperViewTheme(
-              // loadingViewBuilder: (context) => const Center(
-              //   child: CircularProgressIndicator(
-              //     color: Colors.red,
-              //   ),
-              // ),
+            // Custom error view with Semantics identifier for E2E testing
+            errorViewBuilder: (context, error, stackTrace, onRefreshPressed) =>
+                Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Semantics(
+                    identifier: 'error-view',
+                    child: Column(
+                      children: [
+                        const Icon(Icons.error_outline, size: 48),
+                        const SizedBox(height: 16),
+                        Text('Error: $error'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Semantics(
+                    identifier: 'retry-button',
+                    button: true,
+                    container: true,
+                    child: GestureDetector(
+                      onTap: onRefreshPressed,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'Retry',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+            ),
+            // Custom end error view with Semantics identifier for E2E testing
+            endErrorViewBuilder: (context, error, onRetryPressed) => Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Semantics(
+                      identifier: 'end-error-view',
+                      child: Text('$error'),
+                    ),
+                    const SizedBox(height: 8),
+                    Semantics(
+                      identifier: 'error-retry-button',
+                      button: true,
+                      container: true,
+                      child: GestureDetector(
+                        onTap: onRetryPressed,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            'Retry',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       home: const SampleScreen(),

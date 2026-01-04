@@ -1,0 +1,41 @@
+appId: ${APP_ID}
+name: Passing Args Test - 引数付きプロバイダ動作確認
+---
+# アプリを起動（状態クリア）
+- launchApp:
+    clearState: true
+
+# Sample Screen が表示されることを確認
+- assertVisible: "Sample Screen"
+
+# ドロワーを開く
+- tapOn:
+    id: "drawer-menu-button"
+
+# ドロワーが表示されることを確認
+- assertVisible: "Menu"
+
+# Passing args screen に遷移
+- tapOn: "Passing args screen"
+
+# 画面遷移を確認
+- assertVisible: "Passing Args Sample"
+
+# 最初のアイテムが表示されることを確認
+- assertVisible:
+    id: "passing-args-item-0"
+
+# 29番目のアイテムまでスクロール（最初のページの最後付近）
+- scrollUntilVisible:
+    element:
+      id: "passing-args-item-29"
+    direction: DOWN
+    timeout: 15000
+    speed: 80
+
+# 35番目のアイテムまでスクロール（次のページが読み込まれた確認）
+- scrollUntilVisible:
+    element:
+      id: "passing-args-item-35"
+    direction: DOWN
+    timeout: 10000

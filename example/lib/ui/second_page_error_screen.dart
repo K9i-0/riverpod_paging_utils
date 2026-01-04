@@ -13,23 +13,30 @@ class SecondPageErrorNotifier extends _$SecondPageErrorNotifier
   @override
   Future<CursorPagingData<SampleItem>> build() => fetch(cursor: null);
 
+  static const _pageSize = 5;
+
   @override
   Future<CursorPagingData<SampleItem>> fetch({
     required String? cursor,
   }) async {
+    // 2nd page以降はエラーを発生させる
     if (cursor != null) {
       await Future<void>.delayed(const Duration(milliseconds: 500));
       throw Exception('Error fetching data');
     }
 
-    final repository = ref.read(sampleRepositoryProvider);
-    final (items, nextCursor) = await repository.getByCursor(cursor);
-    final hasMore = nextCursor != null && nextCursor.isNotEmpty;
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+
+    // 最初のページのみ5件を返す
+    final items = List.generate(
+      _pageSize,
+      (index) => SampleItem(id: 'item-$index', name: 'Item $index'),
+    );
 
     return CursorPagingData(
       items: items,
-      hasMore: hasMore,
-      nextCursor: nextCursor,
+      hasMore: true,
+      nextCursor: '$_pageSize',
     );
   }
 }
@@ -60,6 +67,45 @@ class SecondPageErrorScreen extends ConsumerWidget {
         extensions: [
           PagingHelperViewTheme(
             showSecondPageError: showSecondPageError,
+            // Custom end error view with Semantics identifier for E2E testing
+            endErrorViewBuilder: (context, error, onRetryPressed) => Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Semantics(
+                      identifier: 'end-error-view',
+                      child: Text('$error'),
+                    ),
+                    const SizedBox(height: 8),
+                    Semantics(
+                      identifier: 'error-retry-button',
+                      button: true,
+                      container: true,
+                      child: GestureDetector(
+                        onTap: onRetryPressed,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            'Retry',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
       ),

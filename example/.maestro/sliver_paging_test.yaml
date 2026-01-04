@@ -1,0 +1,38 @@
+appId: ${APP_ID}
+name: Sliver Paging Test - PagingHelperSliverView動作確認
+---
+# アプリを起動（状態クリア）
+- launchApp:
+    clearState: true
+
+# Sample Screen が表示されることを確認
+- assertVisible: "Sample Screen"
+
+# ドロワーを開く
+- tapOn:
+    id: "drawer-menu-button"
+
+# ドロワーが表示されることを確認
+- assertVisible: "Menu"
+
+# CustomScrollView example に遷移
+- tapOn: "CustomScrollView example"
+
+# 最初のスライバーアイテムが表示されることを確認
+- assertVisible:
+    id: "sliver-item-0"
+
+# 29番目のアイテムまでスクロール（最初のページの最後付近）
+- scrollUntilVisible:
+    element:
+      id: "sliver-item-29"
+    direction: DOWN
+    timeout: 15000
+    speed: 80
+
+# 35番目のアイテムまでスクロール（次のページが読み込まれた確認）
+- scrollUntilVisible:
+    element:
+      id: "sliver-item-35"
+    direction: DOWN
+    timeout: 10000

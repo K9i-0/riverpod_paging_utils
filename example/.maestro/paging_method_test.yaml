@@ -1,0 +1,94 @@
+appId: ${APP_ID}
+name: Paging Method Test - 3つのページング方式動作確認
+---
+# アプリを起動（状態クリア）
+- launchApp:
+    clearState: true
+
+# Sample Screen が表示されることを確認
+- assertVisible: "Sample Screen"
+
+# ドロワーを開く
+- tapOn:
+    id: "drawer-menu-button"
+
+# ドロワーが表示されることを確認
+- assertVisible: "Menu"
+
+# Paging method screen に遷移
+- tapOn: "Paging method screen"
+
+# 画面遷移を確認
+- assertVisible: "Paging Method Sample"
+
+# === Page タブのテスト ===
+# 最初のアイテムが表示されることを確認（デフォルトでPageタブ）
+- assertVisible:
+    id: "page-item-0"
+
+# 9番目のアイテムまでスクロール（最初のページの最後、10件/ページ）
+- scrollUntilVisible:
+    element:
+      id: "page-item-9"
+    direction: DOWN
+    timeout: 10000
+    speed: 80
+
+# 15番目のアイテムまでスクロール（次のページが読み込まれた確認）
+- scrollUntilVisible:
+    element:
+      id: "page-item-15"
+    direction: DOWN
+    timeout: 10000
+
+# === Offset タブのテスト ===
+# Offsetタブをタップ
+- tapOn:
+    id: "offset-tab"
+
+# タブ切り替え後のデータ読み込み待機
+- extendedWaitUntil:
+    visible:
+      id: "offset-item-0"
+    timeout: 3000
+
+# 14番目のアイテムまでスクロール（最初のページの最後、15件/ページ）
+- scrollUntilVisible:
+    element:
+      id: "offset-item-14"
+    direction: DOWN
+    timeout: 10000
+    speed: 80
+
+# 20番目のアイテムまでスクロール（次のページが読み込まれた確認）
+- scrollUntilVisible:
+    element:
+      id: "offset-item-20"
+    direction: DOWN
+    timeout: 10000
+
+# === Cursor タブのテスト ===
+# Cursorタブをタップ
+- tapOn:
+    id: "cursor-tab"
+
+# タブ切り替え後のデータ読み込み待機
+- extendedWaitUntil:
+    visible:
+      id: "cursor-item-0"
+    timeout: 3000
+
+# 29番目のアイテムまでスクロール（最初のページの最後、30件/ページ）
+- scrollUntilVisible:
+    element:
+      id: "cursor-item-29"
+    direction: DOWN
+    timeout: 15000
+    speed: 80
+
+# 35番目のアイテムまでスクロール（次のページが読み込まれた確認）
+- scrollUntilVisible:
+    element:
+      id: "cursor-item-35"
+    direction: DOWN
+    timeout: 10000

@@ -17,7 +17,7 @@ class PageBasedNotifier extends _$PageBasedNotifier
     required int page,
   }) async {
     final repository = ref.read(sampleRepositoryProvider);
-    final (items, hasMore) = await repository.getByPage(page: page, limit: 50);
+    final (items, hasMore) = await repository.getByPage(page: page, limit: 10);
     ref.keepAlive();
 
     return PagePagingData(
@@ -40,13 +40,13 @@ class OffsetBasedNotifier extends _$OffsetBasedNotifier
   }) async {
     final repository = ref.read(sampleRepositoryProvider);
     final (items, hasMore) =
-        await repository.getByOffset(offset: offset, limit: 75);
+        await repository.getByOffset(offset: offset, limit: 15);
     ref.keepAlive();
 
     return OffsetPagingData(
       items: items,
       hasMore: hasMore,
-      offset: offset + 75,
+      offset: offset + 15,
     );
   }
 }
@@ -90,16 +90,25 @@ class PagingMethodScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Paging Method Sample'),
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
-              Tab(
-                text: 'Page',
+              Semantics(
+                identifier: 'page-tab',
+                child: const Tab(
+                  text: 'Page',
+                ),
               ),
-              Tab(
-                text: 'Offset',
+              Semantics(
+                identifier: 'offset-tab',
+                child: const Tab(
+                  text: 'Offset',
+                ),
               ),
-              Tab(
-                text: 'Cursor',
+              Semantics(
+                identifier: 'cursor-tab',
+                child: const Tab(
+                  text: 'Cursor',
+                ),
               ),
             ],
           ),
@@ -122,10 +131,13 @@ class PagingMethodScreen extends StatelessWidget {
                   }
 
                   // Otherwise, build a list tile for each sample item.
-                  return ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
+                  return Semantics(
+                    identifier: 'page-item-$index',
+                    child: ListTile(
+                      key: ValueKey(data.items[index].id),
+                      title: Text(data.items[index].name),
+                      subtitle: Text(data.items[index].id),
+                    ),
                   );
                 },
               ),
@@ -146,10 +158,13 @@ class PagingMethodScreen extends StatelessWidget {
                   }
 
                   // Otherwise, build a list tile for each sample item.
-                  return ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
+                  return Semantics(
+                    identifier: 'offset-item-$index',
+                    child: ListTile(
+                      key: ValueKey(data.items[index].id),
+                      title: Text(data.items[index].name),
+                      subtitle: Text(data.items[index].id),
+                    ),
                   );
                 },
               ),
@@ -170,10 +185,13 @@ class PagingMethodScreen extends StatelessWidget {
                   }
 
                   // Otherwise, build a list tile for each sample item.
-                  return ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
+                  return Semantics(
+                    identifier: 'cursor-item-$index',
+                    child: ListTile(
+                      key: ValueKey(data.items[index].id),
+                      title: Text(data.items[index].name),
+                      subtitle: Text(data.items[index].id),
+                    ),
                   );
                 },
               ),
