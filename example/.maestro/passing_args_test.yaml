@@ -22,7 +22,7 @@ name: Passing Args Test - 引数付きプロバイダ動作確認
     text: ".*Passing Arguments.*"
 
 # 画面遷移を確認
-- assertVisible: "Passing Arguments"
+- assertVisible: "Family Provider"
 
 # 最初のアイテムが表示されることを確認
 - assertVisible:

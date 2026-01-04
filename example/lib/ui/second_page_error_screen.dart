@@ -57,9 +57,13 @@ class SecondPageErrorScreen extends ConsumerWidget {
     );
   }
 
+  static const _gradientColors = [Color(0xFFE53935), Color(0xFFEF5350)];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final showSecondPageError = ref.watch(showSecondPageErrorProvider);
+    final topPadding = MediaQuery.of(context).padding.top;
+    final headerHeight = kToolbarHeight + topPadding + 24;
 
     return Theme(
       data: Theme.of(context).copyWith(
@@ -154,144 +158,182 @@ class SecondPageErrorScreen extends ConsumerWidget {
         ],
       ),
       child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: const Text('2nd Page Error'),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.red.shade600, Colors.red.shade400],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-          ),
-          foregroundColor: Colors.white,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(left: 12),
-                      child: Text('Show Error', style: TextStyle(fontSize: 12)),
-                    ),
-                    Switch(
-                      value: showSecondPageError,
-                      onChanged:
-                          (_) =>
-                              ref
-                                  .read(showSecondPageErrorProvider.notifier)
-                                  .toggle(),
-                      activeThumbColor: Colors.white,
-                      activeTrackColor: Colors.white24,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-        body: Column(
+        body: Stack(
           children: [
-            // Gradient header space
-            Container(
-              height: kToolbarHeight + MediaQuery.of(context).padding.top + 20,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.red.shade600, Colors.red.shade400],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32),
-                ),
-              ),
-            ),
-            // Warning info
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 40,
+            // Background
+            Container(color: Theme.of(context).scaffoldBackgroundColor),
+            // Content area
+            Positioned.fill(
+              top: headerHeight - 16,
+              child: Column(
+                children: [
+                  // Warning info
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.red.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(16),
+                        border:
+                            Border.all(color: Colors.red.withValues(alpha: 0.3)),
                       ),
-                      child: const Icon(
-                        Icons.warning_amber_rounded,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
                         children: [
-                          Text(
-                            'Pagination Error',
-                            style: Theme.of(context).textTheme.titleSmall
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.warning_amber_rounded,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                           ),
-                          Text(
-                            'Error occurs when loading more items',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurface.withValues(alpha: 0.6),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Pagination Error',
+                                  style: Theme.of(context).textTheme.titleSmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'Error occurs when loading more items',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodySmall?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withValues(alpha: 0.6),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  // Content area
+                  Expanded(
+                    child: PagingHelperView(
+                      provider: secondPageErrorProvider,
+                      futureRefreshable: secondPageErrorProvider.future,
+                      notifierRefreshable: secondPageErrorProvider.notifier,
+                      contentBuilder:
+                          (data, widgetCount, endItemView) => ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: widgetCount,
+                            itemBuilder: (context, index) {
+                              if (index == widgetCount - 1) {
+                                return endItemView;
+                              }
+
+                              return Semantics(
+                                identifier: 'sample-item-$index',
+                                child: ItemCard(
+                                  key: ValueKey(data.items[index].id),
+                                  item: data.items[index],
+                                  index: index,
+                                ),
+                              );
+                            },
+                          ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            // Content area
-            Expanded(
-              child: PagingHelperView(
-                provider: secondPageErrorProvider,
-                futureRefreshable: secondPageErrorProvider.future,
-                notifierRefreshable: secondPageErrorProvider.notifier,
-                contentBuilder:
-                    (data, widgetCount, endItemView) => ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: widgetCount,
-                      itemBuilder: (context, index) {
-                        if (index == widgetCount - 1) {
-                          return endItemView;
-                        }
-
-                        return Semantics(
-                          identifier: 'sample-item-$index',
-                          child: ItemCard(
-                            key: ValueKey(data.items[index].id),
-                            item: data.items[index],
-                            index: index,
+            // Gradient header
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(28),
+                bottomRight: Radius.circular(28),
+              ),
+              child: Container(
+                height: headerHeight,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: _gradientColors,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back_ios_rounded),
+                          color: Colors.white,
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                        const Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '2nd Page Error',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                'Pagination error handling',
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(right: 4),
+                          padding: const EdgeInsets.only(left: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                'Error',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Switch(
+                                value: showSecondPageError,
+                                onChanged: (_) => ref
+                                    .read(showSecondPageErrorProvider.notifier)
+                                    .toggle(),
+                                activeThumbColor: Colors.white,
+                                activeTrackColor: Colors.white24,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                ),
               ),
             ),
           ],

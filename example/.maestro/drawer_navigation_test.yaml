@@ -26,8 +26,9 @@ name: Drawer Navigation Test - ドロワーナビゲーション確認
     visible: "1st Page Error"
     timeout: 3000
 
-# 戻る（iOSではBackボタンをタップ）
-- tapOn: "Back"
+# 戻る（iOS風の戻るボタンをタップ）
+- tapOn:
+    point: "28,102"
 
 # 画面遷移の待機
 - extendedWaitUntil:
@@ -47,8 +48,9 @@ name: Drawer Navigation Test - ドロワーナビゲーション確認
     visible: "2nd Page Error"
     timeout: 3000
 
-# 戻る
-- tapOn: "Back"
+# 戻る（iOS風の戻るボタンをタップ）
+- tapOn:
+    point: "28,102"
 
 # 画面遷移の待機
 - extendedWaitUntil:
@@ -68,8 +70,9 @@ name: Drawer Navigation Test - ドロワーナビゲーション確認
     visible: "GridView Example"
     timeout: 3000
 
-# 戻る
-- tapOn: "Back"
+# 戻る（iOS風の戻るボタンをタップ）
+- tapOn:
+    point: "28,102"
 
 # 画面遷移の待機
 - extendedWaitUntil:

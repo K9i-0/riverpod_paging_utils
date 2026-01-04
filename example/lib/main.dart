@@ -472,58 +472,25 @@ class SampleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.of(context).padding.top;
+    final headerHeight = kToolbarHeight + topPadding + 24;
+
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        leading: Builder(
-          builder:
-              (context) => Semantics(
-                identifier: 'drawer-menu-button',
-                child: IconButton(
-                  icon: const Icon(Icons.menu_rounded),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                ),
-              ),
-        ),
-        title: const Text('Paging Demo'),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: AppColors.heroGradient,
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        foregroundColor: Colors.white,
-      ),
       drawer: const AppDrawer(),
-      body: Column(
+      body: Stack(
         children: [
-          // Gradient header space
-          Container(
-            height: kToolbarHeight + MediaQuery.of(context).padding.top + 20,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: AppColors.heroGradient,
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(32),
-                bottomRight: Radius.circular(32),
-              ),
-            ),
-          ),
-          // Content area
-          Expanded(
+          // Background
+          Container(color: Theme.of(context).scaffoldBackgroundColor),
+          // Content area (positioned below header)
+          Positioned.fill(
+            top: headerHeight - 16,
             child: PagingHelperView(
               provider: sampleProvider,
               futureRefreshable: sampleProvider.future,
               notifierRefreshable: sampleProvider.notifier,
               contentBuilder:
                   (data, widgetCount, endItemView) => ListView.builder(
-                    padding: const EdgeInsets.only(top: 16, bottom: 16),
+                    padding: const EdgeInsets.only(top: 24, bottom: 16),
                     itemCount: widgetCount,
                     itemBuilder: (context, index) {
                       if (index == widgetCount - 1) {
@@ -540,6 +507,69 @@ class SampleScreen extends StatelessWidget {
                       );
                     },
                   ),
+            ),
+          ),
+          // Gradient header with rounded corners (clipped)
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(28),
+              bottomRight: Radius.circular(28),
+            ),
+            child: Container(
+              height: headerHeight,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: AppColors.heroGradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: SafeArea(
+                bottom: false,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Row(
+                    children: [
+                      Builder(
+                        builder: (context) => Semantics(
+                          identifier: 'drawer-menu-button',
+                          child: IconButton(
+                            icon: const Icon(Icons.menu_rounded),
+                            color: Colors.white,
+                            onPressed: () => Scaffold.of(context).openDrawer(),
+                          ),
+                        ),
+                      ),
+                      const Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Paging Demo',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              'Riverpod Pagination Utils',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 48), // Balance for menu button
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ],

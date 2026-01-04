@@ -79,92 +79,19 @@ class PagingMethodScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.of(context).padding.top;
+    final headerHeight = kToolbarHeight + kTextTabBarHeight + topPadding + 24;
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: const Text('Paging Methods'),
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: AppColors.heroGradient,
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-          ),
-          foregroundColor: Colors.white,
-          bottom: TabBar(
-            indicatorColor: Colors.white,
-            indicatorWeight: 3,
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.white60,
-            tabs: [
-              Semantics(
-                identifier: 'page-tab',
-                child: const Tab(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.filter_1_rounded, size: 18),
-                      SizedBox(width: 6),
-                      Text('Page'),
-                    ],
-                  ),
-                ),
-              ),
-              Semantics(
-                identifier: 'offset-tab',
-                child: const Tab(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.format_list_numbered_rounded, size: 18),
-                      SizedBox(width: 6),
-                      Text('Offset'),
-                    ],
-                  ),
-                ),
-              ),
-              Semantics(
-                identifier: 'cursor-tab',
-                child: const Tab(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.arrow_forward_rounded, size: 18),
-                      SizedBox(width: 6),
-                      Text('Cursor'),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        body: Column(
+        body: Stack(
           children: [
-            // Gradient header space (including tab bar height)
-            Container(
-              height:
-                  kToolbarHeight +
-                  kTextTabBarHeight +
-                  MediaQuery.of(context).padding.top +
-                  20,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: AppColors.heroGradient,
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32),
-                ),
-              ),
-            ),
-            Expanded(
+            // Background
+            Container(color: Theme.of(context).scaffoldBackgroundColor),
+            // Content area
+            Positioned.fill(
+              top: headerHeight - 16,
               child: TabBarView(
                 children: [
                   // Page-based pagination
@@ -175,7 +102,7 @@ class PagingMethodScreen extends StatelessWidget {
                     contentBuilder:
                         (data, widgetCount, endItemView) => ListView.builder(
                           key: const PageStorageKey<String>('page'),
-                          padding: const EdgeInsets.only(top: 16, bottom: 16),
+                          padding: const EdgeInsets.only(top: 24, bottom: 16),
                           itemCount: widgetCount,
                           itemBuilder: (context, index) {
                             if (index == widgetCount - 1) {
@@ -200,7 +127,7 @@ class PagingMethodScreen extends StatelessWidget {
                     contentBuilder:
                         (data, widgetCount, endItemView) => ListView.builder(
                           key: const PageStorageKey<String>('offset'),
-                          padding: const EdgeInsets.only(top: 16, bottom: 16),
+                          padding: const EdgeInsets.only(top: 24, bottom: 16),
                           itemCount: widgetCount,
                           itemBuilder: (context, index) {
                             if (index == widgetCount - 1) {
@@ -225,7 +152,7 @@ class PagingMethodScreen extends StatelessWidget {
                     contentBuilder:
                         (data, widgetCount, endItemView) => ListView.builder(
                           key: const PageStorageKey<String>('cursor'),
-                          padding: const EdgeInsets.only(top: 16, bottom: 16),
+                          padding: const EdgeInsets.only(top: 24, bottom: 16),
                           itemCount: widgetCount,
                           itemBuilder: (context, index) {
                             if (index == widgetCount - 1) {
@@ -243,6 +170,115 @@ class PagingMethodScreen extends StatelessWidget {
                         ),
                   ),
                 ],
+              ),
+            ),
+            // Gradient header with tabs
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(28),
+                bottomRight: Radius.circular(28),
+              ),
+              child: Container(
+                height: headerHeight,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: AppColors.heroGradient,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: SafeArea(
+                  bottom: false,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.arrow_back_ios_rounded),
+                              color: Colors.white,
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            const Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Paging Methods',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                  SizedBox(height: 2),
+                                  Text(
+                                    'Page, Offset & Cursor',
+                                    style: TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 48),
+                          ],
+                        ),
+                      ),
+                      const Spacer(),
+                      TabBar(
+                        indicatorColor: Colors.white,
+                        indicatorWeight: 3,
+                        labelColor: Colors.white,
+                        unselectedLabelColor: Colors.white60,
+                        tabs: [
+                          Semantics(
+                            identifier: 'page-tab',
+                            child: const Tab(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.filter_1_rounded, size: 18),
+                                  SizedBox(width: 6),
+                                  Text('Page'),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Semantics(
+                            identifier: 'offset-tab',
+                            child: const Tab(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.format_list_numbered_rounded, size: 18),
+                                  SizedBox(width: 6),
+                                  Text('Offset'),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Semantics(
+                            identifier: 'cursor-tab',
+                            child: const Tab(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.arrow_forward_rounded, size: 18),
+                                  SizedBox(width: 6),
+                                  Text('Cursor'),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
