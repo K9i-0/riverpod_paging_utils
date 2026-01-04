@@ -69,7 +69,7 @@ abstract mixin class PagePagingNotifierMixin<T>
           loadNextStatus: LoadNextStatus.idle,
         ),
       );
-    } catch (e, st) {
+    } on Object catch (e, st) {
       // Error: preserve data and set error status
       state = AsyncData(
         value.copyWith(
@@ -132,7 +132,7 @@ abstract mixin class OffsetPagingNotifierMixin<T>
           loadNextStatus: LoadNextStatus.idle,
         ),
       );
-    } catch (e, st) {
+    } on Object catch (e, st) {
       // Error: preserve data and set error status
       state = AsyncData(
         value.copyWith(
@@ -195,7 +195,7 @@ abstract mixin class CursorPagingNotifierMixin<T>
           loadNextStatus: LoadNextStatus.idle,
         ),
       );
-    } catch (e, st) {
+    } on Object catch (e, st) {
       // Error: preserve data and set error status
       state = AsyncData(
         value.copyWith(

@@ -56,7 +56,7 @@ class SampleRepository {
   ) async {
     final stopwatch = Stopwatch()..start();
     await Future<void>.delayed(const Duration(milliseconds: 500));
-    // ignore: avoid_print
+    // ignore: avoid_print, used for debugging in example app
     print('[SampleRepository] getByCursor($cursor) delay: ${stopwatch.elapsedMilliseconds}ms');
 
     final items = _db
