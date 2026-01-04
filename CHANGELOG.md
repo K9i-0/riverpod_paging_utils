@@ -1,23 +1,30 @@
-## [0.8.2](https://github.com/K9i-0/riverpod_paging_utils/compare/0.8.1...0.8.2) - 2026-01-04
-- feat!: Riverpod 3.0 compatibility by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/51
-
-## [1.0.0] - TBD
+## [1.0.0](https://github.com/K9i-0/riverpod_paging_utils/compare/0.8.1...1.0.0) - 2026-01-04
 
 ### Breaking Changes
-- Riverpod 3.0対応
-  - `AutoDisposeAsyncNotifier` → `AsyncNotifier`へ移行
-  - `AutoDisposeAsyncNotifierProvider` → `AsyncNotifierProvider`へ移行
-  - 2ページ目以降のエラー状態を`PagingData`内で管理する方式に変更（`LoadNextStatus`を追加）
+- **Riverpod 3.0 migration**
+  - Requires `flutter_riverpod ^3.0.0`
+  - Removed dependency on `copyWithPrevious` (now `@internal` in Riverpod 3)
+  - Load-more state is now managed within `PagingData` using `LoadNextStatus` enum
+  - Added `loadNextStatus`, `loadNextError`, `loadNextStackTrace` fields to `PagingData`
+- **SDK requirements updated**
+  - Dart SDK: `>=3.7.0`
+  - Flutter SDK: `>=3.32.0`
 
-### Changed
-- Dart SDK要件を`>=3.7.0`に更新
-- Flutter SDK要件を`>=3.32.0`に更新
-- `PagingHelperViewTheme`をパブリックAPIとしてエクスポート
+### Added
+- `LoadNextStatus` enum (`idle`, `loading`, `error`) for tracking load-more state
+- `isLoadingNext` and `hasLoadNextError` getters on `PagingData`
+- `PagingHelperViewTheme` now exported as public API
+- `showSecondPageError` property added to `PagingHelperViewTheme`
+
+### Migration Guide
+1. Update `flutter_riverpod` to `^3.0.0`
+2. Run `dart run build_runner build` to regenerate code
+3. If using `showSecondPageError` parameter directly on `PagingHelperView`, move it to `PagingHelperViewTheme`
 
 ### Notes
-- `ProviderListenable`と`Refreshable`を`package:flutter_riverpod/misc.dart`からインポート
-  - Riverpodの公開APIからエクスポートされなくなったため
-  - 将来のRiverpodバージョンで別のインポートパスに変更される可能性あり
+- `ProviderListenable` and `Refreshable` are imported from `package:flutter_riverpod/misc.dart`
+  - These are no longer exported from the public Riverpod API
+  - Import path may change in future Riverpod versions
 
 ## [0.8.1](https://github.com/K9i-0/riverpod_paging_utils/compare/0.8.0...0.8.1) - 2025-06-17
 - ｀test: add comprehensive test coverage for paging utilities by @K9i-0 in https://github.com/K9i-0/riverpod_paging_utils/pull/43
