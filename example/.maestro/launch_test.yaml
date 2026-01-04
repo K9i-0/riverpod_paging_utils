@@ -5,8 +5,10 @@ name: Launch Test - アプリ起動確認
 - launchApp:
     clearState: true
 
-# Sample Screen が表示されることを確認
-- assertVisible: "Sample Screen"
+# Paging Demo が表示されることを確認
+- extendedWaitUntil:
+    visible: "Paging Demo"
+    timeout: 5000
 
 # リストアイテムが表示されることを確認（最初のアイテム）
 - assertVisible:

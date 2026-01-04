@@ -9,18 +9,15 @@ part of 'main.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 /// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
-/// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
 
 @ProviderFor(SampleNotifier)
 const sampleProvider = SampleNotifierProvider._();
 
 /// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
-/// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
 final class SampleNotifierProvider
     extends
         $AsyncNotifierProvider<SampleNotifier, CursorPagingData<SampleItem>> {
   /// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
-  /// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
   const SampleNotifierProvider._()
     : super(
         from: null,
@@ -43,7 +40,6 @@ final class SampleNotifierProvider
 String _$sampleNotifierHash() => r'9b79e30e0e85e61102691f95a9d23525de90cb98';
 
 /// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
-/// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
 
 abstract class _$SampleNotifier
     extends $AsyncNotifier<CursorPagingData<SampleItem>> {

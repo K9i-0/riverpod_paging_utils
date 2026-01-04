@@ -1,11 +1,8 @@
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
-import 'package:example/ui/custom_scroll_view_screen.dart';
-import 'package:example/ui/first_page_error_screen.dart';
-import 'package:example/ui/gridview_screen.dart';
-import 'package:example/ui/paging_method_screen.dart';
-import 'package:example/ui/passing_args_screen.dart';
-import 'package:example/ui/second_page_error_screen.dart';
+import 'package:example/ui/theme/app_theme.dart';
+import 'package:example/ui/widgets/app_drawer.dart';
+import 'package:example/ui/widgets/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -29,91 +26,414 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme.copyWith(
         extensions: [
           PagingHelperViewTheme(
-            // Custom error view with Semantics identifier for E2E testing
-            errorViewBuilder:
-                (context, error, stackTrace, onRefreshPressed) => Center(
+            // Custom loading view
+            loadingViewBuilder:
+                (context) => Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Semantics(
-                        identifier: 'error-view',
-                        child: Column(
-                          children: [
-                            const Icon(Icons.error_outline, size: 48),
-                            const SizedBox(height: 16),
-                            Text('Error: $error'),
-                          ],
+                      Container(
+                        width: 64,
+                        height: 64,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: AppColors.primaryGradient,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Semantics(
-                        identifier: 'retry-button',
-                        button: true,
-                        container: true,
-                        child: GestureDetector(
-                          onTap: onRefreshPressed,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primary,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              'Retry',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary,
+                        child: const Center(
+                          child: SizedBox(
+                            width: 28,
+                            height: 28,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
                               ),
                             ),
                           ),
                         ),
                       ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Loading...',
+                        style: TextStyle(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.6),
+                          fontSize: 14,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-            // Custom end error view with Semantics identifier for E2E testing
-            endErrorViewBuilder:
-                (context, error, onRetryPressed) => Center(
+            // Custom error view with Semantics identifier for E2E testing
+            errorViewBuilder:
+                (context, error, stackTrace, onRefreshPressed) => Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(32),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Semantics(
-                          identifier: 'end-error-view',
-                          child: Text('$error'),
+                          identifier: 'error-view',
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: Colors.red.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const Icon(
+                                  Icons.error_outline_rounded,
+                                  size: 40,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              Text(
+                                'Oops! Something went wrong',
+                                style: Theme.of(context).textTheme.titleLarge
+                                    ?.copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '$error',
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.6),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 32),
                         Semantics(
-                          identifier: 'error-retry-button',
+                          identifier: 'retry-button',
                           button: true,
                           container: true,
-                          child: GestureDetector(
-                            onTap: onRetryPressed,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24,
-                                vertical: 12,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primary,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                'Retry',
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: onRefreshPressed,
+                              borderRadius: BorderRadius.circular(16),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                  vertical: 14,
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: AppColors.primaryGradient,
+                                  ),
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.primary.withValues(
+                                        alpha: 0.4,
+                                      ),
+                                      blurRadius: 12,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.refresh_rounded,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'Try Again',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+            // Custom end error view
+            endErrorViewBuilder:
+                (context, error, onRetryPressed) => Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      children: [
+                        Semantics(
+                          identifier: 'end-error-view',
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.wifi_off_rounded,
+                                color: Colors.orange,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Flexible(
+                                child: Text(
+                                  '$error',
+                                  style: const TextStyle(color: Colors.orange),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Semantics(
+                          identifier: 'error-retry-button',
+                          button: true,
+                          container: true,
+                          child: TextButton.icon(
+                            onPressed: onRetryPressed,
+                            icon: const Icon(Icons.refresh_rounded),
+                            label: const Text('Retry'),
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            // Custom loading more view
+            endLoadingViewBuilder:
+                (context) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  child: Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColors.primary.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+          ),
+        ],
+      ),
+      darkTheme: AppTheme.darkTheme.copyWith(
+        extensions: [
+          PagingHelperViewTheme(
+            loadingViewBuilder:
+                (context) => Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 64,
+                        height: 64,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: AppColors.primaryGradient,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: const Center(
+                          child: SizedBox(
+                            width: 28,
+                            height: 28,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Loading...',
+                        style: TextStyle(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.6),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            errorViewBuilder:
+                (context, error, stackTrace, onRefreshPressed) => Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Semantics(
+                          identifier: 'error-view',
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: Colors.red.withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const Icon(
+                                  Icons.error_outline_rounded,
+                                  size: 40,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              Text(
+                                'Oops! Something went wrong',
+                                style: Theme.of(context).textTheme.titleLarge
+                                    ?.copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '$error',
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.6),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        Semantics(
+                          identifier: 'retry-button',
+                          button: true,
+                          container: true,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: onRefreshPressed,
+                              borderRadius: BorderRadius.circular(16),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                  vertical: 14,
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: AppColors.primaryGradient,
+                                  ),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.refresh_rounded,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'Try Again',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            endErrorViewBuilder:
+                (context, error, onRetryPressed) => Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      children: [
+                        Semantics(
+                          identifier: 'end-error-view',
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.wifi_off_rounded,
+                                color: Colors.orange,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Flexible(
+                                child: Text(
+                                  '$error',
+                                  style: const TextStyle(color: Colors.orange),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Semantics(
+                          identifier: 'error-retry-button',
+                          button: true,
+                          container: true,
+                          child: TextButton.icon(
+                            onPressed: onRetryPressed,
+                            icon: const Icon(Icons.refresh_rounded),
+                            label: const Text('Retry'),
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppColors.primaryLight,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            endLoadingViewBuilder:
+                (context) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  child: Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColors.primaryLight.withValues(alpha: 0.7),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -126,17 +446,12 @@ class MainApp extends StatelessWidget {
 }
 
 /// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
-/// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
 @riverpod
 class SampleNotifier extends _$SampleNotifier
     with CursorPagingNotifierMixin<SampleItem> {
-  /// Builds the initial state of the provider by fetching data with a null cursor.
   @override
   Future<CursorPagingData<SampleItem>> build() => fetch(cursor: null);
 
-  /// Fetches paginated data from the [SampleRepository] based on the provided [cursor].
-  /// Returns a [CursorPagingData] object containing the fetched items, a flag indicating whether more data is available,
-  /// and the next cursor for fetching the next page.
   @override
   Future<CursorPagingData<SampleItem>> fetch({required String? cursor}) async {
     final repository = ref.read(sampleRepositoryProvider);
@@ -151,95 +466,83 @@ class SampleNotifier extends _$SampleNotifier
   }
 }
 
-/// A sample page that demonstrates the usage of [PagingHelperView] with the [SampleNotifier] provider.
+/// A sample page that demonstrates the usage of [PagingHelperView].
 class SampleScreen extends StatelessWidget {
   const SampleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: Builder(
           builder:
               (context) => Semantics(
                 identifier: 'drawer-menu-button',
                 child: IconButton(
-                  icon: const Icon(Icons.menu),
+                  icon: const Icon(Icons.menu_rounded),
                   onPressed: () => Scaffold.of(context).openDrawer(),
                 ),
               ),
         ),
-        title: const Text('Sample Screen'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            const DrawerHeader(child: Text('Menu')),
-            ListTile(
-              title: const Text('1st page error'),
-              onTap:
-                  () async =>
-                      Navigator.of(context).push(FirstPageErrorScreen.route()),
+        title: const Text('Paging Demo'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: AppColors.heroGradient,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            ListTile(
-              title: const Text('2nd page error'),
-              onTap:
-                  () async =>
-                      Navigator.of(context).push(SecondPageErrorScreen.route()),
-            ),
-            ListTile(
-              title: const Text('Passing args screen'),
-              onTap:
-                  () async =>
-                      Navigator.of(context).push(PassingArgsScreen.route()),
-            ),
-            ListTile(
-              title: const Text('Paging method screen'),
-              onTap:
-                  () async =>
-                      Navigator.of(context).push(PagingMethodScreen.route()),
-            ),
-            ListTile(
-              title: const Text('GridView example'),
-              onTap:
-                  () async =>
-                      Navigator.of(context).push(GridViewScreen.route()),
-            ),
-            ListTile(
-              title: const Text('CustomScrollView example'),
-              onTap:
-                  () async => Navigator.of(
-                    context,
-                  ).push(CustomScrollViewScreen.route()),
-            ),
-          ],
+          ),
         ),
+        foregroundColor: Colors.white,
       ),
-      body: PagingHelperView(
-        provider: sampleProvider,
-        futureRefreshable: sampleProvider.future,
-        notifierRefreshable: sampleProvider.notifier,
-        contentBuilder:
-            (data, widgetCount, endItemView) => ListView.builder(
-              itemCount: widgetCount,
-              itemBuilder: (context, index) {
-                // if the index is last, then
-                // return the end item view.
-                if (index == widgetCount - 1) {
-                  return endItemView;
-                }
-
-                // Otherwise, build a list tile for each sample item.
-                return Semantics(
-                  identifier: 'sample-item-$index',
-                  child: ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
-                  ),
-                );
-              },
+      drawer: const AppDrawer(),
+      body: Column(
+        children: [
+          // Gradient header space
+          Container(
+            height: kToolbarHeight + MediaQuery.of(context).padding.top + 20,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: AppColors.heroGradient,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(32),
+                bottomRight: Radius.circular(32),
+              ),
             ),
+          ),
+          // Content area
+          Expanded(
+            child: PagingHelperView(
+              provider: sampleProvider,
+              futureRefreshable: sampleProvider.future,
+              notifierRefreshable: sampleProvider.notifier,
+              contentBuilder:
+                  (data, widgetCount, endItemView) => ListView.builder(
+                    padding: const EdgeInsets.only(top: 16, bottom: 16),
+                    itemCount: widgetCount,
+                    itemBuilder: (context, index) {
+                      if (index == widgetCount - 1) {
+                        return endItemView;
+                      }
+
+                      return Semantics(
+                        identifier: 'sample-item-$index',
+                        child: ItemCard(
+                          key: ValueKey(data.items[index].id),
+                          item: data.items[index],
+                          index: index,
+                        ),
+                      );
+                    },
+                  ),
+            ),
+          ),
+        ],
       ),
     );
   }

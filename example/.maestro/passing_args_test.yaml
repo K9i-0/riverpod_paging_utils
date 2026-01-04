@@ -5,21 +5,24 @@ name: Passing Args Test - 引数付きプロバイダ動作確認
 - launchApp:
     clearState: true
 
-# Sample Screen が表示されることを確認
-- assertVisible: "Sample Screen"
+# Paging Demo が表示されることを確認
+- extendedWaitUntil:
+    visible: "Paging Demo"
+    timeout: 5000
 
 # ドロワーを開く
 - tapOn:
     id: "drawer-menu-button"
 
 # ドロワーが表示されることを確認
-- assertVisible: "Menu"
+- assertVisible: "Riverpod Paging"
 
-# Passing args screen に遷移
-- tapOn: "Passing args screen"
+# Passing Arguments に遷移（正規表現でマッチ）
+- tapOn:
+    text: ".*Passing Arguments.*"
 
 # 画面遷移を確認
-- assertVisible: "Passing Args Sample"
+- assertVisible: "Passing Arguments"
 
 # 最初のアイテムが表示されることを確認
 - assertVisible:

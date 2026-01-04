@@ -5,18 +5,21 @@ name: GridView Paging Test - GridViewページング動作確認
 - launchApp:
     clearState: true
 
-# Sample Screen が表示されることを確認
-- assertVisible: "Sample Screen"
+# Paging Demo が表示されることを確認
+- extendedWaitUntil:
+    visible: "Paging Demo"
+    timeout: 5000
 
 # ドロワーを開く
 - tapOn:
     id: "drawer-menu-button"
 
 # ドロワーが表示されることを確認
-- assertVisible: "Menu"
+- assertVisible: "Riverpod Paging"
 
-# GridView example に遷移
-- tapOn: "GridView example"
+# GridView Example に遷移（正規表現でマッチ）
+- tapOn:
+    text: ".*GridView Example.*"
 
 # 画面遷移を確認
 - assertVisible: "GridView Example"

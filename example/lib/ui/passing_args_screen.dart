@@ -1,5 +1,7 @@
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
+import 'package:example/ui/theme/app_theme.dart';
+import 'package:example/ui/widgets/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
@@ -39,32 +41,119 @@ class PassingArgsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = passingArgsProvider(id: '1');
     return Scaffold(
-      appBar: AppBar(title: const Text('Passing Args Sample')),
-      body: PagingHelperView(
-        provider: provider,
-        futureRefreshable: provider.future,
-        notifierRefreshable: provider.notifier,
-        contentBuilder:
-            (data, widgetCount, endItemView) => ListView.builder(
-              itemCount: widgetCount,
-              itemBuilder: (context, index) {
-                // if the index is last, then
-                // return the end item view.
-                if (index == widgetCount - 1) {
-                  return endItemView;
-                }
-
-                // Otherwise, build a list tile for each sample item.
-                return Semantics(
-                  identifier: 'passing-args-item-$index',
-                  child: ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
-                  ),
-                );
-              },
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: const Text('Passing Arguments'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: AppColors.heroGradient,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
+          ),
+        ),
+        foregroundColor: Colors.white,
+      ),
+      body: Column(
+        children: [
+          // Gradient header space
+          Container(
+            height: kToolbarHeight + MediaQuery.of(context).padding.top + 20,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: AppColors.heroGradient,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(32),
+                bottomRight: Radius.circular(32),
+              ),
+            ),
+          ),
+          // Info card
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.secondary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: AppColors.secondary.withValues(alpha: 0.2),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: AppColors.secondary,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.data_object_rounded,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Provider ID: 1',
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Demonstrating family provider with arguments',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Content area
+          Expanded(
+            child: PagingHelperView(
+              provider: provider,
+              futureRefreshable: provider.future,
+              notifierRefreshable: provider.notifier,
+              contentBuilder:
+                  (data, widgetCount, endItemView) => ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: widgetCount,
+                    itemBuilder: (context, index) {
+                      if (index == widgetCount - 1) {
+                        return endItemView;
+                      }
+
+                      return Semantics(
+                        identifier: 'passing-args-item-$index',
+                        child: ItemCard(
+                          key: ValueKey(data.items[index].id),
+                          item: data.items[index],
+                          index: index,
+                        ),
+                      );
+                    },
+                  ),
+            ),
+          ),
+        ],
       ),
     );
   }

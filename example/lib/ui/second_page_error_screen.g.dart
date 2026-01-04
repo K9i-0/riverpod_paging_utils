@@ -38,7 +38,7 @@ final class SecondPageErrorNotifierProvider
 }
 
 String _$secondPageErrorNotifierHash() =>
-    r'c63e485985d4e2319bc6de3af432f55188cf61d8';
+    r'f199f9b3b68a0e3d073ec5418a03db3e034f7637';
 
 abstract class _$SecondPageErrorNotifier
     extends $AsyncNotifier<CursorPagingData<SampleItem>> {

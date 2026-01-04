@@ -1,5 +1,7 @@
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
+import 'package:example/ui/theme/app_theme.dart';
+import 'package:example/ui/widgets/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
@@ -49,71 +51,89 @@ class _GridViewScreenState extends State<GridViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('GridView Example'),
-        actions: [
-          IconButton(
-            icon: Icon(
-              _scrollDirection == Axis.vertical
-                  ? Icons.swap_horiz
-                  : Icons.swap_vert,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: AppColors.heroGradient,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            onPressed: _toggleScrollDirection,
-            tooltip: 'Toggle scroll direction',
+          ),
+        ),
+        foregroundColor: Colors.white,
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: IconButton(
+              icon: Icon(
+                _scrollDirection == Axis.vertical
+                    ? Icons.swap_horiz_rounded
+                    : Icons.swap_vert_rounded,
+              ),
+              onPressed: _toggleScrollDirection,
+              tooltip: 'Toggle scroll direction',
+            ),
           ),
         ],
       ),
-      body: PagingHelperView(
-        provider: gridViewProvider,
-        futureRefreshable: gridViewProvider.future,
-        notifierRefreshable: gridViewProvider.notifier,
-        contentBuilder: (data, widgetCount, endItemView) {
-          return GridView.builder(
-            scrollDirection: _scrollDirection,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: _scrollDirection == Axis.vertical ? 2 : 3,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-              childAspectRatio: _scrollDirection == Axis.vertical ? 1 : 0.75,
+      body: Column(
+        children: [
+          // Gradient header space
+          Container(
+            height: kToolbarHeight + MediaQuery.of(context).padding.top + 20,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: AppColors.heroGradient,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(32),
+                bottomRight: Radius.circular(32),
+              ),
             ),
-            padding: const EdgeInsets.all(8),
-            itemCount: widgetCount,
-            itemBuilder: (context, index) {
-              if (index == widgetCount - 1) {
-                return endItemView;
-              }
-
-              final item = data.items[index];
-              return Semantics(
-                identifier: 'grid-item-$index',
-                child: Card(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.folder,
-                          size: 48,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          item.name,
-                          style: Theme.of(context).textTheme.titleMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          item.id,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
+          ),
+          // Content area
+          Expanded(
+            child: PagingHelperView(
+              provider: gridViewProvider,
+              futureRefreshable: gridViewProvider.future,
+              notifierRefreshable: gridViewProvider.notifier,
+              contentBuilder: (data, widgetCount, endItemView) {
+                return GridView.builder(
+                  scrollDirection: _scrollDirection,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _scrollDirection == Axis.vertical ? 2 : 3,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio:
+                        _scrollDirection == Axis.vertical ? 0.85 : 0.75,
                   ),
-                ),
-              );
-            },
-          );
-        },
+                  padding: const EdgeInsets.all(16),
+                  itemCount: widgetCount,
+                  itemBuilder: (context, index) {
+                    if (index == widgetCount - 1) {
+                      return endItemView;
+                    }
+
+                    final item = data.items[index];
+                    return Semantics(
+                      identifier: 'grid-item-$index',
+                      child: GridItemCard(item: item, index: index),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

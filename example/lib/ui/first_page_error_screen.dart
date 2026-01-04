@@ -1,5 +1,6 @@
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
+import 'package:example/ui/widgets/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
@@ -45,32 +46,117 @@ class FirstPageErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('1st Page Error Sample')),
-      body: PagingHelperView(
-        provider: firstPageErrorProvider,
-        futureRefreshable: firstPageErrorProvider.future,
-        notifierRefreshable: firstPageErrorProvider.notifier,
-        contentBuilder:
-            (data, widgetCount, endItemView) => ListView.builder(
-              itemCount: widgetCount,
-              itemBuilder: (context, index) {
-                // if the index is last, then
-                // return the end item view.
-                if (index == widgetCount - 1) {
-                  return endItemView;
-                }
-
-                // Otherwise, build a list tile for each sample item.
-                return Semantics(
-                  identifier: 'sample-item-$index',
-                  child: ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
-                  ),
-                );
-              },
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: const Text('1st Page Error'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.orange.shade600, Colors.deepOrange.shade400],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
+          ),
+        ),
+        foregroundColor: Colors.white,
+      ),
+      body: Column(
+        children: [
+          // Gradient header space
+          Container(
+            height: kToolbarHeight + MediaQuery.of(context).padding.top + 20,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.orange.shade600, Colors.deepOrange.shade400],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(32),
+                bottomRight: Radius.circular(32),
+              ),
+            ),
+          ),
+          // Warning info
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.orange.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.warning_amber_rounded,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Error Simulation',
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'First page always throws an error',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Content area
+          Expanded(
+            child: PagingHelperView(
+              provider: firstPageErrorProvider,
+              futureRefreshable: firstPageErrorProvider.future,
+              notifierRefreshable: firstPageErrorProvider.notifier,
+              contentBuilder:
+                  (data, widgetCount, endItemView) => ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: widgetCount,
+                    itemBuilder: (context, index) {
+                      if (index == widgetCount - 1) {
+                        return endItemView;
+                      }
+
+                      return Semantics(
+                        identifier: 'sample-item-$index',
+                        child: ItemCard(
+                          key: ValueKey(data.items[index].id),
+                          item: data.items[index],
+                          index: index,
+                        ),
+                      );
+                    },
+                  ),
+            ),
+          ),
+        ],
       ),
     );
   }
