@@ -34,7 +34,7 @@ final class PageBasedNotifierProvider
   PageBasedNotifier create() => PageBasedNotifier();
 }
 
-String _$pageBasedNotifierHash() => r'eeebf31b5b48bad4f89f2a907865bca91c7ebf3a';
+String _$pageBasedNotifierHash() => r'2ba947fde488589855620edc7535d77dc69f067e';
 
 abstract class _$PageBasedNotifier
     extends $AsyncNotifier<PagePagingData<SampleItem>> {
@@ -93,7 +93,7 @@ final class OffsetBasedNotifierProvider
 }
 
 String _$offsetBasedNotifierHash() =>
-    r'004f470d3f169dbb79b2af6b0c2427d0bdf7d434';
+    r'd463c8f5c0c658f46a5459fb2a560587ff83ee1f';
 
 abstract class _$OffsetBasedNotifier
     extends $AsyncNotifier<OffsetPagingData<SampleItem>> {

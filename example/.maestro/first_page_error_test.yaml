@@ -5,15 +5,18 @@ name: First Page Error Test - 1stページエラー確認
 - launchApp:
     clearState: true
 
-# Sample Screen が表示されることを確認
-- assertVisible: "Sample Screen"
+# Paging Demo が表示されることを確認
+- extendedWaitUntil:
+    visible: "Paging Demo"
+    timeout: 5000
 
 # ドロワーを開く
 - tapOn:
     id: "drawer-menu-button"
 
-# 1st page error 画面に遷移
-- tapOn: "1st page error"
+# 1st Page Error 画面に遷移（正規表現でマッチ）
+- tapOn:
+    text: ".*1st Page Error.*"
 
 # エラー画面が表示されることを確認 (500ms + バッファ)
 - extendedWaitUntil:

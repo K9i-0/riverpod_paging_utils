@@ -1,5 +1,6 @@
 import 'package:example/data/sample_item.dart';
 import 'package:example/repository/sample_repository.dart';
+import 'package:example/ui/theme/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,31 +37,85 @@ class CustomScrollViewScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(
+          SliverAppBar(
             pinned: true,
-            expandedHeight: 200,
+            expandedHeight: 220,
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(
               background: DecoratedBox(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: <Color>[Colors.blue, Colors.red],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: AppColors.heroGradient,
                   ),
                 ),
-                child: Center(
-                  child: Text(
-                    'PagingHelperSliverView\nExample',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                child: Stack(
+                  children: [
+                    // Decorative circles
+                    Positioned(
+                      top: -50,
+                      right: -50,
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withValues(alpha: 0.1),
+                        ),
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
+                    Positioned(
+                      bottom: -30,
+                      left: -30,
+                      child: Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withValues(alpha: 0.08),
+                        ),
+                      ),
+                    ),
+                    // Content
+                    const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 40),
+                          Icon(
+                            Icons.view_day_rounded,
+                            size: 48,
+                            color: Colors.white,
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            'PagingHelperSliverView',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Sliver-based Pagination',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -70,30 +125,66 @@ class CustomScrollViewScreen extends ConsumerWidget {
             onRefresh: () async => ref.refresh(customScrollViewProvider.future),
           ),
           // Static content before the list
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Card(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'PagingHelperSliverView',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'This example demonstrates how to use PagingHelperSliverView '
-                        'within a CustomScrollView. It works seamlessly with other '
-                        'slivers like SliverAppBar and SliverToBoxAdapter.',
-                      ),
-                    ],
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF06B6D4), Color(0xFF14B8A6)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF06B6D4).withValues(alpha: 0.25),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        Icons.view_day_rounded,
+                        color: Colors.white.withValues(alpha: 0.9),
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Sliver Integration',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            'Works seamlessly with SliverAppBar, '
+                            'CupertinoSliverRefreshControl, and other slivers.',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -104,34 +195,137 @@ class CustomScrollViewScreen extends ConsumerWidget {
             futureRefreshable: customScrollViewProvider.future,
             notifierRefreshable: customScrollViewProvider.notifier,
             contentBuilder: (data, widgetCount, endItemView) {
-              return SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  if (index == widgetCount - 1) {
-                    return endItemView;
-                  }
+              return SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    if (index == widgetCount - 1) {
+                      return endItemView;
+                    }
 
-                  final item = data.items[index];
-                  return Semantics(
-                    identifier: 'sliver-item-$index',
-                    child: ListTile(
-                      leading: CircleAvatar(child: Text(item.name[0])),
-                      title: Text(item.name),
-                      subtitle: Text(item.id),
-                      trailing: const Icon(Icons.arrow_forward_ios),
-                    ),
-                  );
-                }, childCount: widgetCount),
+                    final item = data.items[index];
+                    final colors = [
+                      AppColors.primary,
+                      AppColors.secondary,
+                      AppColors.primaryDark,
+                      AppColors.secondaryDark,
+                      const Color(0xFFFF6B6B),
+                      const Color(0xFFFFBE0B),
+                    ];
+                    final color = colors[index % colors.length];
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: Semantics(
+                        identifier: 'sliver-item-$index',
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color:
+                                isDark
+                                    ? AppColors.surfaceDark
+                                    : AppColors.surfaceLight,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(
+                                  alpha: isDark ? 0.3 : 0.06,
+                                ),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            leading: Container(
+                              width: 48,
+                              height: 48,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [color, color.withValues(alpha: 0.7)],
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  item.name[0].toUpperCase(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              item.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            subtitle: Text(
+                              '#${index + 1}',
+                              style: TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.5),
+                                fontSize: 12,
+                              ),
+                            ),
+                            trailing: Container(
+                              width: 32,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                color: color.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 14,
+                                color: color,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }, childCount: widgetCount),
+                ),
               );
             },
           ),
           // Additional static content after the list
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'End of Custom ScrollView',
-                style: TextStyle(color: Colors.grey),
-                textAlign: TextAlign.center,
+              padding: const EdgeInsets.all(24),
+              child: Center(
+                child: Column(
+                  children: [
+                    Container(
+                      width: 48,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'End of CustomScrollView',
+                      style: TextStyle(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.4),
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

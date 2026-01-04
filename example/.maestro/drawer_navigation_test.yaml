@@ -5,85 +5,90 @@ name: Drawer Navigation Test - ドロワーナビゲーション確認
 - launchApp:
     clearState: true
 
-# Sample Screen が表示されることを確認
-- assertVisible: "Sample Screen"
+# Paging Demo が表示されることを確認
+- extendedWaitUntil:
+    visible: "Paging Demo"
+    timeout: 5000
 
 # ドロワーを開く（ハンバーガーメニュー）
 - tapOn:
     id: "drawer-menu-button"
 
 # ドロワーが表示されることを確認
-- assertVisible: "Menu"
+- assertVisible: "Riverpod Paging"
 
-# 1st page error 画面に遷移
-- tapOn: "1st page error"
+# 1st Page Error 画面に遷移（正規表現でマッチ）
+- tapOn:
+    text: ".*1st Page Error.*"
 
 # 画面遷移を確認
-- assertVisible: "1st Page Error Sample"
+- extendedWaitUntil:
+    visible: "1st Page Error"
+    timeout: 3000
 
-# 戻る（iOSではBackボタンをタップ）
-- tapOn: "Back"
-
-# ドロワーが開いているので閉じる（画面右側をタップ）
+# 戻る（iOS風の戻るボタンをタップ）
 - tapOn:
-    point: "90%,50%"
+    point: "28,102"
 
 # 画面遷移の待機
 - extendedWaitUntil:
-    visible: "Sample Screen"
-    timeout: 2000
+    visible: "Paging Demo"
+    timeout: 3000
 
 # ドロワーを再度開く
 - tapOn:
     id: "drawer-menu-button"
 
-# 2nd page error 画面に遷移
-- tapOn: "2nd page error"
+# 2nd Page Error 画面に遷移（正規表現でマッチ）
+- tapOn:
+    text: ".*2nd Page Error.*"
 
 # 画面遷移を確認
-- assertVisible: "2nd Page Error Sample"
+- extendedWaitUntil:
+    visible: "2nd Page Error"
+    timeout: 3000
 
-# 戻る
-- tapOn: "Back"
-
-# ドロワーが開いているので閉じる（画面右側をタップ）
+# 戻る（iOS風の戻るボタンをタップ）
 - tapOn:
-    point: "90%,50%"
+    point: "28,102"
 
 # 画面遷移の待機
 - extendedWaitUntil:
-    visible: "Sample Screen"
-    timeout: 2000
+    visible: "Paging Demo"
+    timeout: 3000
 
 # ドロワーを再度開く
 - tapOn:
     id: "drawer-menu-button"
 
-# GridView example に遷移
-- tapOn: "GridView example"
+# GridView Example に遷移（正規表現でマッチ）
+- tapOn:
+    text: ".*GridView Example.*"
 
 # 画面遷移を確認
-- assertVisible: "GridView Example"
+- extendedWaitUntil:
+    visible: "GridView Example"
+    timeout: 3000
 
-# 戻る
-- tapOn: "Back"
-
-# ドロワーが開いているので閉じる（画面右側をタップ）
+# 戻る（iOS風の戻るボタンをタップ）
 - tapOn:
-    point: "90%,50%"
+    point: "28,102"
 
 # 画面遷移の待機
 - extendedWaitUntil:
-    visible: "Sample Screen"
-    timeout: 2000
+    visible: "Paging Demo"
+    timeout: 3000
 
 # ドロワーを再度開く
 - tapOn:
     id: "drawer-menu-button"
 
-# CustomScrollView example に遷移
-- tapOn: "CustomScrollView example"
+# CustomScrollView に遷移（正規表現でマッチ）
+- tapOn:
+    text: ".*CustomScrollView.*"
 
 # 画面遷移を確認（sliver-item-0 で確認）
-- assertVisible:
-    id: "sliver-item-0"
+- extendedWaitUntil:
+    visible:
+      id: "sliver-item-0"
+    timeout: 3000
