@@ -6,174 +6,109 @@ part of 'passing_args_screen.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$passingArgsNotifierHash() =>
-    r'c95fb6cad7afc1d3b99ca5ceaea44b673a86e912';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-abstract class _$PassingArgsNotifier
-    extends BuildlessAutoDisposeAsyncNotifier<CursorPagingData<SampleItem>> {
-  late final String id;
-
-  FutureOr<CursorPagingData<SampleItem>> build({
-    required String id,
-  });
-}
-
-/// See also [PassingArgsNotifier].
 @ProviderFor(PassingArgsNotifier)
-const passingArgsNotifierProvider = PassingArgsNotifierFamily();
+const passingArgsProvider = PassingArgsNotifierFamily._();
 
-/// See also [PassingArgsNotifier].
-class PassingArgsNotifierFamily
-    extends Family<AsyncValue<CursorPagingData<SampleItem>>> {
-  /// See also [PassingArgsNotifier].
-  const PassingArgsNotifierFamily();
+final class PassingArgsNotifierProvider
+    extends
+        $AsyncNotifierProvider<
+          PassingArgsNotifier,
+          CursorPagingData<SampleItem>
+        > {
+  const PassingArgsNotifierProvider._({
+    required PassingArgsNotifierFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'passingArgsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [PassingArgsNotifier].
-  PassingArgsNotifierProvider call({
-    required String id,
-  }) {
-    return PassingArgsNotifierProvider(
-      id: id,
-    );
+  @override
+  String debugGetCreateSourceHash() => _$passingArgsNotifierHash();
+
+  @override
+  String toString() {
+    return r'passingArgsProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  PassingArgsNotifierProvider getProviderOverride(
-    covariant PassingArgsNotifierProvider provider,
-  ) {
-    return call(
-      id: provider.id,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'passingArgsNotifierProvider';
-}
-
-/// See also [PassingArgsNotifier].
-class PassingArgsNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    PassingArgsNotifier, CursorPagingData<SampleItem>> {
-  /// See also [PassingArgsNotifier].
-  PassingArgsNotifierProvider({
-    required String id,
-  }) : this._internal(
-          () => PassingArgsNotifier()..id = id,
-          from: passingArgsNotifierProvider,
-          name: r'passingArgsNotifierProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$passingArgsNotifierHash,
-          dependencies: PassingArgsNotifierFamily._dependencies,
-          allTransitiveDependencies:
-              PassingArgsNotifierFamily._allTransitiveDependencies,
-          id: id,
-        );
-
-  PassingArgsNotifierProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.id,
-  }) : super.internal();
-
-  final String id;
-
-  @override
-  FutureOr<CursorPagingData<SampleItem>> runNotifierBuild(
-    covariant PassingArgsNotifier notifier,
-  ) {
-    return notifier.build(
-      id: id,
-    );
-  }
-
-  @override
-  Override overrideWith(PassingArgsNotifier Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: PassingArgsNotifierProvider._internal(
-        () => create()..id = id,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        id: id,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderElement<PassingArgsNotifier,
-      CursorPagingData<SampleItem>> createElement() {
-    return _PassingArgsNotifierProviderElement(this);
-  }
+  PassingArgsNotifier create() => PassingArgsNotifier();
 
   @override
   bool operator ==(Object other) {
-    return other is PassingArgsNotifierProvider && other.id == id;
+    return other is PassingArgsNotifierProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, id.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin PassingArgsNotifierRef
-    on AutoDisposeAsyncNotifierProviderRef<CursorPagingData<SampleItem>> {
-  /// The parameter `id` of this provider.
-  String get id;
-}
+String _$passingArgsNotifierHash() =>
+    r'c95fb6cad7afc1d3b99ca5ceaea44b673a86e912';
 
-class _PassingArgsNotifierProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<PassingArgsNotifier,
-        CursorPagingData<SampleItem>> with PassingArgsNotifierRef {
-  _PassingArgsNotifierProviderElement(super.provider);
+final class PassingArgsNotifierFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          PassingArgsNotifier,
+          AsyncValue<CursorPagingData<SampleItem>>,
+          CursorPagingData<SampleItem>,
+          FutureOr<CursorPagingData<SampleItem>>,
+          String
+        > {
+  const PassingArgsNotifierFamily._()
+    : super(
+        retry: null,
+        name: r'passingArgsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  PassingArgsNotifierProvider call({required String id}) =>
+      PassingArgsNotifierProvider._(argument: id, from: this);
 
   @override
-  String get id => (origin as PassingArgsNotifierProvider).id;
+  String toString() => r'passingArgsProvider';
 }
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+
+abstract class _$PassingArgsNotifier
+    extends $AsyncNotifier<CursorPagingData<SampleItem>> {
+  late final _$args = ref.$arg as String;
+  String get id => _$args;
+
+  FutureOr<CursorPagingData<SampleItem>> build({required String id});
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build(id: _$args);
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<CursorPagingData<SampleItem>>,
+              CursorPagingData<SampleItem>
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<CursorPagingData<SampleItem>>,
+                CursorPagingData<SampleItem>
+              >,
+              AsyncValue<CursorPagingData<SampleItem>>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

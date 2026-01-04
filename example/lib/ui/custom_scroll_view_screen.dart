@@ -15,9 +15,7 @@ class CustomScrollViewNotifier extends _$CustomScrollViewNotifier
   Future<CursorPagingData<SampleItem>> build() => fetch(cursor: null);
 
   @override
-  Future<CursorPagingData<SampleItem>> fetch({
-    required String? cursor,
-  }) async {
+  Future<CursorPagingData<SampleItem>> fetch({required String? cursor}) async {
     final repository = ref.read(sampleRepositoryProvider);
     final (items, nextCursor) = await repository.getByCursor(cursor);
     final hasMore = nextCursor != null && nextCursor.isNotEmpty;
@@ -33,9 +31,8 @@ class CustomScrollViewNotifier extends _$CustomScrollViewNotifier
 class CustomScrollViewScreen extends ConsumerWidget {
   const CustomScrollViewScreen({super.key});
 
-  static Route<void> route() => MaterialPageRoute(
-        builder: (_) => const CustomScrollViewScreen(),
-      );
+  static Route<void> route() =>
+      MaterialPageRoute(builder: (_) => const CustomScrollViewScreen());
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -70,8 +67,7 @@ class CustomScrollViewScreen extends ConsumerWidget {
           ),
           // CupertinoSliverRefreshControl for iOS-style pull-to-refresh
           CupertinoSliverRefreshControl(
-            onRefresh: () async =>
-                ref.refresh(customScrollViewNotifierProvider.future),
+            onRefresh: () async => ref.refresh(customScrollViewProvider.future),
           ),
           // Static content before the list
           const SliverToBoxAdapter(
@@ -104,29 +100,27 @@ class CustomScrollViewScreen extends ConsumerWidget {
           ),
           // The paginated list using PagingHelperSliverView
           PagingHelperSliverView(
-            provider: customScrollViewNotifierProvider,
-            futureRefreshable: customScrollViewNotifierProvider.future,
-            notifierRefreshable: customScrollViewNotifierProvider.notifier,
+            provider: customScrollViewProvider,
+            futureRefreshable: customScrollViewProvider.future,
+            notifierRefreshable: customScrollViewProvider.notifier,
             contentBuilder: (data, widgetCount, endItemView) {
               return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    if (index == widgetCount - 1) {
-                      return endItemView;
-                    }
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  if (index == widgetCount - 1) {
+                    return endItemView;
+                  }
 
-                    final item = data.items[index];
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Text(item.name[0]),
-                      ),
+                  final item = data.items[index];
+                  return Semantics(
+                    identifier: 'sliver-item-$index',
+                    child: ListTile(
+                      leading: CircleAvatar(child: Text(item.name[0])),
                       title: Text(item.name),
                       subtitle: Text(item.id),
                       trailing: const Icon(Icons.arrow_forward_ios),
-                    );
-                  },
-                  childCount: widgetCount,
-                ),
+                    ),
+                  );
+                }, childCount: widgetCount),
               );
             },
           ),

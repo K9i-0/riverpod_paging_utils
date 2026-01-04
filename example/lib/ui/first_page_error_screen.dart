@@ -20,9 +20,7 @@ class FirstPageErrorNotifier extends _$FirstPageErrorNotifier
   }
 
   @override
-  Future<CursorPagingData<SampleItem>> fetch({
-    required String? cursor,
-  }) async {
+  Future<CursorPagingData<SampleItem>> fetch({required String? cursor}) async {
     final repository = ref.read(sampleRepositoryProvider);
     final (items, nextCursor) = await repository.getByCursor(cursor);
     final hasMore = nextCursor != null && nextCursor.isNotEmpty;
@@ -47,30 +45,32 @@ class FirstPageErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('1st Page Error Sample'),
-      ),
+      appBar: AppBar(title: const Text('1st Page Error Sample')),
       body: PagingHelperView(
-        provider: firstPageErrorNotifierProvider,
-        futureRefreshable: firstPageErrorNotifierProvider.future,
-        notifierRefreshable: firstPageErrorNotifierProvider.notifier,
-        contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
-          itemCount: widgetCount,
-          itemBuilder: (context, index) {
-            // if the index is last, then
-            // return the end item view.
-            if (index == widgetCount - 1) {
-              return endItemView;
-            }
+        provider: firstPageErrorProvider,
+        futureRefreshable: firstPageErrorProvider.future,
+        notifierRefreshable: firstPageErrorProvider.notifier,
+        contentBuilder:
+            (data, widgetCount, endItemView) => ListView.builder(
+              itemCount: widgetCount,
+              itemBuilder: (context, index) {
+                // if the index is last, then
+                // return the end item view.
+                if (index == widgetCount - 1) {
+                  return endItemView;
+                }
 
-            // Otherwise, build a list tile for each sample item.
-            return ListTile(
-              key: ValueKey(data.items[index].id),
-              title: Text(data.items[index].name),
-              subtitle: Text(data.items[index].id),
-            );
-          },
-        ),
+                // Otherwise, build a list tile for each sample item.
+                return Semantics(
+                  identifier: 'sample-item-$index',
+                  child: ListTile(
+                    key: ValueKey(data.items[index].id),
+                    title: Text(data.items[index].name),
+                    subtitle: Text(data.items[index].id),
+                  ),
+                );
+              },
+            ),
       ),
     );
   }

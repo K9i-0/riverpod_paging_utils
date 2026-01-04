@@ -1,0 +1,46 @@
+appId: ${APP_ID}
+name: Second Page Error Test - 2ndページエラー確認
+---
+# アプリを起動（状態クリア）
+- launchApp:
+    clearState: true
+
+# Sample Screen が表示されることを確認
+- assertVisible: "Sample Screen"
+
+# ドロワーを開く
+- tapOn:
+    id: "drawer-menu-button"
+
+# 2nd page error 画面に遷移
+- tapOn: "2nd page error"
+
+# 画面遷移を確認
+- assertVisible: "2nd Page Error Sample"
+
+# 最初のアイテムは表示される（5件/ページ）
+- assertVisible:
+    id: "sample-item-0"
+
+# 下にスクロールして2ページ目をトリガー
+- scrollUntilVisible:
+    element:
+      id: "sample-item-4"
+    direction: DOWN
+    timeout: 3000
+
+# エラービューが表示されることを確認
+- extendedWaitUntil:
+    visible:
+      id: "end-error-view"
+    timeout: 3000
+
+# リトライボタンをタップ
+- tapOn:
+    id: "error-retry-button"
+
+# リトライ後もエラーになるので、再度エラービューが表示されることを確認
+- extendedWaitUntil:
+    visible:
+      id: "end-error-view"
+    timeout: 3000

@@ -6,58 +6,178 @@ part of 'paging_method_screen.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(PageBasedNotifier)
+const pageBasedProvider = PageBasedNotifierProvider._();
+
+final class PageBasedNotifierProvider
+    extends
+        $AsyncNotifierProvider<PageBasedNotifier, PagePagingData<SampleItem>> {
+  const PageBasedNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'pageBasedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$pageBasedNotifierHash();
+
+  @$internal
+  @override
+  PageBasedNotifier create() => PageBasedNotifier();
+}
+
 String _$pageBasedNotifierHash() => r'eeebf31b5b48bad4f89f2a907865bca91c7ebf3a';
 
-/// See also [PageBasedNotifier].
-@ProviderFor(PageBasedNotifier)
-final pageBasedNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    PageBasedNotifier, PagePagingData<SampleItem>>.internal(
-  PageBasedNotifier.new,
-  name: r'pageBasedNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$pageBasedNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$PageBasedNotifier
+    extends $AsyncNotifier<PagePagingData<SampleItem>> {
+  FutureOr<PagePagingData<SampleItem>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<PagePagingData<SampleItem>>,
+              PagePagingData<SampleItem>
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<PagePagingData<SampleItem>>,
+                PagePagingData<SampleItem>
+              >,
+              AsyncValue<PagePagingData<SampleItem>>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
 
-typedef _$PageBasedNotifier
-    = AutoDisposeAsyncNotifier<PagePagingData<SampleItem>>;
+@ProviderFor(OffsetBasedNotifier)
+const offsetBasedProvider = OffsetBasedNotifierProvider._();
+
+final class OffsetBasedNotifierProvider
+    extends
+        $AsyncNotifierProvider<
+          OffsetBasedNotifier,
+          OffsetPagingData<SampleItem>
+        > {
+  const OffsetBasedNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'offsetBasedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$offsetBasedNotifierHash();
+
+  @$internal
+  @override
+  OffsetBasedNotifier create() => OffsetBasedNotifier();
+}
+
 String _$offsetBasedNotifierHash() =>
     r'004f470d3f169dbb79b2af6b0c2427d0bdf7d434';
 
-/// See also [OffsetBasedNotifier].
-@ProviderFor(OffsetBasedNotifier)
-final offsetBasedNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    OffsetBasedNotifier, OffsetPagingData<SampleItem>>.internal(
-  OffsetBasedNotifier.new,
-  name: r'offsetBasedNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$offsetBasedNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$OffsetBasedNotifier
+    extends $AsyncNotifier<OffsetPagingData<SampleItem>> {
+  FutureOr<OffsetPagingData<SampleItem>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<OffsetPagingData<SampleItem>>,
+              OffsetPagingData<SampleItem>
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<OffsetPagingData<SampleItem>>,
+                OffsetPagingData<SampleItem>
+              >,
+              AsyncValue<OffsetPagingData<SampleItem>>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
 
-typedef _$OffsetBasedNotifier
-    = AutoDisposeAsyncNotifier<OffsetPagingData<SampleItem>>;
+@ProviderFor(CursorBasedNotifier)
+const cursorBasedProvider = CursorBasedNotifierProvider._();
+
+final class CursorBasedNotifierProvider
+    extends
+        $AsyncNotifierProvider<
+          CursorBasedNotifier,
+          CursorPagingData<SampleItem>
+        > {
+  const CursorBasedNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'cursorBasedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$cursorBasedNotifierHash();
+
+  @$internal
+  @override
+  CursorBasedNotifier create() => CursorBasedNotifier();
+}
+
 String _$cursorBasedNotifierHash() =>
     r'558358c8a67bff5d73e5e809fab838b148c6bc35';
 
-/// See also [CursorBasedNotifier].
-@ProviderFor(CursorBasedNotifier)
-final cursorBasedNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    CursorBasedNotifier, CursorPagingData<SampleItem>>.internal(
-  CursorBasedNotifier.new,
-  name: r'cursorBasedNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$cursorBasedNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$CursorBasedNotifier
-    = AutoDisposeAsyncNotifier<CursorPagingData<SampleItem>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$CursorBasedNotifier
+    extends $AsyncNotifier<CursorPagingData<SampleItem>> {
+  FutureOr<CursorPagingData<SampleItem>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<CursorPagingData<SampleItem>>,
+              CursorPagingData<SampleItem>
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<CursorPagingData<SampleItem>>,
+                CursorPagingData<SampleItem>
+              >,
+              AsyncValue<CursorPagingData<SampleItem>>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

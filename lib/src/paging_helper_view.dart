@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart'
+    show ProviderListenable, Refreshable;
 import 'package:riverpod_paging_utils/src/paging_data.dart';
 import 'package:riverpod_paging_utils/src/paging_helper_view_theme.dart';
 import 'package:riverpod_paging_utils/src/paging_notifier_mixin.dart';
@@ -23,7 +25,6 @@ final class PagingHelperView<D extends PagingData<I>, I>
     required this.futureRefreshable,
     required this.notifierRefreshable,
     required this.contentBuilder,
-    this.showSecondPageError = true,
     super.key,
   });
 
@@ -35,59 +36,36 @@ final class PagingHelperView<D extends PagingData<I>, I>
   /// endItemView is a widget to detect when the last displayed item is visible.
   /// If endItemView is non-null, it is displayed at the end of the list.
   final Widget Function(D data, int widgetCount, Widget endItemView)
-      contentBuilder;
-
-  final bool showSecondPageError;
+  contentBuilder;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context).extension<PagingHelperViewTheme>();
 
-    final loadingBuilder = theme?.loadingViewBuilder ??
-        (context) => const Center(
-              child: CircularProgressIndicator(),
-            );
-    final errorBuilder = theme?.errorViewBuilder ??
+    final loadingBuilder =
+        theme?.loadingViewBuilder ??
+        (context) => const Center(child: CircularProgressIndicator());
+    final errorBuilder =
+        theme?.errorViewBuilder ??
         (context, e, st, onPressed) => Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    onPressed: onPressed,
-                    icon: const Icon(Icons.refresh),
-                  ),
-                  Text(e.toString()),
-                ],
-              ),
-            );
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(onPressed: onPressed, icon: const Icon(Icons.refresh)),
+              Text(e.toString()),
+            ],
+          ),
+        );
 
-    return ref.watch(provider).whenIgnorableError(
-          data: (
-            data, {
-            required hasError,
-            required isLoading,
-            required error,
-          }) {
+    return ref
+        .watch(provider)
+        .when(
+          data: (data) {
             final content = contentBuilder(
               data,
               // Add 1 to the length to include the endItemView
               data.items.length + 1,
-              switch ((data.hasMore, hasError, isLoading)) {
-                // Display a widget to detect when the last element is reached
-                // if there are more pages and no errors
-                (true, false, _) => _EndVDLoadingItemView(
-                    onScrollEnd: () async =>
-                        ref.read(notifierRefreshable).loadNext(),
-                  ),
-                (true, true, false) when showSecondPageError =>
-                  _EndErrorItemView(
-                    error: error,
-                    onRetryButtonPressed: () async =>
-                        ref.read(notifierRefreshable).loadNext(),
-                  ),
-                (true, true, true) => const _EndLoadingItemView(),
-                _ => const SizedBox.shrink(),
-              },
+              _buildEndItemView(context, ref, data, theme),
             );
 
             final enableRefreshIndicator =
@@ -95,7 +73,7 @@ final class PagingHelperView<D extends PagingData<I>, I>
 
             if (enableRefreshIndicator) {
               return RefreshIndicator(
-                onRefresh: () async => ref.refresh(futureRefreshable),
+                onRefresh: () => ref.refresh(futureRefreshable),
                 child: content,
               );
             } else {
@@ -105,15 +83,48 @@ final class PagingHelperView<D extends PagingData<I>, I>
           // Loading state for the first page
           loading: () => loadingBuilder(context),
           // Error state for the first page
-          error: (e, st) => errorBuilder(
-            context,
-            e,
-            st,
-            () => ref.read(notifierRefreshable).forceRefresh(),
-          ),
-          // Prioritize data for errors on the second page and beyond
-          skipErrorOnHasValue: true,
+          error:
+              (e, st) => errorBuilder(
+                context,
+                e,
+                st,
+                () => ref.read(notifierRefreshable).forceRefresh(),
+              ),
         );
+  }
+
+  /// Builds the end item view based on the current state.
+  Widget _buildEndItemView(
+    BuildContext context,
+    WidgetRef ref,
+    D data,
+    PagingHelperViewTheme? theme,
+  ) {
+    // No more data to load
+    if (!data.hasMore) {
+      return const SizedBox.shrink();
+    }
+
+    final showSecondPageError = theme?.showSecondPageError ?? true;
+
+    // Build widget based on loadNextStatus
+    return switch (data.loadNextStatus) {
+      // Idle: show visibility detector to trigger loading
+      LoadNextStatus.idle => _EndVDLoadingItemView(
+        onScrollEnd: () => ref.read(notifierRefreshable).loadNext(),
+      ),
+      // Loading: show loading indicator
+      LoadNextStatus.loading => const _EndLoadingItemView(),
+      // Error: show error with retry button (or hide if showSecondPageError is false)
+      LoadNextStatus.error =>
+        showSecondPageError
+            ? _EndErrorItemView(
+              error: data.loadNextError,
+              onRetryButtonPressed:
+                  () => ref.read(notifierRefreshable).loadNext(),
+            )
+            : const SizedBox.shrink(),
+    };
   }
 }
 
@@ -123,22 +134,21 @@ final class _EndLoadingItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).extension<PagingHelperViewTheme>();
-    final childBuilder = theme?.endLoadingViewBuilder ??
+    final childBuilder =
+        theme?.endLoadingViewBuilder ??
         (context) => const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
-              ),
-            );
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: CircularProgressIndicator(),
+          ),
+        );
 
     return childBuilder(context);
   }
 }
 
 final class _EndVDLoadingItemView extends StatelessWidget {
-  const _EndVDLoadingItemView({
-    required this.onScrollEnd,
-  });
+  const _EndVDLoadingItemView({required this.onScrollEnd});
   final VoidCallback onScrollEnd;
 
   @override
@@ -166,68 +176,23 @@ final class _EndErrorItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).extension<PagingHelperViewTheme>();
-    final childBuilder = theme?.endErrorViewBuilder ??
+    final childBuilder =
+        theme?.endErrorViewBuilder ??
         (context, e, onPressed) => Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    IconButton(
-                      onPressed: onPressed,
-                      icon: const Icon(Icons.refresh),
-                    ),
-                    Text(
-                      error.toString(),
-                    ),
-                  ],
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                IconButton(
+                  onPressed: onPressed,
+                  icon: const Icon(Icons.refresh),
                 ),
-              ),
-            );
+                Text(error.toString()),
+              ],
+            ),
+          ),
+        );
 
     return childBuilder(context, error, onRetryButtonPressed);
-  }
-}
-
-extension _AsyncValueX<T> on AsyncValue<T> {
-  /// Extends the [when] method to handle async data states more effectively,
-  /// especially when maintaining data integrity despite errors.
-  ///
-  /// Use `skipErrorOnHasValue` to retain and display existing data
-  /// even if subsequent fetch attempts result in errors,
-  /// ideal for maintaining a seamless user experience.
-  R whenIgnorableError<R>({
-    required R Function(
-      T data, {
-      required bool hasError,
-      required bool isLoading,
-      required Object? error,
-    }) data,
-    required R Function(Object error, StackTrace stackTrace) error,
-    required R Function() loading,
-    bool skipLoadingOnReload = false,
-    bool skipLoadingOnRefresh = true,
-    bool skipError = false,
-    bool skipErrorOnHasValue = false,
-  }) {
-    if (skipErrorOnHasValue) {
-      if (hasValue && hasError) {
-        return data(
-          requireValue,
-          hasError: true,
-          isLoading: isLoading,
-          error: this.error,
-        );
-      }
-    }
-
-    return when(
-      skipLoadingOnReload: skipLoadingOnReload,
-      skipLoadingOnRefresh: skipLoadingOnRefresh,
-      skipError: skipError,
-      data: (d) =>
-          data(d, hasError: hasError, isLoading: isLoading, error: this.error),
-      error: error,
-      loading: loading,
-    );
   }
 }

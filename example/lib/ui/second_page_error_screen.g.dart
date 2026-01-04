@@ -6,40 +6,118 @@ part of 'second_page_error_screen.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(SecondPageErrorNotifier)
+const secondPageErrorProvider = SecondPageErrorNotifierProvider._();
+
+final class SecondPageErrorNotifierProvider
+    extends
+        $AsyncNotifierProvider<
+          SecondPageErrorNotifier,
+          CursorPagingData<SampleItem>
+        > {
+  const SecondPageErrorNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'secondPageErrorProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$secondPageErrorNotifierHash();
+
+  @$internal
+  @override
+  SecondPageErrorNotifier create() => SecondPageErrorNotifier();
+}
+
 String _$secondPageErrorNotifierHash() =>
     r'c63e485985d4e2319bc6de3af432f55188cf61d8';
 
-/// See also [SecondPageErrorNotifier].
-@ProviderFor(SecondPageErrorNotifier)
-final secondPageErrorNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    SecondPageErrorNotifier, CursorPagingData<SampleItem>>.internal(
-  SecondPageErrorNotifier.new,
-  name: r'secondPageErrorNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$secondPageErrorNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$SecondPageErrorNotifier
+    extends $AsyncNotifier<CursorPagingData<SampleItem>> {
+  FutureOr<CursorPagingData<SampleItem>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<CursorPagingData<SampleItem>>,
+              CursorPagingData<SampleItem>
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<CursorPagingData<SampleItem>>,
+                CursorPagingData<SampleItem>
+              >,
+              AsyncValue<CursorPagingData<SampleItem>>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
 
-typedef _$SecondPageErrorNotifier
-    = AutoDisposeAsyncNotifier<CursorPagingData<SampleItem>>;
+@ProviderFor(ShowSecondPageErrorNotifier)
+const showSecondPageErrorProvider = ShowSecondPageErrorNotifierProvider._();
+
+final class ShowSecondPageErrorNotifierProvider
+    extends $NotifierProvider<ShowSecondPageErrorNotifier, bool> {
+  const ShowSecondPageErrorNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'showSecondPageErrorProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$showSecondPageErrorNotifierHash();
+
+  @$internal
+  @override
+  ShowSecondPageErrorNotifier create() => ShowSecondPageErrorNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
 String _$showSecondPageErrorNotifierHash() =>
     r'c627f562d49c93f1604d142c6526cd822074f7f2';
 
-/// See also [ShowSecondPageErrorNotifier].
-@ProviderFor(ShowSecondPageErrorNotifier)
-final showSecondPageErrorNotifierProvider =
-    AutoDisposeNotifierProvider<ShowSecondPageErrorNotifier, bool>.internal(
-  ShowSecondPageErrorNotifier.new,
-  name: r'showSecondPageErrorNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$showSecondPageErrorNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$ShowSecondPageErrorNotifier = AutoDisposeNotifier<bool>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$ShowSecondPageErrorNotifier extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<bool, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

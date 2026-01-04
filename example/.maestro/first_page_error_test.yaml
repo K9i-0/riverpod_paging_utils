@@ -1,0 +1,32 @@
+appId: ${APP_ID}
+name: First Page Error Test - 1stページエラー確認
+---
+# アプリを起動（状態クリア）
+- launchApp:
+    clearState: true
+
+# Sample Screen が表示されることを確認
+- assertVisible: "Sample Screen"
+
+# ドロワーを開く
+- tapOn:
+    id: "drawer-menu-button"
+
+# 1st page error 画面に遷移
+- tapOn: "1st page error"
+
+# エラー画面が表示されることを確認 (500ms + バッファ)
+- extendedWaitUntil:
+    visible:
+      id: "error-view"
+    timeout: 2000
+
+# リトライボタンをタップ（これでリロードがトリガーされる）
+- tapOn:
+    id: "retry-button"
+
+# リトライ後もエラーになるので、再度エラービューが表示されることを確認
+- extendedWaitUntil:
+    visible:
+      id: "error-view"
+    timeout: 3000

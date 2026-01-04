@@ -13,18 +13,12 @@ class PageBasedNotifier extends _$PageBasedNotifier
   Future<PagePagingData<SampleItem>> build() => fetch(page: 1);
 
   @override
-  Future<PagePagingData<SampleItem>> fetch({
-    required int page,
-  }) async {
+  Future<PagePagingData<SampleItem>> fetch({required int page}) async {
     final repository = ref.read(sampleRepositoryProvider);
-    final (items, hasMore) = await repository.getByPage(page: page, limit: 50);
+    final (items, hasMore) = await repository.getByPage(page: page, limit: 10);
     ref.keepAlive();
 
-    return PagePagingData(
-      items: items,
-      hasMore: hasMore,
-      page: page,
-    );
+    return PagePagingData(items: items, hasMore: hasMore, page: page);
   }
 }
 
@@ -35,18 +29,18 @@ class OffsetBasedNotifier extends _$OffsetBasedNotifier
   Future<OffsetPagingData<SampleItem>> build() => fetch(offset: 0);
 
   @override
-  Future<OffsetPagingData<SampleItem>> fetch({
-    required int offset,
-  }) async {
+  Future<OffsetPagingData<SampleItem>> fetch({required int offset}) async {
     final repository = ref.read(sampleRepositoryProvider);
-    final (items, hasMore) =
-        await repository.getByOffset(offset: offset, limit: 75);
+    final (items, hasMore) = await repository.getByOffset(
+      offset: offset,
+      limit: 15,
+    );
     ref.keepAlive();
 
     return OffsetPagingData(
       items: items,
       hasMore: hasMore,
-      offset: offset + 75,
+      offset: offset + 15,
     );
   }
 }
@@ -58,9 +52,7 @@ class CursorBasedNotifier extends _$CursorBasedNotifier
   Future<CursorPagingData<SampleItem>> build() => fetch(cursor: null);
 
   @override
-  Future<CursorPagingData<SampleItem>> fetch({
-    required String? cursor,
-  }) async {
+  Future<CursorPagingData<SampleItem>> fetch({required String? cursor}) async {
     final repository = ref.read(sampleRepositoryProvider);
     final (items, nextCursor) = await repository.getByCursor(cursor);
     ref.keepAlive();
@@ -90,16 +82,16 @@ class PagingMethodScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Paging Method Sample'),
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
-              Tab(
-                text: 'Page',
+              Semantics(identifier: 'page-tab', child: const Tab(text: 'Page')),
+              Semantics(
+                identifier: 'offset-tab',
+                child: const Tab(text: 'Offset'),
               ),
-              Tab(
-                text: 'Offset',
-              ),
-              Tab(
-                text: 'Cursor',
+              Semantics(
+                identifier: 'cursor-tab',
+                child: const Tab(text: 'Cursor'),
               ),
             ],
           ),
@@ -107,76 +99,85 @@ class PagingMethodScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             PagingHelperView(
-              provider: pageBasedNotifierProvider,
-              futureRefreshable: pageBasedNotifierProvider.future,
-              notifierRefreshable: pageBasedNotifierProvider.notifier,
-              contentBuilder: (data, widgetCount, endItemView) =>
-                  ListView.builder(
-                key: const PageStorageKey<String>('page'),
-                itemCount: widgetCount,
-                itemBuilder: (context, index) {
-                  // if the index is last, then
-                  // return the end item view.
-                  if (index == widgetCount - 1) {
-                    return endItemView;
-                  }
+              provider: pageBasedProvider,
+              futureRefreshable: pageBasedProvider.future,
+              notifierRefreshable: pageBasedProvider.notifier,
+              contentBuilder:
+                  (data, widgetCount, endItemView) => ListView.builder(
+                    key: const PageStorageKey<String>('page'),
+                    itemCount: widgetCount,
+                    itemBuilder: (context, index) {
+                      // if the index is last, then
+                      // return the end item view.
+                      if (index == widgetCount - 1) {
+                        return endItemView;
+                      }
 
-                  // Otherwise, build a list tile for each sample item.
-                  return ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
-                  );
-                },
-              ),
+                      // Otherwise, build a list tile for each sample item.
+                      return Semantics(
+                        identifier: 'page-item-$index',
+                        child: ListTile(
+                          key: ValueKey(data.items[index].id),
+                          title: Text(data.items[index].name),
+                          subtitle: Text(data.items[index].id),
+                        ),
+                      );
+                    },
+                  ),
             ),
             PagingHelperView(
-              provider: offsetBasedNotifierProvider,
-              futureRefreshable: offsetBasedNotifierProvider.future,
-              notifierRefreshable: offsetBasedNotifierProvider.notifier,
-              contentBuilder: (data, widgetCount, endItemView) =>
-                  ListView.builder(
-                key: const PageStorageKey<String>('offset'),
-                itemCount: widgetCount,
-                itemBuilder: (context, index) {
-                  // if the index is last, then
-                  // return the end item view.
-                  if (index == widgetCount - 1) {
-                    return endItemView;
-                  }
+              provider: offsetBasedProvider,
+              futureRefreshable: offsetBasedProvider.future,
+              notifierRefreshable: offsetBasedProvider.notifier,
+              contentBuilder:
+                  (data, widgetCount, endItemView) => ListView.builder(
+                    key: const PageStorageKey<String>('offset'),
+                    itemCount: widgetCount,
+                    itemBuilder: (context, index) {
+                      // if the index is last, then
+                      // return the end item view.
+                      if (index == widgetCount - 1) {
+                        return endItemView;
+                      }
 
-                  // Otherwise, build a list tile for each sample item.
-                  return ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
-                  );
-                },
-              ),
+                      // Otherwise, build a list tile for each sample item.
+                      return Semantics(
+                        identifier: 'offset-item-$index',
+                        child: ListTile(
+                          key: ValueKey(data.items[index].id),
+                          title: Text(data.items[index].name),
+                          subtitle: Text(data.items[index].id),
+                        ),
+                      );
+                    },
+                  ),
             ),
             PagingHelperView(
-              provider: cursorBasedNotifierProvider,
-              futureRefreshable: cursorBasedNotifierProvider.future,
-              notifierRefreshable: cursorBasedNotifierProvider.notifier,
-              contentBuilder: (data, widgetCount, endItemView) =>
-                  ListView.builder(
-                key: const PageStorageKey<String>('cursor'),
-                itemCount: widgetCount,
-                itemBuilder: (context, index) {
-                  // if the index is last, then
-                  // return the end item view.
-                  if (index == widgetCount - 1) {
-                    return endItemView;
-                  }
+              provider: cursorBasedProvider,
+              futureRefreshable: cursorBasedProvider.future,
+              notifierRefreshable: cursorBasedProvider.notifier,
+              contentBuilder:
+                  (data, widgetCount, endItemView) => ListView.builder(
+                    key: const PageStorageKey<String>('cursor'),
+                    itemCount: widgetCount,
+                    itemBuilder: (context, index) {
+                      // if the index is last, then
+                      // return the end item view.
+                      if (index == widgetCount - 1) {
+                        return endItemView;
+                      }
 
-                  // Otherwise, build a list tile for each sample item.
-                  return ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
-                  );
-                },
-              ),
+                      // Otherwise, build a list tile for each sample item.
+                      return Semantics(
+                        identifier: 'cursor-item-$index',
+                        child: ListTile(
+                          key: ValueKey(data.items[index].id),
+                          title: Text(data.items[index].name),
+                          subtitle: Text(data.items[index].id),
+                        ),
+                      );
+                    },
+                  ),
             ),
           ],
         ),

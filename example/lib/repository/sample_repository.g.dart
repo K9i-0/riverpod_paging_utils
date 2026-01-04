@@ -6,22 +6,51 @@ part of 'sample_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sampleRepositoryHash() => r'14de127af2aa55d37c7a84a4dc4796e5afb7fd7f';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [sampleRepository].
 @ProviderFor(sampleRepository)
-final sampleRepositoryProvider = AutoDisposeProvider<SampleRepository>.internal(
-  sampleRepository,
-  name: r'sampleRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$sampleRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const sampleRepositoryProvider = SampleRepositoryProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SampleRepositoryRef = AutoDisposeProviderRef<SampleRepository>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class SampleRepositoryProvider
+    extends
+        $FunctionalProvider<
+          SampleRepository,
+          SampleRepository,
+          SampleRepository
+        >
+    with $Provider<SampleRepository> {
+  const SampleRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sampleRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$sampleRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<SampleRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  SampleRepository create(Ref ref) {
+    return sampleRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SampleRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SampleRepository>(value),
+    );
+  }
+}
+
+String _$sampleRepositoryHash() => r'14de127af2aa55d37c7a84a4dc4796e5afb7fd7f';
