@@ -13,9 +13,7 @@ class GridViewNotifier extends _$GridViewNotifier
   Future<CursorPagingData<SampleItem>> build() => fetch(cursor: null);
 
   @override
-  Future<CursorPagingData<SampleItem>> fetch({
-    required String? cursor,
-  }) async {
+  Future<CursorPagingData<SampleItem>> fetch({required String? cursor}) async {
     final repository = ref.read(sampleRepositoryProvider);
     final (items, nextCursor) = await repository.getByCursor(cursor);
     final hasMore = nextCursor != null && nextCursor.isNotEmpty;
@@ -31,9 +29,8 @@ class GridViewNotifier extends _$GridViewNotifier
 class GridViewScreen extends StatefulWidget {
   const GridViewScreen({super.key});
 
-  static Route<void> route() => MaterialPageRoute(
-        builder: (_) => const GridViewScreen(),
-      );
+  static Route<void> route() =>
+      MaterialPageRoute(builder: (_) => const GridViewScreen());
 
   @override
   State<GridViewScreen> createState() => _GridViewScreenState();

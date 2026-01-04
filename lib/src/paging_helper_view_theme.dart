@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 
-typedef ErrorWidgetBuilder = Widget Function(
-  BuildContext context,
-  Object error,
-  StackTrace stackTrace,
-  VoidCallback onRefreshButtonPressed,
-);
+typedef ErrorWidgetBuilder =
+    Widget Function(
+      BuildContext context,
+      Object error,
+      StackTrace stackTrace,
+      VoidCallback onRefreshButtonPressed,
+    );
 
-typedef EndErrorWidgetBuilder = Widget Function(
-  BuildContext context,
-  Object? error,
-  VoidCallback onRetryButtonPressed,
-);
+typedef EndErrorWidgetBuilder =
+    Widget Function(
+      BuildContext context,
+      Object? error,
+      VoidCallback onRetryButtonPressed,
+    );
 
 /// A theme for [PagingHelperView] and [PagingHelperSliverView].
 /// This is used to configure the default appearance of [PagingHelperView] and [PagingHelperSliverView].

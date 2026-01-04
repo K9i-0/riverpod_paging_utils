@@ -11,16 +11,14 @@ void main() {
         Object error,
         StackTrace stackTrace,
         VoidCallback onRefresh,
-      ) =>
-          const Text('Error');
+      ) => const Text('Error');
       Widget endLoadingBuilder(BuildContext context) =>
           const Text('End Loading');
       Widget endErrorBuilder(
         BuildContext context,
         Object? error,
         VoidCallback onRetry,
-      ) =>
-          const Text('End Error');
+      ) => const Text('End Error');
 
       final theme = PagingHelperViewTheme(
         loadingViewBuilder: loadingBuilder,
@@ -42,9 +40,7 @@ void main() {
     test('should create with partial properties', () {
       Widget loadingBuilder(BuildContext context) => const Text('Loading');
 
-      final theme = PagingHelperViewTheme(
-        loadingViewBuilder: loadingBuilder,
-      );
+      final theme = PagingHelperViewTheme(loadingViewBuilder: loadingBuilder);
 
       expect(theme.loadingViewBuilder, equals(loadingBuilder));
       expect(theme.errorViewBuilder, isNull);
@@ -73,8 +69,7 @@ void main() {
         Object error,
         StackTrace stackTrace,
         VoidCallback onRefresh,
-      ) =>
-          const Text('Error');
+      ) => const Text('Error');
 
       final originalTheme = PagingHelperViewTheme(
         loadingViewBuilder: loadingBuilder1,
@@ -82,11 +77,13 @@ void main() {
         showSecondPageError: true,
       );
 
-      final updatedTheme = originalTheme.copyWith(
-        loadingViewBuilder: loadingBuilder2,
-        errorViewBuilder: errorBuilder,
-        showSecondPageError: false,
-      ) as PagingHelperViewTheme;
+      final updatedTheme =
+          originalTheme.copyWith(
+                loadingViewBuilder: loadingBuilder2,
+                errorViewBuilder: errorBuilder,
+                showSecondPageError: false,
+              )
+              as PagingHelperViewTheme;
 
       expect(updatedTheme.loadingViewBuilder, equals(loadingBuilder2));
       expect(updatedTheme.errorViewBuilder, equals(errorBuilder));
@@ -112,13 +109,9 @@ void main() {
     });
 
     test('lerp should return the same instance', () {
-      final theme1 = PagingHelperViewTheme(
-        enableRefreshIndicator: true,
-      );
+      final theme1 = PagingHelperViewTheme(enableRefreshIndicator: true);
 
-      final theme2 = PagingHelperViewTheme(
-        enableRefreshIndicator: false,
-      );
+      final theme2 = PagingHelperViewTheme(enableRefreshIndicator: false);
 
       final lerpedTheme = theme1.lerp(theme2, 0.5) as PagingHelperViewTheme;
 
@@ -128,9 +121,7 @@ void main() {
     });
 
     test('lerp with null other should return the same instance', () {
-      final theme = PagingHelperViewTheme(
-        enableRefreshIndicator: true,
-      );
+      final theme = PagingHelperViewTheme(enableRefreshIndicator: true);
 
       final lerpedTheme = theme.lerp(null, 0.5) as PagingHelperViewTheme;
 
@@ -150,9 +141,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          theme: ThemeData(
-            extensions: [theme],
-          ),
+          theme: ThemeData(extensions: [theme]),
           home: Builder(
             builder: (context) {
               final themeFromContext =

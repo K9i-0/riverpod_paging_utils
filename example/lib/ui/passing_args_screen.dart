@@ -14,9 +14,7 @@ class PassingArgsNotifier extends _$PassingArgsNotifier
       fetch(cursor: null);
 
   @override
-  Future<CursorPagingData<SampleItem>> fetch({
-    required String? cursor,
-  }) async {
+  Future<CursorPagingData<SampleItem>> fetch({required String? cursor}) async {
     final repository = ref.read(sampleRepositoryProvider);
     // Use the id build method parameter to fetch data.
     final (items, nextCursor) = await repository.getByCursorAndId(id, cursor);
@@ -34,42 +32,39 @@ class PassingArgsScreen extends StatelessWidget {
   const PassingArgsScreen._();
 
   static Route<void> route() {
-    return MaterialPageRoute(
-      builder: (context) => const PassingArgsScreen._(),
-    );
+    return MaterialPageRoute(builder: (context) => const PassingArgsScreen._());
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = passingArgsProvider(id: '1');
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Passing Args Sample'),
-      ),
+      appBar: AppBar(title: const Text('Passing Args Sample')),
       body: PagingHelperView(
         provider: provider,
         futureRefreshable: provider.future,
         notifierRefreshable: provider.notifier,
-        contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
-          itemCount: widgetCount,
-          itemBuilder: (context, index) {
-            // if the index is last, then
-            // return the end item view.
-            if (index == widgetCount - 1) {
-              return endItemView;
-            }
+        contentBuilder:
+            (data, widgetCount, endItemView) => ListView.builder(
+              itemCount: widgetCount,
+              itemBuilder: (context, index) {
+                // if the index is last, then
+                // return the end item view.
+                if (index == widgetCount - 1) {
+                  return endItemView;
+                }
 
-            // Otherwise, build a list tile for each sample item.
-            return Semantics(
-              identifier: 'passing-args-item-$index',
-              child: ListTile(
-                key: ValueKey(data.items[index].id),
-                title: Text(data.items[index].name),
-                subtitle: Text(data.items[index].id),
-              ),
-            );
-          },
-        ),
+                // Otherwise, build a list tile for each sample item.
+                return Semantics(
+                  identifier: 'passing-args-item-$index',
+                  child: ListTile(
+                    key: ValueKey(data.items[index].id),
+                    title: Text(data.items[index].name),
+                    subtitle: Text(data.items[index].id),
+                  ),
+                );
+              },
+            ),
       ),
     );
   }

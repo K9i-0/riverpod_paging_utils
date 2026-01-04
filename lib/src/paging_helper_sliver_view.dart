@@ -41,35 +41,37 @@ final class PagingHelperSliverView<D extends PagingData<I>, I>
   /// endItemView is a widget to detect when the last displayed item is visible.
   /// If endItemView is non-null, it is displayed at the end of the list.
   final Widget Function(D data, int widgetCount, Widget endItemView)
-      contentBuilder;
+  contentBuilder;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context).extension<PagingHelperViewTheme>();
 
-    final loadingBuilder = theme?.sliverLoadingViewBuilder ??
+    final loadingBuilder =
+        theme?.sliverLoadingViewBuilder ??
         (context) => const SliverFillRemaining(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-    final errorBuilder = theme?.sliverErrorViewBuilder ??
+          child: Center(child: CircularProgressIndicator()),
+        );
+    final errorBuilder =
+        theme?.sliverErrorViewBuilder ??
         (context, e, st, onPressed) => SliverFillRemaining(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      onPressed: onPressed,
-                      icon: const Icon(Icons.refresh),
-                    ),
-                    Text(e.toString()),
-                  ],
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: onPressed,
+                  icon: const Icon(Icons.refresh),
                 ),
-              ),
-            );
+                Text(e.toString()),
+              ],
+            ),
+          ),
+        );
 
-    return ref.watch(provider).when(
+    return ref
+        .watch(provider)
+        .when(
           data: (data) {
             return contentBuilder(
               data,
@@ -81,12 +83,13 @@ final class PagingHelperSliverView<D extends PagingData<I>, I>
           // Loading state for the first page
           loading: () => loadingBuilder(context),
           // Error state for the first page
-          error: (e, st) => errorBuilder(
-            context,
-            e,
-            st,
-            () => ref.read(notifierRefreshable).forceRefresh(),
-          ),
+          error:
+              (e, st) => errorBuilder(
+                context,
+                e,
+                st,
+                () => ref.read(notifierRefreshable).forceRefresh(),
+              ),
         );
   }
 
@@ -108,18 +111,19 @@ final class PagingHelperSliverView<D extends PagingData<I>, I>
     return switch (data.loadNextStatus) {
       // Idle: show visibility detector to trigger loading
       LoadNextStatus.idle => _EndVDLoadingItemView(
-          onScrollEnd: () => ref.read(notifierRefreshable).loadNext(),
-        ),
+        onScrollEnd: () => ref.read(notifierRefreshable).loadNext(),
+      ),
       // Loading: show loading indicator
       LoadNextStatus.loading => const _EndLoadingItemView(),
       // Error: show error with retry button (or hide if showSecondPageError is false)
-      LoadNextStatus.error => showSecondPageError
-          ? _EndErrorItemView(
+      LoadNextStatus.error =>
+        showSecondPageError
+            ? _EndErrorItemView(
               error: data.loadNextError,
-              onRetryButtonPressed: () =>
-                  ref.read(notifierRefreshable).loadNext(),
+              onRetryButtonPressed:
+                  () => ref.read(notifierRefreshable).loadNext(),
             )
-          : const SizedBox.shrink(),
+            : const SizedBox.shrink(),
     };
   }
 }
@@ -130,22 +134,21 @@ final class _EndLoadingItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).extension<PagingHelperViewTheme>();
-    final childBuilder = theme?.endLoadingViewBuilder ??
+    final childBuilder =
+        theme?.endLoadingViewBuilder ??
         (context) => const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
-              ),
-            );
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: CircularProgressIndicator(),
+          ),
+        );
 
     return childBuilder(context);
   }
 }
 
 final class _EndVDLoadingItemView extends StatelessWidget {
-  const _EndVDLoadingItemView({
-    required this.onScrollEnd,
-  });
+  const _EndVDLoadingItemView({required this.onScrollEnd});
   final VoidCallback onScrollEnd;
 
   @override
@@ -173,23 +176,22 @@ final class _EndErrorItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).extension<PagingHelperViewTheme>();
-    final childBuilder = theme?.endErrorViewBuilder ??
+    final childBuilder =
+        theme?.endErrorViewBuilder ??
         (context, e, onPressed) => Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    IconButton(
-                      onPressed: onPressed,
-                      icon: const Icon(Icons.refresh),
-                    ),
-                    Text(
-                      error.toString(),
-                    ),
-                  ],
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                IconButton(
+                  onPressed: onPressed,
+                  icon: const Icon(Icons.refresh),
                 ),
-              ),
-            );
+                Text(error.toString()),
+              ],
+            ),
+          ),
+        );
 
     return childBuilder(context, error, onRetryButtonPressed);
   }

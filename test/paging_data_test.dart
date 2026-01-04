@@ -6,11 +6,7 @@ void main() {
   group('PagePagingData', () {
     test('should create with correct values', () {
       final items = ['item1', 'item2', 'item3'];
-      final data = PagePagingData(
-        items: items,
-        page: 2,
-        hasMore: true,
-      );
+      final data = PagePagingData(items: items, page: 2, hasMore: true);
 
       expect(data.items, equals(items));
       expect(data.page, equals(2));
@@ -19,11 +15,7 @@ void main() {
 
     test('copyWith should create new instance with updated values', () {
       final originalItems = ['item1', 'item2'];
-      final data = PagePagingData(
-        items: originalItems,
-        page: 1,
-        hasMore: true,
-      );
+      final data = PagePagingData(items: originalItems, page: 1, hasMore: true);
 
       final newItems = ['item1', 'item2', 'item3'];
       final updatedData = data.copyWith(
@@ -44,11 +36,7 @@ void main() {
 
     test('copyWith with no parameters should return identical data', () {
       final items = ['item1', 'item2'];
-      final data = PagePagingData(
-        items: items,
-        page: 1,
-        hasMore: true,
-      );
+      final data = PagePagingData(items: items, page: 1, hasMore: true);
 
       final copiedData = data.copyWith();
 
@@ -61,11 +49,7 @@ void main() {
   group('OffsetPagingData', () {
     test('should create with correct values', () {
       final items = ['item1', 'item2', 'item3'];
-      final data = OffsetPagingData(
-        items: items,
-        offset: 20,
-        hasMore: true,
-      );
+      final data = OffsetPagingData(items: items, offset: 20, hasMore: true);
 
       expect(data.items, equals(items));
       expect(data.offset, equals(20));
@@ -99,11 +83,7 @@ void main() {
 
     test('copyWith with no parameters should return identical data', () {
       final items = ['item1', 'item2'];
-      final data = OffsetPagingData(
-        items: items,
-        offset: 10,
-        hasMore: false,
-      );
+      final data = OffsetPagingData(items: items, offset: 10, hasMore: false);
 
       final copiedData = data.copyWith();
 
@@ -174,10 +154,7 @@ void main() {
         hasMore: true,
       );
 
-      final updatedData = data.copyWith(
-        nextCursor: null,
-        hasMore: false,
-      );
+      final updatedData = data.copyWith(nextCursor: null, hasMore: false);
 
       expect(updatedData.nextCursor, isNull);
       expect(updatedData.hasMore, isFalse);
@@ -201,11 +178,7 @@ void main() {
 
   group('Edge cases', () {
     test('PagePagingData with empty items', () {
-      const data = PagePagingData(
-        items: [],
-        page: 0,
-        hasMore: false,
-      );
+      const data = PagePagingData(items: [], page: 0, hasMore: false);
 
       expect(data.items, isEmpty);
       expect(data.page, equals(0));
@@ -214,11 +187,7 @@ void main() {
 
     test('PagePagingData with large number of items', () {
       final items = List.generate(10000, (i) => 'item$i');
-      final data = PagePagingData(
-        items: items,
-        page: 100,
-        hasMore: true,
-      );
+      final data = PagePagingData(items: items, page: 100, hasMore: true);
 
       expect(data.items.length, equals(10000));
       expect(data.items.first, equals('item0'));
@@ -227,11 +196,7 @@ void main() {
 
     test('PagingData with different type parameters', () {
       // Test with int
-      const intData = PagePagingData(
-        items: [1, 2, 3],
-        page: 0,
-        hasMore: true,
-      );
+      const intData = PagePagingData(items: [1, 2, 3], page: 0, hasMore: true);
       expect(intData.items, equals([1, 2, 3]));
 
       // Test with custom object

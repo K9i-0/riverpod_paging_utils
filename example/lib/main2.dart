@@ -9,11 +9,7 @@ import 'package:riverpod_paging_utils/riverpod_paging_utils.dart';
 part 'main2.g.dart';
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: MainApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -25,21 +21,22 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         extensions: [
           PagingHelperViewTheme(
-            loadingViewBuilder: (context) => Padding(
-              padding: const EdgeInsets.all(16),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: LoadingAnimationWidget.horizontalRotatingDots(
-                  color: Colors.red,
-                  size: 100,
+            loadingViewBuilder:
+                (context) => Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: LoadingAnimationWidget.horizontalRotatingDots(
+                      color: Colors.red,
+                      size: 100,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            endLoadingViewBuilder: (context) =>
-                LoadingAnimationWidget.threeArchedCircle(
-              color: Colors.red,
-              size: 50,
-            ),
+            endLoadingViewBuilder:
+                (context) => LoadingAnimationWidget.threeArchedCircle(
+                  color: Colors.red,
+                  size: 50,
+                ),
           ),
         ],
       ),
@@ -61,9 +58,7 @@ class SampleNotifier extends _$SampleNotifier
   /// Returns a [CursorPagingData] object containing the fetched items, a flag indicating whether more data is available,
   /// and the next cursor for fetching the next page.
   @override
-  Future<CursorPagingData<SampleItem>> fetch({
-    required String? cursor,
-  }) async {
+  Future<CursorPagingData<SampleItem>> fetch({required String? cursor}) async {
     // Simulate a delay of 2 seconds to demonstrate the loading view.
     await Future<void>.delayed(const Duration(seconds: 2));
     final repository = ref.read(sampleRepositoryProvider);
@@ -85,30 +80,29 @@ class SampleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Basic UI Customization'),
-      ),
+      appBar: AppBar(title: const Text('Basic UI Customization')),
       body: PagingHelperView(
         provider: sampleProvider,
         futureRefreshable: sampleProvider.future,
         notifierRefreshable: sampleProvider.notifier,
-        contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
-          itemCount: widgetCount,
-          itemBuilder: (context, index) {
-            // if the index is last, then
-            // return the end item view.
-            if (index == widgetCount - 1) {
-              return endItemView;
-            }
+        contentBuilder:
+            (data, widgetCount, endItemView) => ListView.builder(
+              itemCount: widgetCount,
+              itemBuilder: (context, index) {
+                // if the index is last, then
+                // return the end item view.
+                if (index == widgetCount - 1) {
+                  return endItemView;
+                }
 
-            // Otherwise, build a list tile for each sample item.
-            return ListTile(
-              key: ValueKey(data.items[index].id),
-              title: Text(data.items[index].name),
-              subtitle: Text(data.items[index].id),
-            );
-          },
-        ),
+                // Otherwise, build a list tile for each sample item.
+                return ListTile(
+                  key: ValueKey(data.items[index].id),
+                  title: Text(data.items[index].name),
+                  subtitle: Text(data.items[index].id),
+                );
+              },
+            ),
       ),
     );
   }

@@ -98,18 +98,24 @@ class TestCursorPagingNotifier
 }
 
 // Test providers
-final testPagePagingProvider = NotifierProvider<TestPagePagingNotifier,
-    AsyncValue<PagePagingData<String>>>(() {
+final testPagePagingProvider = NotifierProvider<
+  TestPagePagingNotifier,
+  AsyncValue<PagePagingData<String>>
+>(() {
   return TestPagePagingNotifier();
 });
 
-final testOffsetPagingProvider = NotifierProvider<TestOffsetPagingNotifier,
-    AsyncValue<OffsetPagingData<String>>>(() {
+final testOffsetPagingProvider = NotifierProvider<
+  TestOffsetPagingNotifier,
+  AsyncValue<OffsetPagingData<String>>
+>(() {
   return TestOffsetPagingNotifier();
 });
 
-final testCursorPagingProvider = NotifierProvider<TestCursorPagingNotifier,
-    AsyncValue<CursorPagingData<String>>>(() {
+final testCursorPagingProvider = NotifierProvider<
+  TestCursorPagingNotifier,
+  AsyncValue<CursorPagingData<String>>
+>(() {
   return TestCursorPagingNotifier();
 });
 
