@@ -28,6 +28,3 @@ pubspec.lock
 .dart_tool/
 build/
 
-# Memory files
-CLAUDE.md
-
