@@ -28,3 +28,6 @@ pubspec.lock
 .dart_tool/
 build/
 
+# Local AI runtime evidence
+.marionette/
+artifacts/

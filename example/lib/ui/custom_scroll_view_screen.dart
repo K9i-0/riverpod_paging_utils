@@ -38,8 +38,10 @@ class CustomScrollViewScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: CustomScrollView(
+        key: const ValueKey('sample-custom-scroll-view'),
         slivers: [
           const SliverAppBar(
+            leading: BackButton(key: ValueKey('back-button')),
             pinned: true,
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
@@ -114,6 +116,7 @@ class CustomScrollViewScreen extends ConsumerWidget {
                   return Semantics(
                     identifier: 'sliver-item-$index',
                     child: ListTile(
+                      key: ValueKey('sliver-item-${item.id}'),
                       leading: CircleAvatar(child: Text(item.name[0])),
                       title: Text(item.name),
                       subtitle: Text(item.id),

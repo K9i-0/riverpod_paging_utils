@@ -81,20 +81,21 @@ class PagingMethodScreen extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          leading: const BackButton(key: ValueKey('back-button')),
           title: const Text('Paging Method Sample'),
           bottom: TabBar(
             tabs: [
               Semantics(
                 identifier: 'page-tab',
-                child: const Tab(text: 'Page'),
+                child: const Tab(key: ValueKey('page-tab'), text: 'Page'),
               ),
               Semantics(
                 identifier: 'offset-tab',
-                child: const Tab(text: 'Offset'),
+                child: const Tab(key: ValueKey('offset-tab'), text: 'Offset'),
               ),
               Semantics(
                 identifier: 'cursor-tab',
-                child: const Tab(text: 'Cursor'),
+                child: const Tab(key: ValueKey('cursor-tab'), text: 'Cursor'),
               ),
             ],
           ),

@@ -80,6 +80,7 @@ class SecondPageErrorScreen extends ConsumerWidget {
                       button: true,
                       container: true,
                       child: GestureDetector(
+                        key: const ValueKey('error-retry-button'),
                         onTap: onRetryPressed,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -108,11 +109,13 @@ class SecondPageErrorScreen extends ConsumerWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
+          leading: const BackButton(key: ValueKey('back-button')),
           title: const Text('2nd Page Error Sample'),
           actions: [
             Tooltip(
               message: 'Toggle showSecondPageError',
               child: Switch(
+                key: const ValueKey('show-second-page-error-switch'),
                 value: showSecondPageError,
                 onChanged: (_) =>
                     ref.read(showSecondPageErrorProvider.notifier).toggle(),
@@ -125,6 +128,7 @@ class SecondPageErrorScreen extends ConsumerWidget {
           futureRefreshable: secondPageErrorProvider.future,
           notifierRefreshable: secondPageErrorProvider.notifier,
           contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
+            key: const ValueKey('second-page-error-list'),
             itemCount: widgetCount,
             itemBuilder: (context, index) {
               // if the index is last, then

@@ -4,17 +4,15 @@
       "type": "stdio",
       "command": "dart",
       "args": [
-        "mcp-server"
-      ],
-      "env": {}
+        "mcp-server",
+        "--enable",
+        "flutter_app_lifecycle"
+      ]
     },
-    "maestro": {
+    "marionette": {
       "type": "stdio",
-      "command": "maestro",
-      "args": [
-        "mcp"
-      ],
-      "env": {}
+      "command": "marionette_mcp",
+      "args": []
     }
   }
 }

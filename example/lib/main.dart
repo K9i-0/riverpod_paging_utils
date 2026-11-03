@@ -54,6 +54,7 @@ class MainApp extends StatelessWidget {
                         button: true,
                         container: true,
                         child: GestureDetector(
+                          key: const ValueKey('retry-button'),
                           onTap: onRefreshPressed,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -92,6 +93,7 @@ class MainApp extends StatelessWidget {
                       button: true,
                       container: true,
                       child: GestureDetector(
+                        key: const ValueKey('error-retry-button'),
                         onTap: onRetryPressed,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -153,6 +155,12 @@ class SampleNotifier extends _$SampleNotifier
 class SampleScreen extends StatelessWidget {
   const SampleScreen({super.key});
 
+  Future<void> _openScreen(BuildContext context, Route<void> route) async {
+    final navigator = Navigator.of(context);
+    navigator.pop();
+    await navigator.push(route);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,6 +169,7 @@ class SampleScreen extends StatelessWidget {
           builder: (context) => Semantics(
             identifier: 'drawer-menu-button',
             child: IconButton(
+              key: const ValueKey('drawer-menu-button'),
               icon: const Icon(Icons.menu),
               onPressed: () => Scaffold.of(context).openDrawer(),
             ),
@@ -169,38 +178,45 @@ class SampleScreen extends StatelessWidget {
         title: const Text('Sample Screen'),
       ),
       drawer: Drawer(
+        key: const ValueKey('sample-drawer'),
         child: ListView(
+          key: const ValueKey('drawer-menu-list'),
           children: [
             const DrawerHeader(child: Text('Menu')),
             ListTile(
+              key: const ValueKey('menu-first-page-error'),
               title: const Text('1st page error'),
               onTap: () async =>
-                  Navigator.of(context).push(FirstPageErrorScreen.route()),
+                  _openScreen(context, FirstPageErrorScreen.route()),
             ),
             ListTile(
+              key: const ValueKey('menu-second-page-error'),
               title: const Text('2nd page error'),
               onTap: () async =>
-                  Navigator.of(context).push(SecondPageErrorScreen.route()),
+                  _openScreen(context, SecondPageErrorScreen.route()),
             ),
             ListTile(
+              key: const ValueKey('menu-passing-args'),
               title: const Text('Passing args screen'),
               onTap: () async =>
-                  Navigator.of(context).push(PassingArgsScreen.route()),
+                  _openScreen(context, PassingArgsScreen.route()),
             ),
             ListTile(
+              key: const ValueKey('menu-paging-method'),
               title: const Text('Paging method screen'),
               onTap: () async =>
-                  Navigator.of(context).push(PagingMethodScreen.route()),
+                  _openScreen(context, PagingMethodScreen.route()),
             ),
             ListTile(
+              key: const ValueKey('menu-grid-view'),
               title: const Text('GridView example'),
-              onTap: () async =>
-                  Navigator.of(context).push(GridViewScreen.route()),
+              onTap: () async => _openScreen(context, GridViewScreen.route()),
             ),
             ListTile(
+              key: const ValueKey('menu-custom-scroll-view'),
               title: const Text('CustomScrollView example'),
               onTap: () async =>
-                  Navigator.of(context).push(CustomScrollViewScreen.route()),
+                  _openScreen(context, CustomScrollViewScreen.route()),
             ),
           ],
         ),
@@ -210,6 +226,7 @@ class SampleScreen extends StatelessWidget {
         futureRefreshable: sampleProvider.future,
         notifierRefreshable: sampleProvider.notifier,
         contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
+          key: const ValueKey('sample-list'),
           itemCount: widgetCount,
           itemBuilder: (context, index) {
             // if the index is last, then

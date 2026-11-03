@@ -39,12 +39,16 @@ class PassingArgsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = passingArgsProvider(id: '1');
     return Scaffold(
-      appBar: AppBar(title: const Text('Passing Args Sample')),
+      appBar: AppBar(
+        leading: const BackButton(key: ValueKey('back-button')),
+        title: const Text('Passing Args Sample'),
+      ),
       body: PagingHelperView(
         provider: provider,
         futureRefreshable: provider.future,
         notifierRefreshable: provider.notifier,
         contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
+          key: const ValueKey('passing-args-list'),
           itemCount: widgetCount,
           itemBuilder: (context, index) {
             // if the index is last, then

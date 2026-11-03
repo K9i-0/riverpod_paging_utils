@@ -1,0 +1,11 @@
+# Project-local runtime tools; use the intended Flutter SDK on the agent's PATH.
+[mcp_servers.dart-mcp]
+command = "dart"
+args = ["mcp-server", "--enable", "flutter_app_lifecycle"]
+startup_timeout_sec = 60
+tool_timeout_sec = 300
+
+[mcp_servers.marionette]
+command = "marionette_mcp"
+startup_timeout_sec = 60
+tool_timeout_sec = 120

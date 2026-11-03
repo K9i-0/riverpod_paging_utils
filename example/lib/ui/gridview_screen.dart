@@ -51,9 +51,11 @@ class _GridViewScreenState extends State<GridViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const BackButton(key: ValueKey('back-button')),
         title: const Text('GridView Example'),
         actions: [
           IconButton(
+            key: const ValueKey('grid-scroll-direction-button'),
             icon: Icon(
               _scrollDirection == Axis.vertical
                   ? Icons.swap_horiz
@@ -70,6 +72,7 @@ class _GridViewScreenState extends State<GridViewScreen> {
         notifierRefreshable: gridViewProvider.notifier,
         contentBuilder: (data, widgetCount, endItemView) {
           return GridView.builder(
+            key: const ValueKey('sample-grid'),
             scrollDirection: _scrollDirection,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: _scrollDirection == Axis.vertical ? 2 : 3,
@@ -88,6 +91,7 @@ class _GridViewScreenState extends State<GridViewScreen> {
               return Semantics(
                 identifier: 'grid-item-$index',
                 child: Card(
+                  key: ValueKey('grid-item-${item.id}'),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

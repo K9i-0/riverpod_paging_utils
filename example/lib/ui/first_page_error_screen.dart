@@ -45,12 +45,16 @@ class FirstPageErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('1st Page Error Sample')),
+      appBar: AppBar(
+        leading: const BackButton(key: ValueKey('back-button')),
+        title: const Text('1st Page Error Sample'),
+      ),
       body: PagingHelperView(
         provider: firstPageErrorProvider,
         futureRefreshable: firstPageErrorProvider.future,
         notifierRefreshable: firstPageErrorProvider.notifier,
         contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
+          key: const ValueKey('first-page-error-list'),
           itemCount: widgetCount,
           itemBuilder: (context, index) {
             // if the index is last, then
