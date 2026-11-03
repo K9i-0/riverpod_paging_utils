@@ -10,7 +10,7 @@ environment:
 resolution: workspace
 
 dependencies:
-  easy_refresh: ^3.5.1
+  easy_refresh: ">=3.5.1 <5.0.0"
   flutter:
     sdk: flutter
   flutter_riverpod: ^3.4.3
