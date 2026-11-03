@@ -30,7 +30,7 @@ Review pagination, refresh, first-page vs. load-more errors, and public API comp
 
 ## AI runtime verification
 
-Follow [docs/ai-verification.md](docs/ai-verification.md) for startup, connection, stable keys, and scenarios. Use `example/tool/automation.dart` for native debug inspection; ordinary `example/lib/main.dart` has no Marionette initialization.
+Follow [doc/ai-verification.md](doc/ai-verification.md) for startup, connection, stable keys, and scenarios. Use `example/tool/automation.dart` for native debug inspection; ordinary `example/lib/main.dart` has no Marionette initialization.
 
 Observe the live element list before acting. Prefer keys/identifiers, confirm visible outcomes, check runtime errors, and capture relevant screenshots. Widget tests alone do not establish simulator E2E. Stop only apps/processes started by this task; do not stop other dev servers or simulators.
 

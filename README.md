@@ -375,4 +375,4 @@ The package and example share a Dart pub workspace. To watch code generation,
 run `dart run melos run watch --no-select`. The example no longer needs `k9i_cli`
 or Grinder tasks.
 
-For development checks and AI-driven example verification, see [AGENTS.md](AGENTS.md) and the [runtime guide](docs/ai-verification.md).
+For development checks and AI-driven example verification, see [AGENTS.md](AGENTS.md) and the [runtime guide](doc/ai-verification.md).
