@@ -93,8 +93,12 @@ jobs:
 
   patrol:
     name: Patrol iOS regression
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
+      PATROL_IOS_VERSION: "26.2"
+      PATROL_DEVICE_NAME: iPhone 17
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: ./.github/actions/setup-application-runtime

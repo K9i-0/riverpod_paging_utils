@@ -20,6 +20,20 @@ if needed. Auto-selection is CI-only; an explicitly selected simulator is booted
 Patrol options can be passed after the command. For parallel local sessions use
 distinct `--test-server-port` and `--app-server-port` values.
 
+CI uses macOS 26, Xcode 26.2, and an iPhone 17 with iOS 26.2. Its job sets
+`DEVELOPER_DIR`, `PATROL_IOS_VERSION`, and `PATROL_DEVICE_NAME` explicitly so
+runner image updates do not silently mix an older Xcode with a newer simulator.
+The helper prints the selected Xcode, runtime, model, and simulator ID. Locally,
+`PATROL_DEVICE` alone still detects that simulator's runtime; the version and
+model variables are optional exact filters. A filter with no match fails before
+starting Patrol.
+
+Simulator boot has a 600-second limit. A timeout fails the gate and prints device
+and runtime diagnostics; it does not erase or restart the simulator. Boot output
+is also saved in `example/build/patrol_logs/simulator-boot.log` and uploaded with
+CI diagnostics. Allow normal first-boot migration to complete before concluding
+that boot has stalled.
+
 Require a zero exit code and check the reported case count: no failed or skipped
 cases. A successful compile or app launch is not a passing E2E run. Patrol writes
 native result bundles under the example's `build/` directory; CI uploads them as

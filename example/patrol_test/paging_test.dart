@@ -113,12 +113,15 @@ void main() {
   ) async {
     await _launch($);
     await _openMenu($, 'custom-scroll-view');
+    await $(const ValueKey('sliver-item-1')).waitUntilVisible();
     await $(const ValueKey('sliver-item-31')).scrollTo(
       view: $(const ValueKey('sample-custom-scroll-view')),
-      step: 300,
+      // Slow drags prevent iOS momentum from skipping the lazy target item.
+      step: 150,
+      dragDuration: const Duration(milliseconds: 500),
       maxScrolls: 30,
     );
-  });
+  }, tags: ['sliver']);
 }
 
 Future<void> _launch(PatrolIntegrationTester $) async {
