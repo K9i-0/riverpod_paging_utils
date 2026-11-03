@@ -3,55 +3,78 @@ name: check-pr
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  pre-check:
-    runs-on: ubuntu-latest
-    outputs:
-      src: ${{ steps.filter.outputs.src }}
-
-    steps:
-      - uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            src:
-              - "**.dart"
-              - "pubspec.yaml"
-              - "pubspec_overrides.yaml"
-
   check:
-    needs: pre-check
-    if: ${{ needs.pre-check.outputs.src == 'true' }}
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Application Runtime
         uses: ./.github/actions/setup-application-runtime
 
-      # https://github.com/invertase/github-action-dart-analyzer
-      - name: Report analyze
-        uses: invertase/github-action-dart-analyzer@v3
-        with:
-          fatal-infos: true
-    
+      - name: Analyze package and example
+        run: flutter analyze --fatal-infos
+
       - name: Check format
-        run: dart format --set-exit-if-changed .
+        run: dart format --output=none --set-exit-if-changed .
 
-      - name: re-generated code
-        run: dart pub run build_runner build -d
+      - name: Regenerate package and example
+        run: dart run melos run build --no-select
 
-      - name: check difference
+      - name: Check generated code
         run: |
           git add -N .
-          git diff --name-only --exit-code
-      
+          git diff --exit-code
+
       - name: Run tests
         run: flutter test --coverage
-      
+
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
-          file: ./coverage/lcov.info
+          files: ./coverage/lcov.info
           fail_ci_if_error: false
+
+  minimum-consumer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up minimum supported Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: "3.32.0"
+          channel: stable
+          cache: true
+
+      - name: Create a consumer outside the development workspace
+        run: |
+          consumer_dir="$RUNNER_TEMP/riverpod_paging_minimum_consumer"
+          mkdir -p "$consumer_dir"
+          cp -R test "$consumer_dir/test"
+          cat > "$consumer_dir/pubspec.yaml" <<EOF
+          name: riverpod_paging_minimum_consumer
+          publish_to: none
+          environment:
+            sdk: ">=3.7.0 <4.0.0"
+          dependencies:
+            flutter:
+              sdk: flutter
+            flutter_riverpod: 3.0.0
+            freezed_annotation: 3.1.0
+            riverpod_paging_utils:
+              path: "$GITHUB_WORKSPACE"
+          dev_dependencies:
+            flutter_test:
+              sdk: flutter
+            test: ^1.25.2
+          EOF
+
+      - name: Test with minimum supported dependencies
+        working-directory: ${{ runner.temp }}/riverpod_paging_minimum_consumer
+        run: |
+          flutter pub get
+          flutter test

@@ -84,7 +84,10 @@ class PagingMethodScreen extends StatelessWidget {
           title: const Text('Paging Method Sample'),
           bottom: TabBar(
             tabs: [
-              Semantics(identifier: 'page-tab', child: const Tab(text: 'Page')),
+              Semantics(
+                identifier: 'page-tab',
+                child: const Tab(text: 'Page'),
+              ),
               Semantics(
                 identifier: 'offset-tab',
                 child: const Tab(text: 'Offset'),
@@ -102,8 +105,8 @@ class PagingMethodScreen extends StatelessWidget {
               provider: pageBasedProvider,
               futureRefreshable: pageBasedProvider.future,
               notifierRefreshable: pageBasedProvider.notifier,
-              contentBuilder:
-                  (data, widgetCount, endItemView) => ListView.builder(
+              contentBuilder: (data, widgetCount, endItemView) =>
+                  ListView.builder(
                     key: const PageStorageKey<String>('page'),
                     itemCount: widgetCount,
                     itemBuilder: (context, index) {
@@ -129,8 +132,8 @@ class PagingMethodScreen extends StatelessWidget {
               provider: offsetBasedProvider,
               futureRefreshable: offsetBasedProvider.future,
               notifierRefreshable: offsetBasedProvider.notifier,
-              contentBuilder:
-                  (data, widgetCount, endItemView) => ListView.builder(
+              contentBuilder: (data, widgetCount, endItemView) =>
+                  ListView.builder(
                     key: const PageStorageKey<String>('offset'),
                     itemCount: widgetCount,
                     itemBuilder: (context, index) {
@@ -156,8 +159,8 @@ class PagingMethodScreen extends StatelessWidget {
               provider: cursorBasedProvider,
               futureRefreshable: cursorBasedProvider.future,
               notifierRefreshable: cursorBasedProvider.notifier,
-              contentBuilder:
-                  (data, widgetCount, endItemView) => ListView.builder(
+              contentBuilder: (data, widgetCount, endItemView) =>
+                  ListView.builder(
                     key: const PageStorageKey<String>('cursor'),
                     itemCount: widgetCount,
                     itemBuilder: (context, index) {

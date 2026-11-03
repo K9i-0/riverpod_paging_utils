@@ -1,4 +1,4 @@
 [tools]
 aapt2 = "latest"
-flutter = "3.38.5"
+flutter = "3.47.9"
 node = "22.16.0"

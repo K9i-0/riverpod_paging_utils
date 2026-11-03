@@ -68,9 +68,8 @@ class SampleScreen extends ConsumerWidget {
     // Display errors using SnackBar
     ref.listen(sampleProvider, (_, state) {
       if (!state.isLoading && state.hasError) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(state.error!.toString())));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(state.error!.toString())));
       }
     });
 

@@ -33,8 +33,8 @@ class MainApp extends StatelessWidget {
         extensions: [
           PagingHelperViewTheme(
             // Custom error view with Semantics identifier for E2E testing
-            errorViewBuilder:
-                (context, error, stackTrace, onRefreshPressed) => Center(
+            errorViewBuilder: (context, error, stackTrace, onRefreshPressed) =>
+                Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -77,46 +77,44 @@ class MainApp extends StatelessWidget {
                   ),
                 ),
             // Custom end error view with Semantics identifier for E2E testing
-            endErrorViewBuilder:
-                (context, error, onRetryPressed) => Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        Semantics(
-                          identifier: 'end-error-view',
-                          child: Text('$error'),
-                        ),
-                        const SizedBox(height: 8),
-                        Semantics(
-                          identifier: 'error-retry-button',
-                          button: true,
-                          container: true,
-                          child: GestureDetector(
-                            onTap: onRetryPressed,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24,
-                                vertical: 12,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primary,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                'Retry',
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                ),
-                              ),
+            endErrorViewBuilder: (context, error, onRetryPressed) => Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Semantics(
+                      identifier: 'end-error-view',
+                      child: Text('$error'),
+                    ),
+                    const SizedBox(height: 8),
+                    Semantics(
+                      identifier: 'error-retry-button',
+                      button: true,
+                      container: true,
+                      child: GestureDetector(
+                        onTap: onRetryPressed,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            'Retry',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
+              ),
+            ),
           ),
         ],
       ),
@@ -160,14 +158,13 @@ class SampleScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
-          builder:
-              (context) => Semantics(
-                identifier: 'drawer-menu-button',
-                child: IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                ),
-              ),
+          builder: (context) => Semantics(
+            identifier: 'drawer-menu-button',
+            child: IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
         ),
         title: const Text('Sample Screen'),
       ),
@@ -177,40 +174,33 @@ class SampleScreen extends StatelessWidget {
             const DrawerHeader(child: Text('Menu')),
             ListTile(
               title: const Text('1st page error'),
-              onTap:
-                  () async =>
-                      Navigator.of(context).push(FirstPageErrorScreen.route()),
+              onTap: () async =>
+                  Navigator.of(context).push(FirstPageErrorScreen.route()),
             ),
             ListTile(
               title: const Text('2nd page error'),
-              onTap:
-                  () async =>
-                      Navigator.of(context).push(SecondPageErrorScreen.route()),
+              onTap: () async =>
+                  Navigator.of(context).push(SecondPageErrorScreen.route()),
             ),
             ListTile(
               title: const Text('Passing args screen'),
-              onTap:
-                  () async =>
-                      Navigator.of(context).push(PassingArgsScreen.route()),
+              onTap: () async =>
+                  Navigator.of(context).push(PassingArgsScreen.route()),
             ),
             ListTile(
               title: const Text('Paging method screen'),
-              onTap:
-                  () async =>
-                      Navigator.of(context).push(PagingMethodScreen.route()),
+              onTap: () async =>
+                  Navigator.of(context).push(PagingMethodScreen.route()),
             ),
             ListTile(
               title: const Text('GridView example'),
-              onTap:
-                  () async =>
-                      Navigator.of(context).push(GridViewScreen.route()),
+              onTap: () async =>
+                  Navigator.of(context).push(GridViewScreen.route()),
             ),
             ListTile(
               title: const Text('CustomScrollView example'),
-              onTap:
-                  () async => Navigator.of(
-                    context,
-                  ).push(CustomScrollViewScreen.route()),
+              onTap: () async =>
+                  Navigator.of(context).push(CustomScrollViewScreen.route()),
             ),
           ],
         ),
@@ -219,27 +209,26 @@ class SampleScreen extends StatelessWidget {
         provider: sampleProvider,
         futureRefreshable: sampleProvider.future,
         notifierRefreshable: sampleProvider.notifier,
-        contentBuilder:
-            (data, widgetCount, endItemView) => ListView.builder(
-              itemCount: widgetCount,
-              itemBuilder: (context, index) {
-                // if the index is last, then
-                // return the end item view.
-                if (index == widgetCount - 1) {
-                  return endItemView;
-                }
+        contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
+          itemCount: widgetCount,
+          itemBuilder: (context, index) {
+            // if the index is last, then
+            // return the end item view.
+            if (index == widgetCount - 1) {
+              return endItemView;
+            }
 
-                // Otherwise, build a list tile for each sample item.
-                return Semantics(
-                  identifier: 'sample-item-$index',
-                  child: ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
-                  ),
-                );
-              },
-            ),
+            // Otherwise, build a list tile for each sample item.
+            return Semantics(
+              identifier: 'sample-item-$index',
+              child: ListTile(
+                key: ValueKey(data.items[index].id),
+                title: Text(data.items[index].name),
+                subtitle: Text(data.items[index].id),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -355,3 +355,22 @@ class SampleScreen extends ConsumerWidget {
 ```
 
 A complete sample implementation can be found in the [example/lib/main3.dart](https://github.com/K9i-0/riverpod_paging_utils/blob/main/example/lib/main3.dart) file.
+
+## Development
+
+Install the Flutter version pinned in `.mise.toml`, then run these commands from
+this repository's root. Development tooling requires Dart 3.13 or newer; the
+published package's minimum SDK constraints remain unchanged.
+
+```sh
+flutter pub get
+dart run melos bootstrap
+dart run melos run build --no-select
+flutter analyze --fatal-infos
+dart format --output=none --set-exit-if-changed .
+flutter test
+```
+
+The package and example share a Dart pub workspace. To watch code generation,
+run `dart run melos run watch --no-select`. The example no longer needs `k9i_cli`
+or Grinder tasks.

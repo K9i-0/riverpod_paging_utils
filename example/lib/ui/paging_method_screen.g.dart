@@ -10,12 +10,12 @@ part of 'paging_method_screen.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(PageBasedNotifier)
-const pageBasedProvider = PageBasedNotifierProvider._();
+final pageBasedProvider = PageBasedNotifierProvider._();
 
 final class PageBasedNotifierProvider
     extends
         $AsyncNotifierProvider<PageBasedNotifier, PagePagingData<SampleItem>> {
-  const PageBasedNotifierProvider._()
+  PageBasedNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -34,15 +34,14 @@ final class PageBasedNotifierProvider
   PageBasedNotifier create() => PageBasedNotifier();
 }
 
-String _$pageBasedNotifierHash() => r'eeebf31b5b48bad4f89f2a907865bca91c7ebf3a';
+String _$pageBasedNotifierHash() => r'2ba947fde488589855620edc7535d77dc69f067e';
 
 abstract class _$PageBasedNotifier
     extends $AsyncNotifier<PagePagingData<SampleItem>> {
   FutureOr<PagePagingData<SampleItem>> build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final created = build();
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -60,12 +59,12 @@ abstract class _$PageBasedNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(OffsetBasedNotifier)
-const offsetBasedProvider = OffsetBasedNotifierProvider._();
+final offsetBasedProvider = OffsetBasedNotifierProvider._();
 
 final class OffsetBasedNotifierProvider
     extends
@@ -73,7 +72,7 @@ final class OffsetBasedNotifierProvider
           OffsetBasedNotifier,
           OffsetPagingData<SampleItem>
         > {
-  const OffsetBasedNotifierProvider._()
+  OffsetBasedNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -93,15 +92,14 @@ final class OffsetBasedNotifierProvider
 }
 
 String _$offsetBasedNotifierHash() =>
-    r'004f470d3f169dbb79b2af6b0c2427d0bdf7d434';
+    r'd463c8f5c0c658f46a5459fb2a560587ff83ee1f';
 
 abstract class _$OffsetBasedNotifier
     extends $AsyncNotifier<OffsetPagingData<SampleItem>> {
   FutureOr<OffsetPagingData<SampleItem>> build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final created = build();
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -119,12 +117,12 @@ abstract class _$OffsetBasedNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(CursorBasedNotifier)
-const cursorBasedProvider = CursorBasedNotifierProvider._();
+final cursorBasedProvider = CursorBasedNotifierProvider._();
 
 final class CursorBasedNotifierProvider
     extends
@@ -132,7 +130,7 @@ final class CursorBasedNotifierProvider
           CursorBasedNotifier,
           CursorPagingData<SampleItem>
         > {
-  const CursorBasedNotifierProvider._()
+  CursorBasedNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -159,8 +157,7 @@ abstract class _$CursorBasedNotifier
   FutureOr<CursorPagingData<SampleItem>> build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final created = build();
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -178,6 +175,6 @@ abstract class _$CursorBasedNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    return element.handleCreate(ref, build);
   }
 }

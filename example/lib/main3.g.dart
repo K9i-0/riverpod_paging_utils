@@ -12,7 +12,7 @@ part of 'main3.dart';
 /// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
 
 @ProviderFor(SampleNotifier)
-const sampleProvider = SampleNotifierProvider._();
+final sampleProvider = SampleNotifierProvider._();
 
 /// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
 /// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
@@ -21,7 +21,7 @@ final class SampleNotifierProvider
         $AsyncNotifierProvider<SampleNotifier, CursorPagingData<SampleItem>> {
   /// A Riverpod provider that mixes in [CursorPagingNotifierMixin].
   /// This provider handles the pagination logic for fetching [SampleItem] data using cursor-based pagination.
-  const SampleNotifierProvider._()
+  SampleNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -50,8 +50,7 @@ abstract class _$SampleNotifier
   FutureOr<CursorPagingData<SampleItem>> build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final created = build();
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -69,6 +68,6 @@ abstract class _$SampleNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    return element.handleCreate(ref, build);
   }
 }

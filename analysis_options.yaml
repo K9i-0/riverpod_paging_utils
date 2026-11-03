@@ -1,8 +1,13 @@
 # https://pub.dev/packages/yumemi_lints
+analyzer:
+  exclude:
+    - build/**
 include: package:yumemi_lints/flutter/3.27/recommended.yaml
-
 
 linter:
   rules:
     lines_longer_than_80_chars: false
     diagnostic_describe_all_properties: false
+
+plugins:
+  riverpod_lint: ^3.1.9

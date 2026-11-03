@@ -10,7 +10,7 @@ part of 'first_page_error_screen.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(FirstPageErrorNotifier)
-const firstPageErrorProvider = FirstPageErrorNotifierProvider._();
+final firstPageErrorProvider = FirstPageErrorNotifierProvider._();
 
 final class FirstPageErrorNotifierProvider
     extends
@@ -18,7 +18,7 @@ final class FirstPageErrorNotifierProvider
           FirstPageErrorNotifier,
           CursorPagingData<SampleItem>
         > {
-  const FirstPageErrorNotifierProvider._()
+  FirstPageErrorNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -45,8 +45,7 @@ abstract class _$FirstPageErrorNotifier
   FutureOr<CursorPagingData<SampleItem>> build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final created = build();
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -64,6 +63,6 @@ abstract class _$FirstPageErrorNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    return element.handleCreate(ref, build);
   }
 }

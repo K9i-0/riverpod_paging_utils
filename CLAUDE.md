@@ -20,13 +20,13 @@ flutter test test/paging_helper_view_test.dart
 flutter test --coverage
 
 # Code generation (required after modifying files with freezed or riverpod annotations)
-melos run build
+dart run melos run build --no-select
 
 # Watch mode for code generation
-melos run watch
+dart run melos run watch --no-select
 
 # Update dependencies using melos
-melos bs
+dart run melos bootstrap
 
 # Run linter
 dart analyze
@@ -43,7 +43,7 @@ flutter run
 
 # Generate code for example app
 cd example
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
 ## Architecture Overview
@@ -91,9 +91,10 @@ dart run build_runner build --delete-conflicting-outputs
 
 ## Development Environment
 
-- Flutter SDK: 3.27.0 (managed by mise)
-- Dart SDK: >=3.6.0 <4.0.0
-- Dependency management: melos
+- Development Flutter SDK: 3.47.9 (managed by mise)
+- Development Dart SDK: >=3.13.0 <4.0.0
+- Published package minimum: Dart >=3.7.0, Flutter >=3.32.0
+- Dependency management: Dart pub workspace and Melos 8
 - Code generation: build_runner with freezed and riverpod_generator
 
 ## Current Development Status

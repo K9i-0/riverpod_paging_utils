@@ -10,7 +10,7 @@ part of 'second_page_error_screen.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(SecondPageErrorNotifier)
-const secondPageErrorProvider = SecondPageErrorNotifierProvider._();
+final secondPageErrorProvider = SecondPageErrorNotifierProvider._();
 
 final class SecondPageErrorNotifierProvider
     extends
@@ -18,7 +18,7 @@ final class SecondPageErrorNotifierProvider
           SecondPageErrorNotifier,
           CursorPagingData<SampleItem>
         > {
-  const SecondPageErrorNotifierProvider._()
+  SecondPageErrorNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -38,15 +38,14 @@ final class SecondPageErrorNotifierProvider
 }
 
 String _$secondPageErrorNotifierHash() =>
-    r'c63e485985d4e2319bc6de3af432f55188cf61d8';
+    r'f199f9b3b68a0e3d073ec5418a03db3e034f7637';
 
 abstract class _$SecondPageErrorNotifier
     extends $AsyncNotifier<CursorPagingData<SampleItem>> {
   FutureOr<CursorPagingData<SampleItem>> build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final created = build();
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -64,16 +63,16 @@ abstract class _$SecondPageErrorNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ShowSecondPageErrorNotifier)
-const showSecondPageErrorProvider = ShowSecondPageErrorNotifierProvider._();
+final showSecondPageErrorProvider = ShowSecondPageErrorNotifierProvider._();
 
 final class ShowSecondPageErrorNotifierProvider
     extends $NotifierProvider<ShowSecondPageErrorNotifier, bool> {
-  const ShowSecondPageErrorNotifierProvider._()
+  ShowSecondPageErrorNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -107,8 +106,7 @@ abstract class _$ShowSecondPageErrorNotifier extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final created = build();
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
     final element =
         ref.element
@@ -118,6 +116,6 @@ abstract class _$ShowSecondPageErrorNotifier extends $Notifier<bool> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    return element.handleCreate(ref, build);
   }
 }

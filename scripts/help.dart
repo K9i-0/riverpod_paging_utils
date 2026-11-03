@@ -4,7 +4,7 @@ import 'package:grinder/grinder.dart';
 import 'package:yaml/yaml.dart';
 
 Future<void> main() async {
-  final melosFile = File('melos.yaml');
+  final melosFile = File('pubspec.yaml');
   if (!melosFile.existsSync()) {
     fail('Required files not found.');
   }
@@ -12,7 +12,8 @@ Future<void> main() async {
   final melosFileString = melosFile.readAsStringSync();
 
   final yaml = loadYaml(melosFileString) as YamlMap;
-  final scripts = yaml['scripts'] as YamlMap;
+  final melos = yaml['melos'] as YamlMap;
+  final scripts = melos['scripts'] as YamlMap;
 
   log('Available scripts:');
   for (final script in scripts.entries) {

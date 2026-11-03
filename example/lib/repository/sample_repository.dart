@@ -15,11 +15,10 @@ class SampleRepository {
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
 
-    final items =
-        _db
-            .sublist((page - 1) * limit, page * limit)
-            .mapRecord((id, name) => SampleItem(id: id.toString(), name: name))
-            .toList();
+    final items = _db
+        .sublist((page - 1) * limit, page * limit)
+        .mapRecord((id, name) => SampleItem(id: id.toString(), name: name))
+        .toList();
 
     final hasMore = _db.length > page * limit;
 
@@ -32,11 +31,10 @@ class SampleRepository {
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
 
-    final items =
-        _db
-            .sublist(offset, offset + limit)
-            .mapRecord((id, name) => SampleItem(id: id.toString(), name: name))
-            .toList();
+    final items = _db
+        .sublist(offset, offset + limit)
+        .mapRecord((id, name) => SampleItem(id: id.toString(), name: name))
+        .toList();
 
     final hasMore = _db.length > offset + limit;
 
@@ -53,11 +51,10 @@ class SampleRepository {
       '[SampleRepository] getByCursor($cursor) delay: ${stopwatch.elapsedMilliseconds}ms',
     );
 
-    final items =
-        _db
-            .sublist(int.parse(cursor ?? '0'), int.parse(cursor ?? '0') + 30)
-            .mapRecord((id, name) => SampleItem(id: id.toString(), name: name))
-            .toList();
+    final items = _db
+        .sublist(int.parse(cursor ?? '0'), int.parse(cursor ?? '0') + 30)
+        .mapRecord((id, name) => SampleItem(id: id.toString(), name: name))
+        .toList();
 
     final nextCursor = (int.parse(cursor ?? '0') + 30).toString();
     final exist = _db.length > int.parse(nextCursor);
@@ -71,11 +68,10 @@ class SampleRepository {
   ) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
 
-    final items =
-        _db
-            .sublist(int.parse(cursor ?? '0'), int.parse(cursor ?? '0') + 30)
-            .mapRecord((id, name) => SampleItem(id: id.toString(), name: name))
-            .toList();
+    final items = _db
+        .sublist(int.parse(cursor ?? '0'), int.parse(cursor ?? '0') + 30)
+        .mapRecord((id, name) => SampleItem(id: id.toString(), name: name))
+        .toList();
 
     final nextCursor = (int.parse(cursor ?? '0') + 30).toString();
     final exist = _db.length > int.parse(nextCursor);

@@ -10,12 +10,12 @@ part of 'gridview_screen.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(GridViewNotifier)
-const gridViewProvider = GridViewNotifierProvider._();
+final gridViewProvider = GridViewNotifierProvider._();
 
 final class GridViewNotifierProvider
     extends
         $AsyncNotifierProvider<GridViewNotifier, CursorPagingData<SampleItem>> {
-  const GridViewNotifierProvider._()
+  GridViewNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -41,8 +41,7 @@ abstract class _$GridViewNotifier
   FutureOr<CursorPagingData<SampleItem>> build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final created = build();
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -60,6 +59,6 @@ abstract class _$GridViewNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    return element.handleCreate(ref, build);
   }
 }

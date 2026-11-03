@@ -50,27 +50,26 @@ class FirstPageErrorScreen extends StatelessWidget {
         provider: firstPageErrorProvider,
         futureRefreshable: firstPageErrorProvider.future,
         notifierRefreshable: firstPageErrorProvider.notifier,
-        contentBuilder:
-            (data, widgetCount, endItemView) => ListView.builder(
-              itemCount: widgetCount,
-              itemBuilder: (context, index) {
-                // if the index is last, then
-                // return the end item view.
-                if (index == widgetCount - 1) {
-                  return endItemView;
-                }
+        contentBuilder: (data, widgetCount, endItemView) => ListView.builder(
+          itemCount: widgetCount,
+          itemBuilder: (context, index) {
+            // if the index is last, then
+            // return the end item view.
+            if (index == widgetCount - 1) {
+              return endItemView;
+            }
 
-                // Otherwise, build a list tile for each sample item.
-                return Semantics(
-                  identifier: 'sample-item-$index',
-                  child: ListTile(
-                    key: ValueKey(data.items[index].id),
-                    title: Text(data.items[index].name),
-                    subtitle: Text(data.items[index].id),
-                  ),
-                );
-              },
-            ),
+            // Otherwise, build a list tile for each sample item.
+            return Semantics(
+              identifier: 'sample-item-$index',
+              child: ListTile(
+                key: ValueKey(data.items[index].id),
+                title: Text(data.items[index].name),
+                subtitle: Text(data.items[index].id),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'paging_data.dart';
@@ -9,6 +9,7 @@ part of 'paging_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $PagePagingDataCopyWith<T, PagePagingData<T>> get copyWith => _$PagePagingDataCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PagePagingData<T>&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.page, page) || other.page == page)&&(identical(other.loadNextStatus, loadNextStatus) || other.loadNextStatus == loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, loadNextError)&&(identical(other.loadNextStackTrace, loadNextStackTrace) || other.loadNextStackTrace == loadNextStackTrace));
+  final _this = this as PagePagingData<T>;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PagePagingData<T>&&const DeepCollectionEquality().equals(other.items, _this.items)&&(identical(other.hasMore, _this.hasMore) || other.hasMore == _this.hasMore)&&(identical(other.page, _this.page) || other.page == _this.page)&&(identical(other.loadNextStatus, _this.loadNextStatus) || other.loadNextStatus == _this.loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, _this.loadNextError)&&(identical(other.loadNextStackTrace, _this.loadNextStackTrace) || other.loadNextStackTrace == _this.loadNextStackTrace));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),hasMore,page,loadNextStatus,const DeepCollectionEquality().hash(loadNextError),loadNextStackTrace);
+int get hashCode {
+  final _this = this as PagePagingData<T>;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.items),_this.hasMore,_this.page,_this.loadNextStatus,const DeepCollectionEquality().hash(_this.loadNextError),_this.loadNextStackTrace);
+}
 
 @override
 String toString() {
-  return 'PagePagingData<$T>(items: $items, hasMore: $hasMore, page: $page, loadNextStatus: $loadNextStatus, loadNextError: $loadNextError, loadNextStackTrace: $loadNextStackTrace)';
+  final _this = this as PagePagingData<T>;
+  return 'PagePagingData<$T>(items: ${_this.items}, hasMore: ${_this.hasMore}, page: ${_this.page}, loadNextStatus: ${_this.loadNextStatus}, loadNextError: ${_this.loadNextError}, loadNextStackTrace: ${_this.loadNextStackTrace})';
 }
 
 
@@ -63,7 +69,7 @@ class _$PagePagingDataCopyWithImpl<T,$Res>
 /// Create a copy of PagePagingData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? hasMore = null,Object? page = null,Object? loadNextStatus = null,Object? loadNextError = freezed,Object? loadNextStackTrace = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(PagePagingData(
 items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<T>,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
 as bool,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
@@ -210,7 +216,7 @@ return $default(_that.items,_that.hasMore,_that.page,_that.loadNextStatus,_that.
 
 
 class _PagePagingData<T> implements PagePagingData<T> {
-  const _PagePagingData({required final  List<T> items, required this.hasMore, required this.page, this.loadNextStatus = LoadNextStatus.idle, this.loadNextError = null, this.loadNextStackTrace = null}): _items = items;
+  const _PagePagingData({required  List<T> items, required this.hasMore, required this.page, this.loadNextStatus = LoadNextStatus.idle, this.loadNextError = null, this.loadNextStackTrace = null}): _items = items;
   
 
  final  List<T> _items;
@@ -236,16 +242,18 @@ _$PagePagingDataCopyWith<T, _PagePagingData<T>> get copyWith => __$PagePagingDat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PagePagingData<T>&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.page, page) || other.page == page)&&(identical(other.loadNextStatus, loadNextStatus) || other.loadNextStatus == loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, loadNextError)&&(identical(other.loadNextStackTrace, loadNextStackTrace) || other.loadNextStackTrace == loadNextStackTrace));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PagePagingData<T>&&const DeepCollectionEquality().equals(other.items, _items)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.page, page) || other.page == page)&&(identical(other.loadNextStatus, loadNextStatus) || other.loadNextStatus == loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, loadNextError)&&(identical(other.loadNextStackTrace, loadNextStackTrace) || other.loadNextStackTrace == loadNextStackTrace));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),hasMore,page,loadNextStatus,const DeepCollectionEquality().hash(loadNextError),loadNextStackTrace);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),hasMore,page,loadNextStatus,const DeepCollectionEquality().hash(loadNextError),loadNextStackTrace);
+}
 
 @override
 String toString() {
-  return 'PagePagingData<$T>(items: $items, hasMore: $hasMore, page: $page, loadNextStatus: $loadNextStatus, loadNextError: $loadNextError, loadNextStackTrace: $loadNextStackTrace)';
+    return 'PagePagingData<$T>(items: $items, hasMore: $hasMore, page: $page, loadNextStatus: $loadNextStatus, loadNextError: $loadNextError, loadNextStackTrace: $loadNextStackTrace)';
 }
 
 
@@ -301,16 +309,21 @@ $OffsetPagingDataCopyWith<T, OffsetPagingData<T>> get copyWith => _$OffsetPaging
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OffsetPagingData<T>&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.offset, offset) || other.offset == offset)&&(identical(other.loadNextStatus, loadNextStatus) || other.loadNextStatus == loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, loadNextError)&&(identical(other.loadNextStackTrace, loadNextStackTrace) || other.loadNextStackTrace == loadNextStackTrace));
+  final _this = this as OffsetPagingData<T>;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OffsetPagingData<T>&&const DeepCollectionEquality().equals(other.items, _this.items)&&(identical(other.hasMore, _this.hasMore) || other.hasMore == _this.hasMore)&&(identical(other.offset, _this.offset) || other.offset == _this.offset)&&(identical(other.loadNextStatus, _this.loadNextStatus) || other.loadNextStatus == _this.loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, _this.loadNextError)&&(identical(other.loadNextStackTrace, _this.loadNextStackTrace) || other.loadNextStackTrace == _this.loadNextStackTrace));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),hasMore,offset,loadNextStatus,const DeepCollectionEquality().hash(loadNextError),loadNextStackTrace);
+int get hashCode {
+  final _this = this as OffsetPagingData<T>;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.items),_this.hasMore,_this.offset,_this.loadNextStatus,const DeepCollectionEquality().hash(_this.loadNextError),_this.loadNextStackTrace);
+}
 
 @override
 String toString() {
-  return 'OffsetPagingData<$T>(items: $items, hasMore: $hasMore, offset: $offset, loadNextStatus: $loadNextStatus, loadNextError: $loadNextError, loadNextStackTrace: $loadNextStackTrace)';
+  final _this = this as OffsetPagingData<T>;
+  return 'OffsetPagingData<$T>(items: ${_this.items}, hasMore: ${_this.hasMore}, offset: ${_this.offset}, loadNextStatus: ${_this.loadNextStatus}, loadNextError: ${_this.loadNextError}, loadNextStackTrace: ${_this.loadNextStackTrace})';
 }
 
 
@@ -339,7 +352,7 @@ class _$OffsetPagingDataCopyWithImpl<T,$Res>
 /// Create a copy of OffsetPagingData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? hasMore = null,Object? offset = null,Object? loadNextStatus = null,Object? loadNextError = freezed,Object? loadNextStackTrace = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(OffsetPagingData(
 items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<T>,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
 as bool,offset: null == offset ? _self.offset : offset // ignore: cast_nullable_to_non_nullable
@@ -486,7 +499,7 @@ return $default(_that.items,_that.hasMore,_that.offset,_that.loadNextStatus,_tha
 
 
 class _OffsetPagingData<T> implements OffsetPagingData<T> {
-  const _OffsetPagingData({required final  List<T> items, required this.hasMore, required this.offset, this.loadNextStatus = LoadNextStatus.idle, this.loadNextError = null, this.loadNextStackTrace = null}): _items = items;
+  const _OffsetPagingData({required  List<T> items, required this.hasMore, required this.offset, this.loadNextStatus = LoadNextStatus.idle, this.loadNextError = null, this.loadNextStackTrace = null}): _items = items;
   
 
  final  List<T> _items;
@@ -512,16 +525,18 @@ _$OffsetPagingDataCopyWith<T, _OffsetPagingData<T>> get copyWith => __$OffsetPag
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OffsetPagingData<T>&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.offset, offset) || other.offset == offset)&&(identical(other.loadNextStatus, loadNextStatus) || other.loadNextStatus == loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, loadNextError)&&(identical(other.loadNextStackTrace, loadNextStackTrace) || other.loadNextStackTrace == loadNextStackTrace));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _OffsetPagingData<T>&&const DeepCollectionEquality().equals(other.items, _items)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.offset, offset) || other.offset == offset)&&(identical(other.loadNextStatus, loadNextStatus) || other.loadNextStatus == loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, loadNextError)&&(identical(other.loadNextStackTrace, loadNextStackTrace) || other.loadNextStackTrace == loadNextStackTrace));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),hasMore,offset,loadNextStatus,const DeepCollectionEquality().hash(loadNextError),loadNextStackTrace);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),hasMore,offset,loadNextStatus,const DeepCollectionEquality().hash(loadNextError),loadNextStackTrace);
+}
 
 @override
 String toString() {
-  return 'OffsetPagingData<$T>(items: $items, hasMore: $hasMore, offset: $offset, loadNextStatus: $loadNextStatus, loadNextError: $loadNextError, loadNextStackTrace: $loadNextStackTrace)';
+    return 'OffsetPagingData<$T>(items: $items, hasMore: $hasMore, offset: $offset, loadNextStatus: $loadNextStatus, loadNextError: $loadNextError, loadNextStackTrace: $loadNextStackTrace)';
 }
 
 
@@ -577,16 +592,21 @@ $CursorPagingDataCopyWith<T, CursorPagingData<T>> get copyWith => _$CursorPaging
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CursorPagingData<T>&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor)&&(identical(other.loadNextStatus, loadNextStatus) || other.loadNextStatus == loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, loadNextError)&&(identical(other.loadNextStackTrace, loadNextStackTrace) || other.loadNextStackTrace == loadNextStackTrace));
+  final _this = this as CursorPagingData<T>;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CursorPagingData<T>&&const DeepCollectionEquality().equals(other.items, _this.items)&&(identical(other.hasMore, _this.hasMore) || other.hasMore == _this.hasMore)&&(identical(other.nextCursor, _this.nextCursor) || other.nextCursor == _this.nextCursor)&&(identical(other.loadNextStatus, _this.loadNextStatus) || other.loadNextStatus == _this.loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, _this.loadNextError)&&(identical(other.loadNextStackTrace, _this.loadNextStackTrace) || other.loadNextStackTrace == _this.loadNextStackTrace));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),hasMore,nextCursor,loadNextStatus,const DeepCollectionEquality().hash(loadNextError),loadNextStackTrace);
+int get hashCode {
+  final _this = this as CursorPagingData<T>;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.items),_this.hasMore,_this.nextCursor,_this.loadNextStatus,const DeepCollectionEquality().hash(_this.loadNextError),_this.loadNextStackTrace);
+}
 
 @override
 String toString() {
-  return 'CursorPagingData<$T>(items: $items, hasMore: $hasMore, nextCursor: $nextCursor, loadNextStatus: $loadNextStatus, loadNextError: $loadNextError, loadNextStackTrace: $loadNextStackTrace)';
+  final _this = this as CursorPagingData<T>;
+  return 'CursorPagingData<$T>(items: ${_this.items}, hasMore: ${_this.hasMore}, nextCursor: ${_this.nextCursor}, loadNextStatus: ${_this.loadNextStatus}, loadNextError: ${_this.loadNextError}, loadNextStackTrace: ${_this.loadNextStackTrace})';
 }
 
 
@@ -615,7 +635,7 @@ class _$CursorPagingDataCopyWithImpl<T,$Res>
 /// Create a copy of CursorPagingData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? hasMore = null,Object? nextCursor = freezed,Object? loadNextStatus = null,Object? loadNextError = freezed,Object? loadNextStackTrace = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(CursorPagingData(
 items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<T>,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
 as bool,nextCursor: freezed == nextCursor ? _self.nextCursor : nextCursor // ignore: cast_nullable_to_non_nullable
@@ -762,7 +782,7 @@ return $default(_that.items,_that.hasMore,_that.nextCursor,_that.loadNextStatus,
 
 
 class _CursorPagingData<T> implements CursorPagingData<T> {
-  const _CursorPagingData({required final  List<T> items, required this.hasMore, required this.nextCursor, this.loadNextStatus = LoadNextStatus.idle, this.loadNextError = null, this.loadNextStackTrace = null}): _items = items;
+  const _CursorPagingData({required  List<T> items, required this.hasMore, required this.nextCursor, this.loadNextStatus = LoadNextStatus.idle, this.loadNextError = null, this.loadNextStackTrace = null}): _items = items;
   
 
  final  List<T> _items;
@@ -788,16 +808,18 @@ _$CursorPagingDataCopyWith<T, _CursorPagingData<T>> get copyWith => __$CursorPag
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CursorPagingData<T>&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor)&&(identical(other.loadNextStatus, loadNextStatus) || other.loadNextStatus == loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, loadNextError)&&(identical(other.loadNextStackTrace, loadNextStackTrace) || other.loadNextStackTrace == loadNextStackTrace));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CursorPagingData<T>&&const DeepCollectionEquality().equals(other.items, _items)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor)&&(identical(other.loadNextStatus, loadNextStatus) || other.loadNextStatus == loadNextStatus)&&const DeepCollectionEquality().equals(other.loadNextError, loadNextError)&&(identical(other.loadNextStackTrace, loadNextStackTrace) || other.loadNextStackTrace == loadNextStackTrace));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),hasMore,nextCursor,loadNextStatus,const DeepCollectionEquality().hash(loadNextError),loadNextStackTrace);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),hasMore,nextCursor,loadNextStatus,const DeepCollectionEquality().hash(loadNextError),loadNextStackTrace);
+}
 
 @override
 String toString() {
-  return 'CursorPagingData<$T>(items: $items, hasMore: $hasMore, nextCursor: $nextCursor, loadNextStatus: $loadNextStatus, loadNextError: $loadNextError, loadNextStackTrace: $loadNextStackTrace)';
+    return 'CursorPagingData<$T>(items: $items, hasMore: $hasMore, nextCursor: $nextCursor, loadNextStatus: $loadNextStatus, loadNextError: $loadNextError, loadNextStackTrace: $loadNextStackTrace)';
 }
 
 

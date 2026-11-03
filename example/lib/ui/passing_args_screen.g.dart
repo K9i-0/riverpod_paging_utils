@@ -10,7 +10,7 @@ part of 'passing_args_screen.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(PassingArgsNotifier)
-const passingArgsProvider = PassingArgsNotifierFamily._();
+final passingArgsProvider = PassingArgsNotifierFamily._();
 
 final class PassingArgsNotifierProvider
     extends
@@ -18,7 +18,7 @@ final class PassingArgsNotifierProvider
           PassingArgsNotifier,
           CursorPagingData<SampleItem>
         > {
-  const PassingArgsNotifierProvider._({
+  PassingArgsNotifierProvider._({
     required PassingArgsNotifierFamily super.from,
     required String super.argument,
   }) : super(
@@ -66,7 +66,7 @@ final class PassingArgsNotifierFamily extends $Family
           FutureOr<CursorPagingData<SampleItem>>,
           String
         > {
-  const PassingArgsNotifierFamily._()
+  PassingArgsNotifierFamily._()
     : super(
         retry: null,
         name: r'passingArgsProvider',
@@ -90,8 +90,7 @@ abstract class _$PassingArgsNotifier
   FutureOr<CursorPagingData<SampleItem>> build({required String id});
   @$mustCallSuper
   @override
-  void runBuild() {
-    final created = build(id: _$args);
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -109,6 +108,6 @@ abstract class _$PassingArgsNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    return element.handleCreate(ref, () => build(id: _$args));
   }
 }

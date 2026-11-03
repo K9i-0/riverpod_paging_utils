@@ -10,7 +10,7 @@ part of 'custom_scroll_view_screen.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(CustomScrollViewNotifier)
-const customScrollViewProvider = CustomScrollViewNotifierProvider._();
+final customScrollViewProvider = CustomScrollViewNotifierProvider._();
 
 final class CustomScrollViewNotifierProvider
     extends
@@ -18,7 +18,7 @@ final class CustomScrollViewNotifierProvider
           CustomScrollViewNotifier,
           CursorPagingData<SampleItem>
         > {
-  const CustomScrollViewNotifierProvider._()
+  CustomScrollViewNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -45,8 +45,7 @@ abstract class _$CustomScrollViewNotifier
   FutureOr<CursorPagingData<SampleItem>> build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final created = build();
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -64,6 +63,6 @@ abstract class _$CustomScrollViewNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    return element.handleCreate(ref, build);
   }
 }

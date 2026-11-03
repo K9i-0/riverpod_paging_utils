@@ -4,24 +4,13 @@ description: "Setup application runtime for Flutter"
 runs:
   using: "composite"
   steps:
-
-    # https://github.com/jdx/mise-action
-    - name: Setup flutter
-      uses: jdx/mise-action@7a111ead46986ccad89a74ad013ba2a7c08c9e67 # v2.2.1
+    - name: Setup Flutter
+      uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
       with:
         install_args: "flutter"
 
-    # NOTE: 後述の melosコマンドが実行できないためPATHを通します。
-    # PUB_CACHE: $HOME/.pub-cache に設定
-    - name: Export PUB_CACHE
+    - name: Install workspace dependencies
       run: |
-        echo "PUB_CACHE=$HOME/.pub-cache" >> "$GITHUB_ENV"
-        echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
-      shell: bash
-
-    - name: Setup melos
-      run: |
-        MELOS_VERSION=$(cat pubspec.yaml | yq ".dev_dependencies.melos" -r)
-        dart pub global activate melos $MELOS_VERSION
-        melos bootstrap
+        flutter pub get
+        dart run melos bootstrap
       shell: bash

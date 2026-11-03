@@ -1,3 +1,11 @@
+## Unreleased
+
+- Refresh development dependencies and migrate the package and example to a Dart pub workspace with stable Melos.
+- Update Freezed and the example's Riverpod generated code while preserving the package's public API and minimum SDK requirements.
+- Remove the example's dependency on `k9i_cli` and migrate Riverpod linting to the analyzer plugin system.
+- Cover the example through workspace-aware Dependabot updates, check its generated code in CI, and test minimum supported dependencies in an isolated consumer.
+- Update CI actions and pin the development Flutter SDK to 3.47.9.
+
 ## [1.0.0](https://github.com/K9i-0/riverpod_paging_utils/compare/0.8.1...1.0.0) - 2026-01-04
 
 ### Breaking Changes
