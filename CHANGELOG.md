@@ -1,10 +1,10 @@
-## Unreleased
+## 1.0.1
 
-- Refresh development dependencies and migrate the package and example to a Dart pub workspace with stable Melos.
-- Update Freezed and the example's Riverpod generated code while preserving the package's public API and minimum SDK requirements.
-- Remove the example's dependency on `k9i_cli` and migrate Riverpod linting to the analyzer plugin system.
-- Cover the example through workspace-aware Dependabot updates, check its generated code in CI, and test minimum supported dependencies in an isolated consumer.
-- Update CI actions and pin the development Flutter SDK to 3.47.9.
+- Update generated page, offset, and cursor data models to Freezed 4 and require `freezed_annotation ^3.1.0`. Existing public APIs and the Dart 3.7 / Flutter 3.32 minimums remain supported.
+- Fix the example's navigation drawer remaining open after returning from a sample screen.
+- Refresh example dependencies and generated Riverpod code, and remove its unused `k9i_cli` dependency.
+- Add example widget and native iOS regression coverage for pagination methods, error retries, grid views, and slivers, plus checks with minimum supported dependencies.
+- Refresh development dependencies, adopt a Dart pub workspace with stable Melos, and require regression checks before publishing tagged releases.
 
 ## [1.0.0](https://github.com/K9i-0/riverpod_paging_utils/compare/0.8.1...1.0.0) - 2026-01-04
 
