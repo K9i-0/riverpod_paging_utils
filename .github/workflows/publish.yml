@@ -1,28 +1,51 @@
-# .github/workflows/publish.yml
-name: Publish to pub.dev
+name: Publish
 
+# A main push only validates. Publication requires an explicit release tag.
 on:
   push:
     tags:
-    - '[0-9]+.[0-9]+.[0-9]+*' # for tags like: '1.2.3'
+      - 'riverpod_paging_utils-v*'
 
-# Publish using custom workflow
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
-  publish:
-    permissions:
-      contents: read
-      id-token: write # Required for authentication using OIDC
+  validate-tag:
     runs-on: ubuntu-latest
-
+    outputs:
+      dir: ${{ steps.package.outputs.dir }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Validate package, version, changelog, and main ancestry
+        id: package
+        env:
+          TAG: ${{ github.ref_name }}
+        run: python3 tool/validate_release.py
+
+  checks:
+    needs: validate-tag
+    uses: ./.github/workflows/check_pr.yml
+
+  publish:
+    needs: [validate-tag, checks]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # OIDC credentials are only requested after all required checks passed.
       - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d # v1.8.1
-
-      - name: Setup Application Runtime
-        uses: ./.github/actions/setup-application-runtime
-
-      - name: Run tests
-        run: flutter test
-
-      - name: Publish
-        run: dart pub publish --force
+      - uses: ./.github/actions/setup-application-runtime
+      - name: Validate the selected package
+        working-directory: ${{ needs.validate-tag.outputs.dir }}
+        run: flutter pub publish --dry-run
+      - name: Publish to pub.dev
+        working-directory: ${{ needs.validate-tag.outputs.dir }}
+        run: flutter pub publish --force

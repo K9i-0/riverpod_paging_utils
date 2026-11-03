@@ -1,6 +1,7 @@
 {
   "enabledMcpjsonServers": [
     "dart-mcp",
-    "marionette"
+    "marionette",
+    "patrol"
   ]
 }

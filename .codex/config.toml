@@ -9,3 +9,9 @@ tool_timeout_sec = 300
 command = "marionette_mcp"
 startup_timeout_sec = 60
 tool_timeout_sec = 120
+
+[mcp_servers.patrol]
+command = "sh"
+args = ["tool/patrol_mcp.sh"]
+startup_timeout_sec = 120
+tool_timeout_sec = 1200

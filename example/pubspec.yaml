@@ -28,9 +28,19 @@ dev_dependencies:
     sdk: flutter
   freezed: ^4.0.1
   marionette_flutter: ^0.7.0
+  patrol: 4.11.0
+  patrol_cli: 4.9.0
+  patrol_mcp: 0.2.2
   riverpod_generator: ^4.0.9
   visibility_detector: ^0.4.0+2
   yumemi_lints: ^4.5.1
 
 flutter:
   uses-material-design: true
+
+patrol:
+  app_name: example
+  android:
+    package_name: com.k9i.material_button_assist.example
+  ios:
+    bundle_id: com.k9i.materialbuttonassist.example

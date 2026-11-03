@@ -376,3 +376,5 @@ run `dart run melos run watch --no-select`. The example no longer needs `k9i_cli
 or Grinder tasks.
 
 For development checks and AI-driven example verification, see [AGENTS.md](AGENTS.md) and the [runtime guide](doc/ai-verification.md).
+
+Maintainers work on `main`; releases use package-version tags after checks pass. See [the release procedure](doc/releasing.md).

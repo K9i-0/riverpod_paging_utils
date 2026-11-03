@@ -13,6 +13,13 @@
       "type": "stdio",
       "command": "marionette_mcp",
       "args": []
+    },
+    "patrol": {
+      "type": "stdio",
+      "command": "sh",
+      "args": [
+        "tool/patrol_mcp.sh"
+      ]
     }
   }
 }
