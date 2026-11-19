@@ -1,3 +1,6 @@
+// The package still supports Flutter 3.32, which predates the standalone
+// design libraries.
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

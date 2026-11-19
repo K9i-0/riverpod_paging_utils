@@ -4,6 +4,9 @@ import 'package:riverpod_paging_utils/src/paging_data.dart';
 import 'package:riverpod_paging_utils/src/paging_notifier_mixin.dart';
 
 // Test implementations
+//
+// The fakes expose a fetch hook so each test can script page contents.
+// ignore_for_file: riverpod_lint/avoid_public_notifier_properties
 class TestPagePagingNotifier
     extends Notifier<AsyncValue<PagePagingData<String>>>
     with PagePagingNotifierMixin<String> {

@@ -1,4 +1,7 @@
 import 'package:example/data/sample_item.dart';
+// The package still supports Flutter 3.32, which predates the standalone
+// design libraries.
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

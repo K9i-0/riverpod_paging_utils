@@ -9,7 +9,7 @@ log collection, and session reports. It starts the ordinary demo from
 `example/lib/main.dart`; that ordinary entrypoint does not initialize Marionette.
 Web/profile/release runs do not expose the automation extensions.
 
-Use Flutter **3.47.9** from `.mise.toml`. The unpublished example uses Dart 3.13
+Use Flutter **3.50.0** from `.mise.toml`. The unpublished example uses Dart 3.13
 tooling; the published library's Dart 3.7 / Flutter 3.32 minimums are unchanged.
 Marionette remains an example development dependency.
 

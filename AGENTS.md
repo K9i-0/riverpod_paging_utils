@@ -4,7 +4,7 @@ Flutter/Riverpod pagination package. `lib/src/paging_data.dart` contains Freezed
 
 ## Setup and verification
 
-Use Flutter 3.47.9 from `.mise.toml` for development. Consumer minimums remain Dart 3.7 / Flutter 3.32; example tooling uses Dart 3.13.
+Use Flutter 3.50.0 from `.mise.toml` for development. Consumer minimums remain Dart 3.7 / Flutter 3.32; example tooling uses Dart 3.13.
 
 From the repository root:
 
